@@ -205,19 +205,6 @@ export default function Section() {
 
   return (
     <main style={pageStyle}>
-      <div style={headerStyle} className="fade-in-up">
-        <span style={iconStyle}><LearningIcon name={section.id} /></span>
-        <h1 style={titleZhStyle}>
-          <PinyinText>{section.titleZh}</PinyinText>
-        </h1>
-        <p style={titleEnStyle}>{t(section.titleEn)}</p>
-        <p style={lessonInfoStyle}>
-          <PinyinText>{lesson.titleZh}</PinyinText> &middot; <PinyinText>{lesson.topicZh}</PinyinText>
-          <br />
-          {t(lesson.titleEn)} &middot; {t(lesson.topicEn)}
-        </p>
-      </div>
-
       {isExercises ? (
         <>
           <div style={decorDividerStyle}>

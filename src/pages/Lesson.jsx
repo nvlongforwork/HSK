@@ -135,18 +135,6 @@ export default function Lesson() {
 
   return (
     <main style={pageStyle}>
-      <div style={headerStyle} className="fade-in-up">
-        <h1 style={titleZhStyle}>
-          <PinyinText>{lesson.titleZh}</PinyinText>
-        </h1>
-        <p style={titleEnStyle}>{t(lesson.titleEn)}</p>
-        <p style={topicStyle}>
-          <PinyinText>{lesson.topicZh}</PinyinText>
-          <br />
-          {t(lesson.topicEn)}
-        </p>
-      </div>
-
       <div style={decorDividerStyle}>
         <div style={decorLineStyle} />
         <span style={decorCharStyle}>

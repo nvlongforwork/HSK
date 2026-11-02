@@ -143,17 +143,6 @@ export default function HskLevel() {
   if (levelNum !== 1) {
     return (
       <main style={pageStyle}>
-        <div style={headerStyle} className="fade-in-up">
-          <h1 style={titleZhStyle}>
-            <PinyinText>{levelData.titleZh}</PinyinText>
-          </h1>
-          <p style={titleEnStyle}>{t(levelData.titleEn)}</p>
-          <p style={descStyle}>
-            <PinyinText>{levelData.descZh}</PinyinText>
-            <br />
-            {t(levelData.descEn)}
-          </p>
-        </div>
         <div style={comingSoonStyle}>
           <h2 style={comingSoonTitleStyle}>
             <PinyinText>即将推出</PinyinText>{t(" Coming Soon")}</h2>
@@ -167,17 +156,6 @@ export default function HskLevel() {
 
   return (
     <main style={pageStyle}>
-      <div style={headerStyle} className="fade-in-up">
-        <h1 style={titleZhStyle}>
-          <PinyinText>{levelData.titleZh}</PinyinText>
-        </h1>
-        <p style={titleEnStyle}>{t(levelData.titleEn)}</p>
-        <p style={descStyle}>
-          <PinyinText>{levelData.descZh}</PinyinText> &middot; {hsk1Lessons.length}<PinyinText>课</PinyinText>
-          <br />
-          {t(levelData.descEn)} &middot; {hsk1Lessons.length}{t(" Lessons")}</p>
-      </div>
-
       <div style={decorDividerStyle}>
         <div style={decorLineStyle} />
         <span style={decorCharStyle}>
