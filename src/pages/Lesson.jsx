@@ -1,3 +1,5 @@
+import LearningIcon from "../components/LearningIcon";
+import { useLanguage } from "../i18n/useLanguage";
 import { useParams } from "react-router-dom";
 import hsk1Lessons from "../data/hsk1";
 import { lessonSections } from "../data/hsk1";
@@ -5,31 +7,35 @@ import BounceCard from "../components/BounceCard";
 import PinyinText from "../components/PinyinText";
 
 const pageStyle = {
+  width: "100%",
   maxWidth: "1000px",
   margin: "0 auto",
-  padding: "40px 24px 60px",
+  padding: "24px 24px 40px",
 };
 
 const headerStyle = {
   textAlign: "center",
-  marginBottom: "40px",
+  marginBottom: "24px",
 };
 
 const titleZhStyle = {
+  lineHeight: 1.3,
   fontFamily: "var(--font-serif)",
   fontSize: "var(--fs-h1)",
   fontWeight: 900,
   color: "var(--red-primary)",
-  marginBottom: "4px",
+  marginBottom: "2px",
 };
 
 const titleEnStyle = {
-  fontSize: "var(--fs-h3)",
+  fontSize: "clamp(18px, 1.7vw, 24px)",
+  lineHeight: 1.4,
   color: "var(--ink-medium)",
 };
 
 const topicStyle = {
-  fontSize: "var(--fs-h3)",
+  fontSize: "clamp(16px, 1.35vw, 18px)",
+  lineHeight: 1.5,
   color: "var(--ink-light)",
   marginTop: "12px",
   fontFamily: "var(--font-serif)",
@@ -40,7 +46,7 @@ const decorDividerStyle = {
   alignItems: "center",
   justifyContent: "center",
   gap: "16px",
-  margin: "32px 0 28px",
+  margin: "20px 0",
 };
 
 const decorLineStyle = {
@@ -54,8 +60,6 @@ const decorCharStyle = {
   fontSize: "var(--fs-body)",
   color: "var(--gold-dark)",
 };
-
-const gridStyle = {};
 
 const sectionCardStyle = {
   background: "var(--white)",
@@ -75,6 +79,7 @@ const sectionCardStyle = {
 const sectionIconStyle = {
   fontSize: "clamp(32px, 4vw, 42px)",
   display: "block",
+  lineHeight: 1,
 };
 
 const sectionTitleZhStyle = {
@@ -107,6 +112,7 @@ const notFoundDescStyle = {
 };
 
 export default function Lesson() {
+  const { t } = useLanguage();
   const { level, lessonSlug } = useParams();
   const levelNum = parseInt(level);
   const lessonMatch = lessonSlug?.match(/lesson-(\d+)/);
@@ -119,11 +125,9 @@ export default function Lesson() {
       <main style={pageStyle}>
         <div style={notFoundStyle}>
           <h2 style={notFoundTitleStyle}>
-            <PinyinText>未找到</PinyinText> Not Found
-          </h2>
+            <PinyinText>未找到</PinyinText>{t(" Not Found")}</h2>
           <p style={notFoundDescStyle}>
-            <PinyinText>该课程不存在</PinyinText> This lesson does not exist
-          </p>
+            <PinyinText>该课程不存在</PinyinText>{t(" This lesson does not exist")}</p>
         </div>
       </main>
     );
@@ -135,17 +139,18 @@ export default function Lesson() {
         <h1 style={titleZhStyle}>
           <PinyinText>{lesson.titleZh}</PinyinText>
         </h1>
-        <p style={titleEnStyle}>{lesson.titleEn}</p>
+        <p style={titleEnStyle}>{t(lesson.titleEn)}</p>
         <p style={topicStyle}>
-          <PinyinText>{lesson.topicZh}</PinyinText> &middot; {lesson.topicEn}
+          <PinyinText>{lesson.topicZh}</PinyinText>
+          <br />
+          {t(lesson.topicEn)}
         </p>
       </div>
 
       <div style={decorDividerStyle}>
         <div style={decorLineStyle} />
         <span style={decorCharStyle}>
-          <PinyinText>学习内容</PinyinText> Content
-        </span>
+          <PinyinText>学习内容</PinyinText>{t(" Content")}</span>
         <div style={decorLineStyle} />
       </div>
 
@@ -157,11 +162,11 @@ export default function Lesson() {
             style={sectionCardStyle}
             delay={index}
           >
-            <span style={sectionIconStyle}>{section.icon}</span>
+            <span style={sectionIconStyle}><LearningIcon name={section.id} /></span>
             <div style={sectionTitleZhStyle}>
               <PinyinText>{section.titleZh}</PinyinText>
             </div>
-            <div style={sectionTitleEnStyle}>{section.titleEn}</div>
+            <div style={sectionTitleEnStyle}>{t(section.titleEn)}</div>
           </BounceCard>
         ))}
       </div>

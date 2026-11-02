@@ -23,10 +23,10 @@
   --font-serif: 'Noto Serif SC', 'Songti SC', serif;
   --fs-body: clamp(20px, 2.2vw, 24px);
   --fs-small: clamp(18px, 1.8vw, 20px);
-  --fs-h1: clamp(32px, 4vw, 56px);
-  --fs-h2: clamp(26px, 3vw, 40px);
-  --fs-h3: clamp(22px, 2.5vw, 32px);
-  --fs-card-title: clamp(22px, 2.5vw, 28px);
+  --fs-h1: clamp(26px, 2.5vw, 36px);
+  --fs-h2: clamp(24px, 2.2vw, 30px);
+  --fs-h3: clamp(20px, 1.8vw, 24px);
+  --fs-card-title: clamp(20px, 1.8vw, 24px);
   --fs-card-desc: clamp(18px, 1.8vw, 22px);
 }
 
@@ -60,6 +60,17 @@ body {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+.header-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 12px; min-width: 0; }
+.language-switch { display: inline-flex; gap: 2px; padding: 3px; border: 1px solid rgba(245, 215, 123, .6); border-radius: 10px; flex-shrink: 0; }
+.language-switch button { padding: 7px 10px; border: 0; border-radius: 6px; color: white; background: transparent; font: inherit; font-size: 14px; line-height: 1.4; cursor: pointer; white-space: nowrap; }
+.language-switch button[aria-pressed="true"] { color: var(--red-dark); background: var(--gold-light); font-weight: 700; }
+.language-switch button:focus-visible { outline: 2px solid white; outline-offset: 3px; }
+.learning-icon { display: inline-block; vertical-align: middle; color: var(--red-primary); flex-shrink: 0; }
+@media (max-width: 560px) {
+  .header-controls { justify-content: flex-start; }
+  .language-switch button { padding: 7px 8px; font-size: 13px; }
 }
 
 @keyframes spin {
@@ -106,10 +117,10 @@ a {
   :root {
     --fs-body: clamp(16px, 4vw, 20px);
     --fs-small: clamp(14px, 3.5vw, 18px);
-    --fs-h1: clamp(24px, 6vw, 36px);
-    --fs-h2: clamp(20px, 5vw, 28px);
-    --fs-h3: clamp(18px, 4.5vw, 24px);
-    --fs-card-title: clamp(18px, 4.5vw, 24px);
+    --fs-h1: clamp(24px, 5vw, 30px);
+    --fs-h2: clamp(20px, 4.5vw, 26px);
+    --fs-h3: clamp(18px, 4vw, 22px);
+    --fs-card-title: clamp(18px, 4vw, 22px);
     --fs-card-desc: clamp(14px, 3.5vw, 18px);
   }
 }
@@ -134,6 +145,12 @@ a {
   margin: 0 auto;
 }
 
+.sections-grid > * { min-width: 0; }
+
+@media (max-width: 768px) {
+  .sections-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 @media (max-width: 900px) {
   .home-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -153,7 +170,7 @@ a {
     gap: 10px;
   }
   .sections-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
 }

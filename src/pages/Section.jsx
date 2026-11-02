@@ -1,3 +1,5 @@
+import LearningIcon from "../components/LearningIcon";
+import { useLanguage } from "../i18n/useLanguage";
 import { useParams, Link } from "react-router-dom";
 import hsk1Lessons from "../data/hsk1";
 import { lessonSections, exerciseTypes } from "../data/hsk1";
@@ -8,39 +10,44 @@ import useMarkdown from "../hooks/useMarkdown";
 import { getContentUrl } from "../utils/mediaUrl";
 
 const pageStyle = {
+  width: "100%",
   maxWidth: "1000px",
   margin: "0 auto",
-  padding: "40px 24px 60px",
+  padding: "24px 24px 40px",
 };
 
 const headerStyle = {
   textAlign: "center",
-  marginBottom: "40px",
+  marginBottom: "24px",
 };
 
 const iconStyle = {
-  fontSize: "clamp(56px, 8vw, 80px)",
+  fontSize: "clamp(32px, 4vw, 44px)",
   display: "block",
-  marginBottom: "12px",
+  lineHeight: 1,
+  marginBottom: "8px",
 };
 
 const titleZhStyle = {
+  lineHeight: 1.3,
   fontFamily: "var(--font-serif)",
   fontSize: "var(--fs-h1)",
   fontWeight: 900,
   color: "var(--red-primary)",
-  marginBottom: "4px",
+  marginBottom: "2px",
 };
 
 const titleEnStyle = {
-  fontSize: "var(--fs-h3)",
+  fontSize: "clamp(18px, 1.7vw, 24px)",
+  lineHeight: 1.4,
   color: "var(--ink-medium)",
 };
 
 const lessonInfoStyle = {
-  fontSize: "var(--fs-body)",
+  fontSize: "clamp(16px, 1.35vw, 18px)",
+  lineHeight: 1.5,
   color: "var(--ink-light)",
-  marginTop: "12px",
+  marginTop: "8px",
 };
 
 const contentBoxStyle = {
@@ -68,12 +75,12 @@ const placeholderDescStyle = {
 
 const backLinkStyle = {
   display: "inline-block",
-  marginTop: "32px",
-  padding: "12px 32px",
+  marginTop: "24px",
+  padding: "10px 24px",
   background: "linear-gradient(135deg, var(--red-primary), var(--red-dark))",
   color: "#fff",
   borderRadius: "var(--radius-sm)",
-  fontSize: "var(--fs-body)",
+  fontSize: "var(--fs-small)",
   fontWeight: 500,
   transition: "transform 0.2s, box-shadow 0.2s",
 };
@@ -83,7 +90,7 @@ const decorDividerStyle = {
   alignItems: "center",
   justifyContent: "center",
   gap: "16px",
-  margin: "32px 0 28px",
+  margin: "20px 0",
 };
 
 const decorLineStyle = {
@@ -94,11 +101,11 @@ const decorLineStyle = {
 
 const decorCharStyle = {
   fontFamily: "var(--font-serif)",
-  fontSize: "var(--fs-body)",
+  fontSize: "clamp(16px, 1.5vw, 18px)",
+  textAlign: "center",
+  lineHeight: 1.5,
   color: "var(--gold-dark)",
 };
-
-const exerciseGridStyle = {};
 
 const exerciseCardStyle = {
   background: "var(--white)",
@@ -107,7 +114,10 @@ const exerciseCardStyle = {
   boxShadow: "var(--shadow-md)",
   border: "1px solid rgba(212, 160, 23, 0.12)",
   textAlign: "center",
-  aspectRatio: "1 / 1",
+  minWidth: 0,
+  minHeight: "180px",
+  padding: "24px 12px",
+  gap: "8px",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -115,9 +125,10 @@ const exerciseCardStyle = {
 };
 
 const exerciseIconStyle = {
-  fontSize: "clamp(48px, 7vw, 72px)",
+  fontSize: "clamp(32px, 4vw, 44px)",
   display: "block",
-  marginBottom: "12px",
+  marginBottom: "4px",
+  lineHeight: 1.2,
 };
 
 const exerciseTitleZhStyle = {
@@ -125,18 +136,20 @@ const exerciseTitleZhStyle = {
   fontSize: "var(--fs-h3)",
   fontWeight: 700,
   color: "var(--ink-dark)",
+  lineHeight: 1.3,
 };
 
 const exerciseTitleEnStyle = {
-  fontSize: "var(--fs-card-title)",
+  fontSize: "clamp(16px, 1.5vw, 18px)",
   color: "var(--ink-light)",
-  marginTop: "6px",
+  lineHeight: 1.4,
+  maxWidth: "100%",
+  overflowWrap: "anywhere",
 };
 
 const sectionFileMap = {
   vocabulary: "vocabulary.md",
   grammar: "grammar.md",
-  "practice-tests": "exercises.md",
 };
 
 const loadingStyle = {
@@ -157,6 +170,7 @@ const spinnerStyle = {
 };
 
 export default function Section() {
+  const { t } = useLanguage();
   const { level, lessonSlug, sectionId } = useParams();
   const levelNum = parseInt(level);
   const lessonMatch = lessonSlug?.match(/lesson-(\d+)/);
@@ -167,18 +181,16 @@ export default function Section() {
 
   const mdFile = sectionFileMap[sectionId];
   const contentUrl = mdFile ? getContentUrl(levelNum, lessonNum, mdFile) : null;
-  const { content, loading, error } = useMarkdown(contentUrl);
+  const { content, loading } = useMarkdown(contentUrl);
 
   if (!lesson || !section) {
     return (
       <main style={pageStyle}>
         <div style={{ textAlign: "center", padding: "80px 24px" }}>
           <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "var(--fs-h2)", color: "var(--ink-medium)", marginBottom: "12px" }}>
-            <PinyinText>未找到</PinyinText> Not Found
-          </h2>
+            <PinyinText>未找到</PinyinText>{t(" Not Found")}</h2>
           <p style={{ fontSize: "var(--fs-body)", color: "var(--ink-light)" }}>
-            <PinyinText>该页面不存在</PinyinText> This page does not exist
-          </p>
+            <PinyinText>该页面不存在</PinyinText>{t(" This page does not exist")}</p>
         </div>
       </main>
     );
@@ -189,15 +201,15 @@ export default function Section() {
   return (
     <main style={pageStyle}>
       <div style={headerStyle} className="fade-in-up">
-        <span style={iconStyle}>{section.icon}</span>
+        <span style={iconStyle}><LearningIcon name={section.id} /></span>
         <h1 style={titleZhStyle}>
           <PinyinText>{section.titleZh}</PinyinText>
         </h1>
-        <p style={titleEnStyle}>{section.titleEn}</p>
+        <p style={titleEnStyle}>{t(section.titleEn)}</p>
         <p style={lessonInfoStyle}>
           <PinyinText>{lesson.titleZh}</PinyinText> &middot; <PinyinText>{lesson.topicZh}</PinyinText>
           <br />
-          {lesson.titleEn} &middot; {lesson.topicEn}
+          {t(lesson.titleEn)} &middot; {t(lesson.topicEn)}
         </p>
       </div>
 
@@ -206,12 +218,14 @@ export default function Section() {
           <div style={decorDividerStyle}>
             <div style={decorLineStyle} />
             <span style={decorCharStyle}>
-              <PinyinText>选择练习类型</PinyinText> Choose Exercise Type
+              <PinyinText>选择练习类型</PinyinText>
+              <br />
+              {t("Choose Exercise Type")}
             </span>
             <div style={decorLineStyle} />
           </div>
 
-          <div className="sections-grid">
+          <div className="sections-grid exercise-types-grid">
             {exerciseTypes.map((ex, index) => (
               <BounceCard
                 key={ex.id}
@@ -219,16 +233,16 @@ export default function Section() {
                 style={exerciseCardStyle}
                 delay={index}
               >
-                <span style={exerciseIconStyle}>{ex.icon}</span>
+                <span style={exerciseIconStyle}><LearningIcon name={ex.id} /></span>
                 <div style={exerciseTitleZhStyle}>
                   <PinyinText>{ex.titleZh}</PinyinText>
                 </div>
-                <div style={exerciseTitleEnStyle}>{ex.titleEn}</div>
+                <div style={exerciseTitleEnStyle}>{t(ex.titleEn)}</div>
               </BounceCard>
             ))}
           </div>
 
-          <div style={{ textAlign: "center", marginTop: "32px" }}>
+          <div style={{ textAlign: "center" }}>
             <Link
               to={`/hsk/${levelNum}/${lessonSlug}`}
               style={backLinkStyle}
@@ -241,16 +255,14 @@ export default function Section() {
                 e.currentTarget.style.boxShadow = "none";
               }}
             >
-              <PinyinText>返回课程</PinyinText> Back to Lesson
-            </Link>
+              <PinyinText>返回课程</PinyinText>{t(" Back to Lesson")}</Link>
           </div>
         </>
       ) : loading ? (
         <div style={loadingStyle} className="fade-in-up">
           <div style={spinnerStyle} />
           <p style={{ marginTop: "16px" }}>
-            <PinyinText>加载中</PinyinText> Loading...
-          </p>
+            <PinyinText>加载中</PinyinText>{t(" Loading...")}</p>
         </div>
       ) : content ? (
         <div style={{ ...contentBoxStyle, textAlign: "left" }} className="fade-in-up">
@@ -268,20 +280,16 @@ export default function Section() {
                 e.currentTarget.style.boxShadow = "none";
               }}
             >
-              <PinyinText>返回课程</PinyinText> Back to Lesson
-            </Link>
+              <PinyinText>返回课程</PinyinText>{t(" Back to Lesson")}</Link>
           </div>
         </div>
       ) : (
         <div style={contentBoxStyle} className="fade-in-up">
           <h2 style={placeholderTitleStyle}>
-            <PinyinText>内容即将更新</PinyinText> Content Coming Soon
-          </h2>
+            <PinyinText>内容即将更新</PinyinText>{t(" Content Coming Soon")}</h2>
           <p style={placeholderDescStyle}>
             <PinyinText>该部分的学习内容正在编写中。</PinyinText>
-            <br />
-            The learning content for this section is being prepared.
-          </p>
+            <br />{t("The learning content for this section is being prepared.")}</p>
           <Link
             to={`/hsk/${levelNum}/${lessonSlug}`}
             style={backLinkStyle}
@@ -294,8 +302,7 @@ export default function Section() {
               e.currentTarget.style.boxShadow = "none";
             }}
           >
-            <PinyinText>返回课程</PinyinText> Back to Lesson
-          </Link>
+            <PinyinText>返回课程</PinyinText>{t(" Back to Lesson")}</Link>
         </div>
       )}
     </main>

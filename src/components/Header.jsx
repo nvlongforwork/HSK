@@ -1,5 +1,7 @@
+import { useLanguage } from "../i18n/useLanguage";
 import { Link, useLocation } from "react-router-dom";
 import PinyinText from "./PinyinText";
+import LanguageSwitch from "./LanguageSwitch";
 
 const headerStyle = {
   background: "linear-gradient(135deg, #8B0000 0%, #C41E3A 50%, #8B0000 100%)",
@@ -90,6 +92,7 @@ const exerciseNames = {
 };
 
 export default function Header() {
+  const { t } = useLanguage();
   const location = useLocation();
   const p = location.pathname.split("/").filter(Boolean);
 
@@ -98,15 +101,15 @@ export default function Header() {
   if (p.length >= 2 && p[0] === "hsk") {
     const level = p[1];
     crumbs.push(
-      <Link key="h" to="/" style={linkStyle}><PinyinText>首页</PinyinText> Home</Link>,
+      <Link key="h" to="/" style={linkStyle}><PinyinText>首页</PinyinText>{t(" Home")}</Link>,
       <span key="s0" style={sepStyle}>/</span>
     );
 
     if (p.length === 2) {
-      crumbs.push(<span key="l" style={activeStyle}>HSK {level}</span>);
+      crumbs.push(<span key="l" style={activeStyle}>{t("HSK ")}{level}</span>);
     } else {
       crumbs.push(
-        <Link key="l" to={`/hsk/${level}`} style={linkStyle}>HSK {level}</Link>,
+        <Link key="l" to={`/hsk/${level}`} style={linkStyle}>{t("HSK ")}{level}</Link>,
         <span key="s1" style={sepStyle}>/</span>
       );
 
@@ -115,7 +118,7 @@ export default function Header() {
       if (m) {
         const num = m[1];
         if (p.length === 3) {
-          crumbs.push(<span key="le" style={activeStyle}><PinyinText>第{num}课</PinyinText> L{num}</span>);
+          crumbs.push(<span key="le" style={activeStyle}><PinyinText>第{num}课</PinyinText>{t(" L")}{num}</span>);
         } else {
           crumbs.push(
             <Link key="le" to={`/hsk/${level}/${lessonSlug}`} style={linkStyle}><PinyinText>第{num}课</PinyinText></Link>,
@@ -128,7 +131,7 @@ export default function Header() {
           if (p.length === 4) {
             crumbs.push(
               <span key="se" style={activeStyle}>
-                {sec ? <><PinyinText>{sec.zh}</PinyinText> {sec.en}</> : sectionId}
+                {sec ? <><PinyinText>{sec.zh}</PinyinText> {t(sec.en)}</> : sectionId}
               </span>
             );
           } else if (sectionId === "exercises" && p[4]) {
@@ -141,7 +144,7 @@ export default function Header() {
             const ex = exerciseNames[p[4]];
             crumbs.push(
               <span key="ex" style={activeStyle}>
-                {ex ? <><PinyinText>{ex.zh}</PinyinText> {ex.en}</> : p[4]}
+                {ex ? <><PinyinText>{ex.zh}</PinyinText> {t(ex.en)}</> : p[4]}
               </span>
             );
           }
@@ -157,11 +160,14 @@ export default function Header() {
           <Link to="/" style={logoStyle}>
             <span style={logoCharStyle}><PinyinText>汉</PinyinText></span>
             <div style={logoTextStyle}>
-              <span style={logoTitleStyle}>HSK Learning</span>
+              <span style={logoTitleStyle}>{t("HSK Learning")}</span>
               <span style={logoSubStyle}><PinyinText>汉语水平考试</PinyinText></span>
             </div>
           </Link>
-          {crumbs.length > 0 && <nav style={breadcrumbStyle}>{crumbs}</nav>}
+          <div className="header-controls">
+            {crumbs.length > 0 && <nav style={breadcrumbStyle}>{crumbs}</nav>}
+            <LanguageSwitch />
+          </div>
         </div>
       </div>
       <div style={decorBarStyle} />

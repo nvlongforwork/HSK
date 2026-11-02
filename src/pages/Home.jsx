@@ -1,3 +1,4 @@
+import { useLanguage } from "../i18n/useLanguage";
 import hskLevels from "../data/hskLevels";
 import BounceCard from "../components/BounceCard";
 import PinyinText from "../components/PinyinText";
@@ -14,23 +15,23 @@ const cardPatternStyle = {
 };
 
 export default function Home() {
+  const { t } = useLanguage();
   return (
     <main className="home-page">
       <header className="home-hero fade-in-up">
         <div className="home-title">
           <h1><PinyinText>汉语水平考试</PinyinText></h1>
-          <p>Chinese Proficiency Test</p>
+          <p>{t("Chinese Proficiency Test")}</p>
         </div>
         <p className="home-intro">
           <PinyinText>选择你的学习等级，开始你的中文之旅</PinyinText>
-          <span>Choose your level and start your Chinese journey</span>
+          <span>{t("Choose your level and start your Chinese journey")}</span>
         </p>
       </header>
 
       <section className="home-levels" aria-labelledby="home-levels-title">
         <h2 id="home-levels-title" className="home-divider">
-          <PinyinText>学习等级</PinyinText> Levels
-        </h2>
+          <PinyinText>学习等级</PinyinText>{t(" Levels")}</h2>
         <div className="home-grid">
           {hskLevels.map((level, index) => (
             <BounceCard key={level.id} to={`/hsk/${level.id}`} delay={index}
@@ -41,12 +42,12 @@ export default function Home() {
                 <div style={cardPatternStyle} aria-hidden="true" />
                 <span className="home-card-number" aria-hidden="true">{level.id}</span>
                 <h3 className="home-card-title"><PinyinText>{level.titleZh}</PinyinText></h3>
-                <p className="home-card-subtitle">{level.titleEn}</p>
+                <p className="home-card-subtitle">{t(level.titleEn)}</p>
               </div>
               <div className="home-card-bottom">
                 <div className="home-card-description">
                   <p><PinyinText>{level.descZh}</PinyinText></p>
-                  <p>{level.descEn}</p>
+                  <p>{t(level.descEn)}</p>
                 </div>
                 <span className="home-card-arrow" aria-hidden="true">➜</span>
               </div>

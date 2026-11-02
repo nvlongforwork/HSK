@@ -1,3 +1,4 @@
+import { useLanguage } from "../i18n/useLanguage";
 import PinyinText from "./PinyinText";
 
 const footerStyle = {
@@ -22,14 +23,14 @@ const footerTextZhStyle = {
 };
 
 export default function Footer() {
+  const { t } = useLanguage();
   return (
     <footer>
       <div style={decorTopStyle} />
       <div style={footerStyle}>
         <p style={footerTextZhStyle}><PinyinText>学无止境</PinyinText></p>
-        <p>Learning Never Ends</p>
-        <p style={{ marginTop: "12px", opacity: 0.6, fontSize: "clamp(14px, 1.5vw, 16px)" }}>
-          HSK Learning App &copy; {new Date().getFullYear()}
+        <p>{t("Learning Never Ends")}</p>
+        <p style={{ marginTop: "12px", opacity: 0.6, fontSize: "clamp(14px, 1.5vw, 16px)" }}>{t("HSK Learning App © ")}{new Date().getFullYear()}
         </p>
       </div>
     </footer>

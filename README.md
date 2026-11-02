@@ -25,6 +25,25 @@ Listen & Fill remains unavailable until real lesson recordings and listening
 content are provided. This change does not add audio, authentication, HSK 2–6
 content, or persistent learner progress.
 
+## Language and layout
+
+The header offers English–Chinese (default) and Vietnamese–Chinese. Click the
+language buttons or press **Alt + L** to switch. The choice is saved locally in
+`hsk-language`; if browser storage is blocked, switching still works for the
+current session. The shortcut is ignored while typing in a form field.
+
+Interface labels, lesson metadata, and the existing English explanations use
+Vietnamese display translations in `src/i18n/vi.js` and `vi-content.js`. Chinese
+examples, pinyin, source Markdown, and answer keys stay intact. When adding new
+English media phrases, add their Vietnamese translations there as well.
+
+Changing language preserves the active route and exercise answers. Page headings
+use smaller shared font sizes. Exercise type cards grow to fit their labels,
+with four columns on desktop and two on narrow screens.
+
+Practice Tests is a placeholder for teacher-provided tests. It intentionally does
+not fetch or display the Exercises material.
+
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
 Currently, two official plugins are available:

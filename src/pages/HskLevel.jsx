@@ -1,3 +1,4 @@
+import { useLanguage } from "../i18n/useLanguage";
 import { useParams } from "react-router-dom";
 import hskLevels from "../data/hskLevels";
 import hsk1Lessons from "../data/hsk1";
@@ -5,6 +6,7 @@ import BounceCard from "../components/BounceCard";
 import PinyinText from "../components/PinyinText";
 
 const pageStyle = {
+  width: "100%",
   maxWidth: "1200px",
   margin: "0 auto",
   padding: "24px 24px 40px",
@@ -120,6 +122,7 @@ const comingSoonDescStyle = {
 };
 
 export default function HskLevel() {
+  const { t } = useLanguage();
   const { level } = useParams();
   const levelNum = parseInt(level);
   const levelData = hskLevels.find((l) => l.id === levelNum);
@@ -129,11 +132,9 @@ export default function HskLevel() {
       <main style={pageStyle}>
         <div style={comingSoonStyle}>
           <h2 style={comingSoonTitleStyle}>
-            <PinyinText>未找到</PinyinText> Not Found
-          </h2>
+            <PinyinText>未找到</PinyinText>{t(" Not Found")}</h2>
           <p style={comingSoonDescStyle}>
-            <PinyinText>该学习等级不存在</PinyinText> This level does not exist
-          </p>
+            <PinyinText>该学习等级不存在</PinyinText>{t(" This level does not exist")}</p>
         </div>
       </main>
     );
@@ -146,22 +147,19 @@ export default function HskLevel() {
           <h1 style={titleZhStyle}>
             <PinyinText>{levelData.titleZh}</PinyinText>
           </h1>
-          <p style={titleEnStyle}>{levelData.titleEn}</p>
+          <p style={titleEnStyle}>{t(levelData.titleEn)}</p>
           <p style={descStyle}>
             <PinyinText>{levelData.descZh}</PinyinText>
             <br />
-            {levelData.descEn}
+            {t(levelData.descEn)}
           </p>
         </div>
         <div style={comingSoonStyle}>
           <h2 style={comingSoonTitleStyle}>
-            <PinyinText>即将推出</PinyinText> Coming Soon
-          </h2>
+            <PinyinText>即将推出</PinyinText>{t(" Coming Soon")}</h2>
           <p style={comingSoonDescStyle}>
             <PinyinText>该等级的课程正在准备中，敬请期待！</PinyinText>
-            <br />
-            Lessons for this level are being prepared. Stay tuned!
-          </p>
+            <br />{t("Lessons for this level are being prepared. Stay tuned!")}</p>
         </div>
       </main>
     );
@@ -173,19 +171,17 @@ export default function HskLevel() {
         <h1 style={titleZhStyle}>
           <PinyinText>{levelData.titleZh}</PinyinText>
         </h1>
-        <p style={titleEnStyle}>{levelData.titleEn}</p>
+        <p style={titleEnStyle}>{t(levelData.titleEn)}</p>
         <p style={descStyle}>
           <PinyinText>{levelData.descZh}</PinyinText> &middot; {hsk1Lessons.length}<PinyinText>课</PinyinText>
           <br />
-          {levelData.descEn} &middot; {hsk1Lessons.length} Lessons
-        </p>
+          {t(levelData.descEn)} &middot; {hsk1Lessons.length}{t(" Lessons")}</p>
       </div>
 
       <div style={decorDividerStyle}>
         <div style={decorLineStyle} />
         <span style={decorCharStyle}>
-          <PinyinText>课程列表</PinyinText> Lessons
-        </span>
+          <PinyinText>课程列表</PinyinText>{t(" Lessons")}</span>
         <div style={decorLineStyle} />
       </div>
 
@@ -205,7 +201,7 @@ export default function HskLevel() {
               <div style={lessonTopicStyle}>
                 <PinyinText>{lesson.topicZh}</PinyinText>
               </div>
-              <div style={lessonTopicStyle}>{lesson.topicEn}</div>
+              <div style={lessonTopicStyle}>{t(lesson.topicEn)}</div>
             </div>
           </BounceCard>
         ))}

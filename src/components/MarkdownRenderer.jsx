@@ -1,3 +1,4 @@
+import { useLanguage } from "../i18n/useLanguage";
 import PinyinText from "./PinyinText";
 
 const sectionStyle = {
@@ -208,9 +209,10 @@ function parseTable(lines) {
 }
 
 export default function MarkdownRenderer({ content }) {
+  const { t } = useLanguage();
   if (!content) return null;
 
-  const lines = content.split("\n");
+  const lines = t(content).split("\n");
   const elements = [];
   let i = 0;
   let key = 0;
