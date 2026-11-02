@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useLanguage } from "../i18n/useLanguage";
 import { parseVocabulary } from "../utils/vocabulary";
 import { unit1ExampleMeanings } from "../data/unit1ExampleMeanings";
@@ -11,23 +11,33 @@ export default function Unit1Vocabulary({ content, audioBaseUrl }) {
   const { language, t } = useLanguage();
   const entries = parseVocabulary(content);
   const [mode, setMode] = useState("list");
-  const [index, setIndex] = useState(0);
+
+  const [deck, setDeck] = useState(() => entries.map((_, i) => i));
+  const [deckIndex, setDeckIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  const [known, setKnown] = useState(() => new Set());
+  const [round, setRound] = useState(1);
+  const [completed, setCompleted] = useState(false);
+
   if (!entries.length) return <MarkdownRenderer content={content} />;
-  const entry = entries[index];
+
+  const currentEntryIndex = deck[deckIndex];
+  const entry = entries[currentEntryIndex] || entries[0];
   const exampleMeaning = unit1ExampleMeanings[entry.example]?.[language];
 
   const audioSrc = audioBaseUrl ? `${audioBaseUrl}/${stripTones(entry.pinyin)}.mp3` : null;
   const { play: playAudio } = useAudioPlayer(audioSrc);
 
-  function move(step) {
-    setIndex((current) => Math.min(entries.length - 1, Math.max(0, current + step)));
-    setFlipped(false);
-  }
-
   function selectMode(next) {
     setMode(next);
-    setFlipped(false);
+    if (next === "cards") {
+      setDeck(entries.map((_, i) => i));
+      setDeckIndex(0);
+      setFlipped(false);
+      setKnown(new Set());
+      setRound(1);
+      setCompleted(false);
+    }
   }
 
   const handleFlip = useCallback(() => {
@@ -37,6 +47,44 @@ export default function Unit1Vocabulary({ content, audioBaseUrl }) {
       return next;
     });
   }, [audioSrc, playAudio]);
+
+  function handleKnown() {
+    const newKnown = new Set(known);
+    newKnown.add(currentEntryIndex);
+    setKnown(newKnown);
+    advanceCard(newKnown);
+  }
+
+  function handleAgain() {
+    advanceCard(known);
+  }
+
+  function advanceCard(currentKnown) {
+    const nextIndex = deckIndex + 1;
+    if (nextIndex < deck.length) {
+      setDeckIndex(nextIndex);
+      setFlipped(false);
+    } else {
+      const remaining = deck.filter((i) => !currentKnown.has(i));
+      if (remaining.length === 0) {
+        setCompleted(true);
+      } else {
+        setDeck(remaining);
+        setDeckIndex(0);
+        setFlipped(false);
+        setRound((r) => r + 1);
+      }
+    }
+  }
+
+  function restartCards() {
+    setDeck(entries.map((_, i) => i));
+    setDeckIndex(0);
+    setFlipped(false);
+    setKnown(new Set());
+    setRound(1);
+    setCompleted(false);
+  }
 
   function tabKeys(event) {
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
@@ -93,46 +141,89 @@ export default function Unit1Vocabulary({ content, audioBaseUrl }) {
       </section>
 
       <section id="vocabulary-panel-cards" role="tabpanel" aria-labelledby="vocabulary-tab-cards" hidden={mode !== "cards"}>
-        <p id="vocabulary-flip-help" className="vocabulary-flip-help">{t("Click the card to reveal the meaning and example.")}</p>
-        <p className="vocabulary-position" role="status">{t("Card")} {index + 1} / {entries.length}</p>
-        <div className="vocabulary-card-scene">
-          <button className={`vocabulary-flashcard${flipped ? " is-flipped" : ""}`} type="button"
-            aria-pressed={flipped} aria-describedby="vocabulary-flip-help"
-            onClick={handleFlip}
-            onKeyDown={(event) => {
-              if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
-                event.preventDefault(); move(event.key === "ArrowLeft" ? -1 : 1);
-              }
-            }}>
-            <span key={`${entry.word}-${index}`} className="vocabulary-card-rotator">
-              <span className="vocabulary-card-face vocabulary-card-front" aria-hidden={flipped} inert={flipped}>
-                <span className="vocabulary-front-word" lang="zh-CN">{entry.word}</span>
-                {audioBaseUrl && (
-                  <span className="vocabulary-card-audio">
-                    <AudioButton src={`${audioBaseUrl}/${stripTones(entry.pinyin)}.mp3`} size="24px" />
+        {completed ? (
+          <div className="vocabulary-completed">
+            <span className="vocabulary-completed-icon">🎉</span>
+            <h3 className="vocabulary-completed-title">
+              <PinyinText>太棒了</PinyinText>{t("! Excellent!")}
+            </h3>
+            <p className="vocabulary-completed-desc">
+              <PinyinText>你已经掌握了所有词汇</PinyinText>
+              <br />{t("You have mastered all the vocabulary!")}
+            </p>
+            <p className="vocabulary-completed-stats">
+              {entries.length} {t("words")} &middot; {round} {round === 1 ? t("round") : t("rounds")}
+            </p>
+            <button type="button" className="vocabulary-restart-btn" onClick={restartCards}>
+              <PinyinText>再练一次</PinyinText> {t("Practice again")}
+            </button>
+          </div>
+        ) : (
+          <>
+            <div className="vocabulary-progress-bar">
+              <div className="vocabulary-progress-info">
+                <span><PinyinText>第</PinyinText>{round}<PinyinText>轮</PinyinText> {t("Round")} {round}</span>
+                <span>{known.size} / {entries.length} <PinyinText>已掌握</PinyinText> {t("mastered")}</span>
+              </div>
+              <div className="vocabulary-progress-track">
+                <div className="vocabulary-progress-fill" style={{ width: `${(known.size / entries.length) * 100}%` }} />
+              </div>
+              <p className="vocabulary-position" role="status">
+                {t("Card")} {deckIndex + 1} / {deck.length}
+                {deck.length < entries.length && <span> ({deck.length} <PinyinText>需要复习</PinyinText> {t("to review")})</span>}
+              </p>
+            </div>
+
+            <div className="vocabulary-card-scene">
+              <button className={`vocabulary-flashcard${flipped ? " is-flipped" : ""}`} type="button"
+                aria-pressed={flipped}
+                onClick={!flipped ? handleFlip : undefined}
+                style={flipped ? { cursor: "default" } : undefined}>
+                <span key={`${entry.word}-${currentEntryIndex}-${round}`} className="vocabulary-card-rotator">
+                  <span className="vocabulary-card-face vocabulary-card-front" aria-hidden={flipped} inert={flipped}>
+                    <span className="vocabulary-front-word" lang="zh-CN">{entry.word}</span>
+                    {audioBaseUrl && (
+                      <span className="vocabulary-card-audio">
+                        <AudioButton src={`${audioBaseUrl}/${stripTones(entry.pinyin)}.mp3`} size="24px" />
+                      </span>
+                    )}
+                    <span className="vocabulary-flip-cue">{t("Tap to flip")}</span>
                   </span>
-                )}
-                <span className="vocabulary-flip-cue">{t("Tap to flip")}</span>
-              </span>
-              <span className="vocabulary-card-face vocabulary-card-back" aria-hidden={!flipped} inert={!flipped}>
-                <span className="vocabulary-back-meaning" lang={language}>{t(entry.meaning)}</span>
-                <span className="vocabulary-card-pinyin">{entry.pinyin}</span>
-                <span className="vocabulary-card-example" lang="zh-CN">{entry.example || entry.word}</span>
-                {exampleMeaning && <span className="vocabulary-card-translation" lang={language}>{exampleMeaning}</span>}
-                <span className="vocabulary-flip-cue">{t("Click to see the Chinese word")}</span>
-              </span>
-            </span>
-          </button>
-        </div>
-        <div className="vocabulary-card-controls">
-          <button type="button" disabled={index === 0} onClick={() => move(-1)}>← {t("Previous")}</button>
-          <button type="button" className="vocabulary-flip-control" onClick={handleFlip}>{t("Flip card")}</button>
-          <button type="button" disabled={index === entries.length - 1} onClick={() => move(1)}>{t("Next")} →</button>
-        </div>
-        <button className="vocabulary-restart" type="button" onClick={() => { setIndex(0); setFlipped(false); }}>{t("Restart cards")}</button>
+                  <span className="vocabulary-card-face vocabulary-card-back" aria-hidden={!flipped} inert={!flipped}>
+                    <span className="vocabulary-back-meaning" lang={language}>{t(entry.meaning)}</span>
+                    <span className="vocabulary-card-pinyin">{entry.pinyin}</span>
+                    <span className="vocabulary-card-example" lang="zh-CN">{entry.example || entry.word}</span>
+                    {exampleMeaning && <span className="vocabulary-card-translation" lang={language}>{exampleMeaning}</span>}
+                  </span>
+                </span>
+              </button>
+            </div>
+
+            {flipped ? (
+              <div className="vocabulary-judge-controls">
+                <button type="button" className="vocabulary-btn-again" onClick={handleAgain}>
+                  <span className="vocabulary-btn-icon">🔄</span>
+                  <PinyinText>学习</PinyinText> {t("Study again")}
+                </button>
+                <button type="button" className="vocabulary-btn-known" onClick={handleKnown}>
+                  <span className="vocabulary-btn-icon">✓</span>
+                  <PinyinText>已掌握</PinyinText> {t("Got it")}
+                </button>
+              </div>
+            ) : (
+              <div className="vocabulary-card-controls">
+                <button type="button" className="vocabulary-flip-control" onClick={handleFlip}>
+                  <PinyinText>翻转卡片</PinyinText> {t("Flip card")}
+                </button>
+              </div>
+            )}
+
+            <button className="vocabulary-restart" type="button" onClick={restartCards}>
+              <PinyinText>重新开始</PinyinText> {t("Restart")}
+            </button>
+          </>
+        )}
       </section>
-
-
     </div>
   );
 }
