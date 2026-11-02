@@ -1,5 +1,7 @@
+import { cloneElement, useId } from "react";
 import { useLanguage } from "../i18n/useLanguage";
 import PinyinText from "./PinyinText";
+import "./grammar-topics.css";
 
 const sectionStyle = {
   textAlign: "left",
@@ -208,8 +210,9 @@ function parseTable(lines) {
   );
 }
 
-export default function MarkdownRenderer({ content }) {
+export default function MarkdownRenderer({ content, groupTopics = false }) {
   const { t } = useLanguage();
+  const headingId = useId();
   if (!content) return null;
 
   const lines = t(content).split("\n");
@@ -331,5 +334,40 @@ export default function MarkdownRenderer({ content }) {
     }
   }
 
-  return <div style={sectionStyle}>{elements}</div>;
+  if (!groupTopics) return <div style={sectionStyle}>{elements}</div>;
+
+  // Keep each topic's paragraphs, structures, examples and tables together.
+  // A level-four heading belongs to its current topic, while major headings
+  // start an introduction outside the topic cards.
+  const blocks = [];
+  let current = null;
+  let topicIndex = 0;
+  for (const element of elements) {
+    if (element.type === "h3") {
+      const id = `${headingId}-topic-${topicIndex++}`;
+      current = { type: "topic", id, children: [cloneElement(element, {
+        id,
+        style: { ...h3Style, marginTop: 0, marginBottom: "16px", fontSize: "var(--fs-h3)",
+          paddingBottom: "12px", borderBottom: "1px solid var(--gold-light)" },
+      })] };
+      blocks.push(current);
+    } else {
+      const majorHeading = element.type === "h1" || element.type === "h2";
+      if (!current || (majorHeading && current.type !== "intro")) {
+        current = { type: "intro", children: [] };
+        blocks.push(current);
+      }
+      current.children.push(element);
+    }
+  }
+
+  return (
+    <div style={sectionStyle} className="grammar-document">
+      {blocks.map((block, index) => block.type === "topic" ? (
+        <section className="grammar-topic" aria-labelledby={block.id} key={block.id}>
+          {block.children}
+        </section>
+      ) : <div className="grammar-intro" key={`intro-${index}`}>{block.children}</div>)}
+    </div>
+  );
 }

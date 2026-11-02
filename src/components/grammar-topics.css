@@ -1,0 +1,7 @@
+.grammar-document { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+.grammar-topic { min-width: 0; padding: 24px; border: 1px solid var(--gold-light); border-left: 4px solid var(--red-primary); border-radius: 12px; background: var(--white); box-shadow: var(--shadow-sm); overflow-wrap: anywhere; }
+.grammar-intro:empty { display: none; }
+@media (max-width: 560px) {
+  .grammar-document { gap: 16px; }
+  .grammar-topic { padding: 18px 16px; }
+}

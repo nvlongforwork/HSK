@@ -199,6 +199,9 @@ export default function Section() {
 
   const isExercises = sectionId === "exercises";
   const isUnit1Vocabulary = levelNum === 1 && lessonNum === 1 && sectionId === "vocabulary";
+  const renderedContentStyle = sectionId === "grammar"
+    ? { ...contentBoxStyle, textAlign: "left", background: "transparent", padding: 0, border: 0, boxShadow: "none" }
+    : { ...contentBoxStyle, textAlign: "left" };
 
   return (
     <main style={pageStyle}>
@@ -267,8 +270,8 @@ export default function Section() {
             <PinyinText>加载中</PinyinText>{t(" Loading...")}</p>
         </div>
       ) : content ? (
-        <div style={{ ...contentBoxStyle, textAlign: "left" }} className="fade-in-up">
-          {isUnit1Vocabulary ? <Unit1Vocabulary key={content} content={content} /> : <MarkdownRenderer content={content} />}
+        <div style={renderedContentStyle} className="fade-in-up">
+          {isUnit1Vocabulary ? <Unit1Vocabulary key={content} content={content} /> : <MarkdownRenderer content={content} groupTopics={sectionId === "grammar"} />}
           <div style={{ textAlign: "center" }}>
             <Link
               to={`/hsk/${levelNum}/${lessonSlug}`}

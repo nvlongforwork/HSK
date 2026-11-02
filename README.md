@@ -61,6 +61,13 @@ flip the focused card, and Left/Right navigate it.
 Other lessons continue to use the existing Markdown renderer. Unit 1 example
 sentence translations are in `src/data/unit1ExampleMeanings.js`.
 
+## Grammar topic cards
+
+Grammar pages pass `groupTopics` to the Markdown renderer. Each `###` heading
+starts a separate card containing its explanation, structures, examples, lists,
+and tables. `####` subheadings remain inside their current topic; `#` and `##`
+headings remain outside the cards. Vocabulary pages keep their existing layout.
+
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
 Currently, two official plugins are available:
