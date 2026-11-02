@@ -1,5 +1,30 @@
 # React + Vite
 
+## HSK exercise development
+
+Run `npm ci`, then `npm run dev`. Use `npm run build`, `npm test`, and
+`npm run lint` to check changes.
+
+HSK 1 exercise pages read `exercises.md` from the existing HSK-MEDIA repository:
+
+- `### Multiple Choice`: numbered prompts and lettered options; exactly one `✓`
+  or `✔` marks the correct answer. Answer markers stay hidden until submission.
+- `### Fill in the Blanks`: numbered prompts followed by `→ answer`.
+  Answers use Chinese characters; surrounding whitespace, punctuation, and
+  full-width forms are normalized. Open responses (`[...]`) and answers carrying
+  `reorder:` editorial notes require teacher review and do not count in the score.
+- `### Flashcards`: a `Front | Back` table. Learners can flip, navigate, mark
+  learned, undo, and restart. Learned marks last for the current practice session;
+  they are not saved across page reloads or exercise changes.
+
+Quizzes require every question to be answered before checking. Answers lock after
+submission and can be cleared with Try again. Changing lesson or exercise starts
+a fresh session. Fetch failures display a Retry button.
+
+Listen & Fill remains unavailable until real lesson recordings and listening
+content are provided. This change does not add audio, authentication, HSK 2–6
+content, or persistent learner progress.
+
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
 Currently, two official plugins are available:

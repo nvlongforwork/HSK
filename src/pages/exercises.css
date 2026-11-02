@@ -1,0 +1,44 @@
+.exercise-page { width: 100%; max-width: 1000px; margin: 0 auto; padding: 40px 24px 60px; flex: 1; }
+.exercise-heading { text-align: center; margin-bottom: 28px; }
+.exercise-heading h1 { font-family: var(--font-serif); font-size: var(--fs-h1); color: var(--red-primary); }
+.exercise-heading > p { font-size: var(--fs-h3); color: var(--ink-medium); }
+.exercise-icon { display: block; font-size: clamp(48px, 8vw, 72px); }
+.exercise-heading .exercise-meta, .exercise-meta { font-size: var(--fs-small); color: var(--ink-light); margin: 12px 0; }
+.exercise-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.exercise-tabs a { padding: 10px 16px; border: 1px solid var(--gold-light); border-radius: var(--radius-sm); font-size: var(--fs-small); background: var(--white); }
+.exercise-tabs a[aria-current="page"] { background: var(--red-primary); border-color: var(--red-primary); color: white; }
+.exercise-panel { background: var(--white); padding: 32px; border: 1px solid var(--gold-light); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); font-size: var(--fs-body); }
+.exercise-panel h2 { font-size: var(--fs-h3); color: var(--red-primary); margin-bottom: 12px; }
+.exercise-instruction { color: var(--ink-medium); }
+.exercise-question { min-width: 0; border: 0; border-top: 1px solid var(--cream-dark); margin-top: 28px; padding-top: 16px; }
+.exercise-question legend { max-width: 100%; font-weight: 700; padding-right: 8px; overflow-wrap: anywhere; }
+.exercise-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.exercise-option { display: flex; align-items: center; gap: 12px; border: 2px solid var(--cream-dark); padding: 12px 16px; border-radius: var(--radius-sm); cursor: pointer; overflow-wrap: anywhere; }
+.exercise-option:has(input:checked) { border-color: var(--red-primary); background: var(--cream); }
+.exercise-option input { width: 20px; height: 20px; flex-shrink: 0; accent-color: var(--red-primary); }
+.exercise-option.is-correct { border-color: #267344; background: #eff9f1; }
+.exercise-option.is-incorrect { border-color: var(--red-primary); background: #fff0f1; }
+.exercise-input { margin-top: 8px; width: 100%; max-width: 420px; padding: 12px 16px; font: inherit; color: var(--ink-dark); border: 2px solid var(--gold-light); border-radius: var(--radius-sm); }
+.exercise-input:disabled { opacity: 1; background: var(--cream); }
+.exercise-feedback { margin-top: 12px; font-size: var(--fs-small); }
+.text-correct { color: #20633b; }
+.text-incorrect { color: var(--red-dark); }
+.exercise-result { text-align: center; font-weight: 700; color: var(--red-dark); margin: 24px 0 12px; }
+.exercise-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 20px; }
+.exercise-button { font: inherit; font-size: var(--fs-small); font-weight: 700; color: white; background: var(--red-primary); border: 2px solid var(--red-primary); border-radius: var(--radius-sm); padding: 12px 20px; cursor: pointer; }
+.exercise-button.secondary { background: white; color: var(--red-primary); }
+.exercise-button:disabled { opacity: .5; cursor: not-allowed; }
+.exercise-page :is(a, button, input):focus-visible { outline: 3px solid var(--gold-dark); outline-offset: 4px; }
+.exercise-flashcard { width: 100%; min-height: 290px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 24px; padding: 24px; margin: 24px 0; border: 2px solid var(--gold-light); border-radius: var(--radius-md); background: var(--cream); color: var(--ink-dark); font: inherit; cursor: pointer; overflow-wrap: anywhere; }
+.flashcard-front { font-family: var(--font-serif); font-size: clamp(48px, 10vw, 80px); }
+.flashcard-back { font-size: var(--fs-h3); }
+.exercise-reset { display: block; margin: 24px auto 0; border: 0; background: none; color: var(--red-primary); font: inherit; font-size: var(--fs-small); text-decoration: underline; cursor: pointer; }
+.exercise-back { display: inline-block; margin-top: 28px; font-size: var(--fs-small); color: var(--red-primary); }
+@media (max-width: 560px) {
+  .exercise-page { padding: 24px 16px 40px; }
+  .exercise-panel { padding: 20px 16px; }
+  .exercise-options { grid-template-columns: 1fr; }
+  .exercise-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .exercise-tabs a { text-align: center; padding: 10px 8px; }
+  .exercise-button { padding: 10px 12px; }
+}
