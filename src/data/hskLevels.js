@@ -1,0 +1,58 @@
+const hskLevels = [
+  {
+    id: 1,
+    titleZh: "HSK 一级",
+    titleEn: "HSK Level 1",
+    descZh: "入门 · 150词",
+    descEn: "Beginner · 150 Words",
+    color: "#C41E3A",
+    lessons: 15,
+  },
+  {
+    id: 2,
+    titleZh: "HSK 二级",
+    titleEn: "HSK Level 2",
+    descZh: "基础 · 300词",
+    descEn: "Elementary · 300 Words",
+    color: "#D4A017",
+    lessons: 15,
+  },
+  {
+    id: 3,
+    titleZh: "HSK 三级",
+    titleEn: "HSK Level 3",
+    descZh: "中级 · 600词",
+    descEn: "Intermediate · 600 Words",
+    color: "#2E8B57",
+    lessons: 20,
+  },
+  {
+    id: 4,
+    titleZh: "HSK 四级",
+    titleEn: "HSK Level 4",
+    descZh: "中高级 · 1200词",
+    descEn: "Upper-Intermediate · 1200 Words",
+    color: "#1E3A5F",
+    lessons: 20,
+  },
+  {
+    id: 5,
+    titleZh: "HSK 五级",
+    titleEn: "HSK Level 5",
+    descZh: "高级 · 2500词",
+    descEn: "Advanced · 2500 Words",
+    color: "#6B3FA0",
+    lessons: 36,
+  },
+  {
+    id: 6,
+    titleZh: "HSK 六级",
+    titleEn: "HSK Level 6",
+    descZh: "精通 · 5000词",
+    descEn: "Mastery · 5000 Words",
+    color: "#8B4513",
+    lessons: 40,
+  },
+];
+
+export default hskLevels;
