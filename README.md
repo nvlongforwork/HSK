@@ -44,6 +44,21 @@ with four columns on desktop and two on narrow screens.
 Practice Tests is a placeholder for teacher-provided tests. It intentionally does
 not fetch or display the Exercises material.
 
+## Unit 1 vocabulary pilot
+
+Only `/hsk/1/lesson-1/vocabulary` adds a picture column and Word list / Flashcards
+study tabs. The existing media table remains the source of words, pinyin,
+English meanings, and Chinese example sentences. The front of each card shows
+only the Chinese word. Clicking reveals the current language's meaning, an
+illustration, pinyin, and the example sentence. A language switch keeps the
+current card and face. Next/Previous return to the Chinese face; Enter/Space flip
+the focused card, and Left/Right navigate it.
+
+Other lessons continue to use the existing Markdown renderer. The Unit 1 visual
+metadata is in `src/data/unit1VocabularyVisuals.js`. OpenMoji SVG files are bundled
+in `public/images/vocabulary/unit-1`, with source and CC BY-SA 4.0 attribution in
+that directory's `ATTRIBUTION.md` and a credit link below the study panel.
+
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
 Currently, two official plugins are available:

@@ -6,6 +6,7 @@ import { lessonSections, exerciseTypes } from "../data/hsk1";
 import BounceCard from "../components/BounceCard";
 import PinyinText from "../components/PinyinText";
 import MarkdownRenderer from "../components/MarkdownRenderer";
+import Unit1Vocabulary from "../components/Unit1Vocabulary";
 import useMarkdown from "../hooks/useMarkdown";
 import { getContentUrl } from "../utils/mediaUrl";
 
@@ -197,6 +198,7 @@ export default function Section() {
   }
 
   const isExercises = sectionId === "exercises";
+  const isUnit1Vocabulary = levelNum === 1 && lessonNum === 1 && sectionId === "vocabulary";
 
   return (
     <main style={pageStyle}>
@@ -266,7 +268,7 @@ export default function Section() {
         </div>
       ) : content ? (
         <div style={{ ...contentBoxStyle, textAlign: "left" }} className="fade-in-up">
-          <MarkdownRenderer content={content} />
+          {isUnit1Vocabulary ? <Unit1Vocabulary key={content} content={content} /> : <MarkdownRenderer content={content} />}
           <div style={{ textAlign: "center" }}>
             <Link
               to={`/hsk/${levelNum}/${lessonSlug}`}
