@@ -177,8 +177,7 @@ export default function Unit1Vocabulary({ content, audioBaseUrl }) {
             <div className="vocabulary-card-scene">
               <button className={`vocabulary-flashcard${flipped ? " is-flipped" : ""}`} type="button"
                 aria-pressed={flipped}
-                onClick={!flipped ? handleFlip : undefined}
-                style={flipped ? { cursor: "default" } : undefined}>
+                onClick={handleFlip}>
                 <span key={`${entry.word}-${currentEntryIndex}-${round}`} className="vocabulary-card-rotator">
                   <span className="vocabulary-card-face vocabulary-card-front" aria-hidden={flipped} inert={flipped}>
                     <span className="vocabulary-front-word" lang="zh-CN">{entry.word}</span>
