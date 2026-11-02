@@ -64,30 +64,29 @@ const sectionCardStyle = {
   boxShadow: "var(--shadow-md)",
   border: "1px solid rgba(212, 160, 23, 0.12)",
   textAlign: "center",
-  aspectRatio: "1 / 1",
+  padding: "20px 12px",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
+  gap: "6px",
 };
 
 const sectionIconStyle = {
-  fontSize: "clamp(56px, 8vw, 80px)",
+  fontSize: "clamp(32px, 4vw, 42px)",
   display: "block",
-  marginBottom: "12px",
 };
 
 const sectionTitleZhStyle = {
   fontFamily: "var(--font-serif)",
-  fontSize: "var(--fs-h3)",
+  fontSize: "var(--fs-card-title)",
   fontWeight: 700,
   color: "var(--ink-dark)",
 };
 
 const sectionTitleEnStyle = {
-  fontSize: "var(--fs-card-title)",
+  fontSize: "var(--fs-card-desc)",
   color: "var(--ink-light)",
-  marginTop: "6px",
 };
 
 const notFoundStyle = {
