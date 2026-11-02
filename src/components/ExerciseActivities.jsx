@@ -50,12 +50,19 @@ export function Quiz({ items, multipleChoice = false }) {
             )}
             {item.selfReview && <p className="exercise-meta">{t("Open response / teacher review · Excluded from automatic scoring.")}</p>}
             {checked && (
-              <p id={feedbackId} className={`exercise-feedback ${item.selfReview ? "" : correct(item, index) ? "text-correct" : "text-incorrect"}`}>
-                {t(item.selfReview ? "Review with your teacher. Model / note: " : correct(item, index) ? "✓ Correct! " : "Try this answer: ")}
-                <PinyinText>{t(multipleChoice
-                  ? item.options.filter((option) => option.correct).map((option) => `${option.label}. ${option.text}`).join("")
-                  : item.answer)}</PinyinText>
-              </p>
+              <>
+                <p id={feedbackId} className={`exercise-feedback ${item.selfReview ? "" : correct(item, index) ? "text-correct" : "text-incorrect"}`}>
+                  {t(item.selfReview ? "Review with your teacher. Model / note: " : correct(item, index) ? "✓ Correct! " : "Try this answer: ")}
+                  <PinyinText>{t(multipleChoice
+                    ? item.options.filter((option) => option.correct).map((option) => `${option.label}. ${option.text}`).join("")
+                    : item.answer)}</PinyinText>
+                </p>
+                {item.explanation && (
+                  <div className="exercise-explanation">
+                    <PinyinText>{t(item.explanation)}</PinyinText>
+                  </div>
+                )}
+              </>
             )}
           </fieldset>
         );

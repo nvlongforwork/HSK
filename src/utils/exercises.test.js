@@ -39,6 +39,24 @@ test("rejects ambiguous and incomplete multiple-choice answer keys", () => {
   assert.deepEqual(parseExercises(), { multipleChoice: [], fillIn: [], flashcards: [] });
 });
 
+test("parses explanation lines for MC and fill-in", () => {
+  const data = parseExercises(`### Multiple Choice
+1. ___好！Chào bạn.
+- A) 您
+- B) 你 ✓
+- C) 好
+- D) 们
+> 你 (nǐ) là đại từ ngôi hai số ít.
+### Fill in the Blanks
+1. Điền từ "bạn": ___好 → 你
+> 你 (nǐ): đại từ ngôi hai.
+2. No explanation → 好
+`);
+  assert.equal(data.multipleChoice[0].explanation, "你 (nǐ) là đại từ ngôi hai số ít.");
+  assert.equal(data.fillIn[0].explanation, "你 (nǐ): đại từ ngôi hai.");
+  assert.equal(data.fillIn[1].explanation, "");
+});
+
 test("accepts punctuation and IME width variants but keeps distinct answers", () => {
   assert.equal(isCorrectAnswer(" 你！ ", "你"), true);
   assert.equal(isCorrectAnswer("ＡＢＣ", "abc"), true);

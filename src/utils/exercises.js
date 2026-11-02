@@ -14,18 +14,31 @@ export function parseExercises(markdown = "") {
     if (section === "multiple choice") {
       const prompt = line.match(/^\d+\.\s+(.+)/);
       const option = line.match(/^-\s+([A-Z])[).]\s+(.+)/);
+      const explain = line.match(/^>\s+(.+)/);
       if (prompt) {
-        question = { prompt: prompt[1], options: [] };
+        question = { prompt: prompt[1], options: [], explanation: "" };
         result.multipleChoice.push(question);
       } else if (option && question) {
         question.options.push({ label: option[1],
           text: option[2].replace(/\s*[✓✔]\s*/g, "").trim(),
           correct: /[✓✔]/.test(option[2]) });
+      } else if (explain && question) {
+        question.explanation = question.explanation
+          ? question.explanation + " " + explain[1].trim()
+          : explain[1].trim();
       }
     } else if (section === "fill in the blanks") {
       const item = line.match(/^\d+\.\s+(.+?)\s*→\s*(.+)$/);
-      if (item) result.fillIn.push({ prompt: item[1], answer: item[2].trim(),
-        selfReview: /\[|\breorder\s*:/i.test(item[2]) });
+      const explain = line.match(/^>\s+(.+)/);
+      if (item) {
+        question = { prompt: item[1], answer: item[2].trim(),
+          explanation: "", selfReview: /\[|\breorder\s*:/i.test(item[2]) };
+        result.fillIn.push(question);
+      } else if (explain && question) {
+        question.explanation = question.explanation
+          ? question.explanation + " " + explain[1].trim()
+          : explain[1].trim();
+      }
     } else if (section === "flashcards" && line.startsWith("|")) {
       const cells = line.replace(/^\||\|$/g, "").split("|").map((cell) => cell.trim());
       if (cells.length === 2 && cells.every(Boolean) &&

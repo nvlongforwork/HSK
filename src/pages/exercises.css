@@ -21,6 +21,7 @@
 .exercise-input { margin-top: 8px; width: 100%; max-width: 420px; padding: 12px 16px; font: inherit; color: var(--ink-dark); border: 2px solid var(--gold-light); border-radius: var(--radius-sm); }
 .exercise-input:disabled { opacity: 1; background: var(--cream); }
 .exercise-feedback { margin-top: 12px; font-size: var(--fs-small); }
+.exercise-explanation { margin-top: 8px; padding: 10px 14px; font-size: var(--fs-small); color: var(--ink-medium); background: var(--cream); border-left: 3px solid var(--gold-dark); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; line-height: 1.6; }
 .text-correct { color: #20633b; }
 .text-incorrect { color: var(--red-dark); }
 .exercise-result { text-align: center; font-weight: 700; color: var(--red-dark); margin: 24px 0 12px; }
