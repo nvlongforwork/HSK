@@ -55,6 +55,7 @@ const vi = {
   "Vocabulary": "Từ vựng",
   "Grammar": "Ngữ pháp",
   "Pronunciation": "Phát âm",
+  "Writing": "Tập viết",
   "Practice Tests": "Đề luyện tập",
   "Exercises": "Bài tập",
   "Content": "Nội dung",
