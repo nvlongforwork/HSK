@@ -811,6 +811,53 @@ const vi = {
   "mouth radical": "bộ khẩu",
   "Related to mouth": "Liên quan đến miệng",
 
+  // Lesson 9 vocabulary
+  "small, little": "nhỏ, bé",
+  "at, in; to be at": "ở, tại",
+  "below, under": "bên dưới, phía dưới",
+  "to work; job": "làm việc; công việc",
+  "father, dad": "bố, cha",
+
+  // Lesson 9 dialogue
+  "Where is the kitten?": "Con mèo nhỏ ở đâu?",
+  "The kitten is over there.": "Con mèo nhỏ ở kia.",
+  "Where is the puppy?": "Con chó nhỏ ở đâu?",
+  "The puppy is under the chair.": "Con chó nhỏ ở dưới ghế.",
+  "Where do you work?": "Bạn làm việc ở đâu?",
+  "I work at a school.": "Tôi làm việc ở trường học.",
+  "Where does your son work?": "Con trai bạn làm việc ở đâu?",
+  "My son works at a hospital. He's a doctor.": "Con trai tôi làm việc ở bệnh viện, nó là bác sĩ.",
+  "Is your dad at home?": "Bố bạn có ở nhà không?",
+  "He's not home.": "Không có ở nhà.",
+  "Where is he?": "Ông ấy ở đâu?",
+  "He's at the hospital.": "Ông ấy ở bệnh viện.",
+
+  // Lesson 9 grammar
+  "Verb 在": "Động từ 在",
+  "在 (zài) is a verb meaning \"to be at/in.\" It is followed by a location word to indicate where a person or thing is located.": "在 (zài) là động từ nghĩa là \"ở\". Sau nó là từ chỉ vị trí để diễn tả nơi chốn của người hoặc sự vật.",
+  "Location": "Nơi chốn",
+  "Interrogative Pronoun 哪儿": "Đại từ nghi vấn 哪儿",
+  "哪儿 (nǎr) is used in questions to ask about the location of people or things.": "哪儿 (nǎr) dùng trong câu hỏi để hỏi về vị trí của người hoặc sự vật.",
+  "Preposition 在": "Giới từ 在",
+  "在 (zài) can also be used as a preposition. When followed by a location word, it introduces where an action takes place.": "在 (zài) còn có thể dùng làm giới từ. Khi theo sau là từ chỉ vị trí, nó giới thiệu nơi hành động diễn ra.",
+  "Verb": "Động từ",
+  "Question Particle 呢 (2)": "Trợ từ nghi vấn 呢 (2)",
+  "呢 (ne) can be placed at the end of a sentence to ask about the location of a person or thing.": "呢 (ne) đặt ở cuối câu để hỏi về vị trí của người hoặc sự vật.",
+
+  // Lesson 9 pronunciation
+  "Tone Combinations (4): 4th Tone + Other Tones": "Kết hợp thanh điệu (4): Thanh 4 + Các thanh khác",
+
+  // Lesson 9 writing
+  "child, son": "con, con trai",
+  "work, labor": "công, lao động",
+  "Character Structure (4): Semi-Enclosed": "Cấu trúc chữ (4): Bao quanh một nửa",
+  "Semi-enclosed": "Bao quanh một nửa",
+  "Outer part partially wraps around the inner part": "Phần bên ngoài bao quanh một phần bên trong",
+  "walking radical": "bộ sước",
+  "Related to walking or movement": "Liên quan đến đi bộ hoặc chuyển động",
+  "door radical": "bộ môn",
+  "Related to rooms, doors, and entrances": "Liên quan đến phòng ốc, cửa ra vào",
+
   // Lesson 3 writing
   "Basic Strokes (3)": "Các nét cơ bản (3)",
   "horizontal-turning-hook": "ngang gấp móc",
