@@ -139,25 +139,26 @@ a {
 
 .sections-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 16px;
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
 .sections-grid > * { min-width: 0; }
 
-@media (max-width: 768px) {
-  .sections-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
 @media (max-width: 900px) {
+  .sections-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .home-grid {
     grid-template-columns: repeat(2, 1fr);
   }
   .lessons-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+@media (max-width: 768px) {
+  .sections-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 560px) {
