@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useLanguage } from "../i18n/useLanguage";
 import { parseVocabulary } from "../utils/vocabulary";
 import { unit1ExampleMeanings } from "../data/unit1ExampleMeanings";
 import PinyinText from "./PinyinText";
-import AudioButton, { stripTones } from "./AudioButton";
+import AudioButton, { stripTones, useAudioPlayer, SpeakerIcon } from "./AudioButton";
 import MarkdownRenderer from "./MarkdownRenderer";
 import "./unit1-vocabulary.css";
 
@@ -17,6 +17,9 @@ export default function Unit1Vocabulary({ content, audioBaseUrl }) {
   const entry = entries[index];
   const exampleMeaning = unit1ExampleMeanings[entry.example]?.[language];
 
+  const audioSrc = audioBaseUrl ? `${audioBaseUrl}/${stripTones(entry.pinyin)}.mp3` : null;
+  const { play: playAudio } = useAudioPlayer(audioSrc);
+
   function move(step) {
     setIndex((current) => Math.min(entries.length - 1, Math.max(0, current + step)));
     setFlipped(false);
@@ -26,6 +29,14 @@ export default function Unit1Vocabulary({ content, audioBaseUrl }) {
     setMode(next);
     setFlipped(false);
   }
+
+  const handleFlip = useCallback(() => {
+    setFlipped((current) => {
+      const next = !current;
+      if (next && audioSrc) playAudio();
+      return next;
+    });
+  }, [audioSrc, playAudio]);
 
   function tabKeys(event) {
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
@@ -58,7 +69,7 @@ export default function Unit1Vocabulary({ content, audioBaseUrl }) {
             <caption className="vocabulary-sr-only">{t("Unit 1 vocabulary list")}</caption>
             <thead><tr>
               <th scope="col">#</th>
-              {audioBaseUrl && <th scope="col" className="vocabulary-audio-col">🔈</th>}
+              {audioBaseUrl && <th scope="col" className="vocabulary-audio-col"><SpeakerIcon size="22" /></th>}
               <th scope="col">汉字</th><th scope="col">拼音</th>
               <th scope="col">{language === "vi" ? "Tiếng Việt" : "English"}</th>
               <th scope="col"><PinyinText>例句</PinyinText><span>{t("Example")}</span></th>
@@ -87,7 +98,7 @@ export default function Unit1Vocabulary({ content, audioBaseUrl }) {
         <div className="vocabulary-card-scene">
           <button className={`vocabulary-flashcard${flipped ? " is-flipped" : ""}`} type="button"
             aria-pressed={flipped} aria-describedby="vocabulary-flip-help"
-            onClick={() => setFlipped((current) => !current)}
+            onClick={handleFlip}
             onKeyDown={(event) => {
               if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
                 event.preventDefault(); move(event.key === "ArrowLeft" ? -1 : 1);
@@ -115,7 +126,7 @@ export default function Unit1Vocabulary({ content, audioBaseUrl }) {
         </div>
         <div className="vocabulary-card-controls">
           <button type="button" disabled={index === 0} onClick={() => move(-1)}>← {t("Previous")}</button>
-          <button type="button" className="vocabulary-flip-control" onClick={() => setFlipped((current) => !current)}>{t("Flip card")}</button>
+          <button type="button" className="vocabulary-flip-control" onClick={handleFlip}>{t("Flip card")}</button>
           <button type="button" disabled={index === entries.length - 1} onClick={() => move(1)}>{t("Next")} →</button>
         </div>
         <button className="vocabulary-restart" type="button" onClick={() => { setIndex(0); setFlipped(false); }}>{t("Restart cards")}</button>

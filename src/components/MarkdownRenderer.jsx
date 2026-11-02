@@ -1,7 +1,7 @@
 import { cloneElement, useId } from "react";
 import { useLanguage } from "../i18n/useLanguage";
 import PinyinText from "./PinyinText";
-import AudioButton, { stripTones } from "./AudioButton";
+import AudioButton, { stripTones, SpeakerIcon } from "./AudioButton";
 import "./grammar-topics.css";
 
 const sectionStyle = {
@@ -192,7 +192,7 @@ function parseTable(lines, audioBaseUrl) {
       <table style={tableStyle}>
         <thead>
           <tr>
-            {hasPinyin && <th style={{ ...thStyle, width: "48px", textAlign: "center" }}>🔈</th>}
+            {hasPinyin && <th style={{ ...thStyle, width: "48px", textAlign: "center" }}><SpeakerIcon size="22" /></th>}
             {headers.map((h, i) => (
               <th key={i} style={thStyle}>
                 <PinyinText>{h}</PinyinText>
