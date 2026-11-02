@@ -20,6 +20,14 @@ export const lessonSections = [
   { id: "vocabulary", titleZh: "词汇", titleEn: "Vocabulary", icon: "📖" },
   { id: "grammar", titleZh: "语法", titleEn: "Grammar", icon: "📝" },
   { id: "exercises", titleZh: "练习", titleEn: "Exercises", icon: "✏️" },
+  { id: "practice-tests", titleZh: "模拟测试", titleEn: "Practice Tests", icon: "📋" },
+];
+
+export const exerciseTypes = [
+  { id: "multiple-choice", titleZh: "选择题", titleEn: "Multiple Choice", icon: "🔘" },
+  { id: "read-and-fill", titleZh: "阅读填空", titleEn: "Read & Fill", icon: "📄" },
+  { id: "flashcards", titleZh: "闪卡", titleEn: "Flashcards", icon: "🃏" },
+  { id: "listen-and-fill", titleZh: "听力填空", titleEn: "Listen & Fill", icon: "🎧" },
 ];
 
 export default hsk1Lessons;

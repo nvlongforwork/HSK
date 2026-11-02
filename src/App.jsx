@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import HskLevel from "./pages/HskLevel";
 import Lesson from "./pages/Lesson";
 import Section from "./pages/Section";
+import ExerciseType from "./pages/ExerciseType";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/hsk/:level" element={<HskLevel />} />
         <Route path="/hsk/:level/:lessonSlug" element={<Lesson />} />
         <Route path="/hsk/:level/:lessonSlug/:sectionId" element={<Section />} />
+        <Route path="/hsk/:level/:lessonSlug/exercises/:exerciseId" element={<ExerciseType />} />
       </Routes>
       <Footer />
     </>

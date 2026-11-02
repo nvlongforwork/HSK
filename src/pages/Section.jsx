@@ -1,6 +1,8 @@
 import { useParams, Link } from "react-router-dom";
 import hsk1Lessons from "../data/hsk1";
-import { lessonSections } from "../data/hsk1";
+import { lessonSections, exerciseTypes } from "../data/hsk1";
+import BounceCard from "../components/BounceCard";
+import PinyinText from "../components/PinyinText";
 
 const pageStyle = {
   maxWidth: "1000px",
@@ -73,6 +75,61 @@ const backLinkStyle = {
   transition: "transform 0.2s, box-shadow 0.2s",
 };
 
+const decorDividerStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "16px",
+  margin: "32px 0 28px",
+};
+
+const decorLineStyle = {
+  flex: 1,
+  height: "1px",
+  background: "linear-gradient(90deg, transparent, var(--gold-primary), transparent)",
+};
+
+const decorCharStyle = {
+  fontFamily: "var(--font-serif)",
+  fontSize: "var(--fs-body)",
+  color: "var(--gold-dark)",
+};
+
+const exerciseGridStyle = {};
+
+const exerciseCardStyle = {
+  background: "var(--white)",
+  borderRadius: "var(--radius-md)",
+  overflow: "hidden",
+  boxShadow: "var(--shadow-md)",
+  border: "1px solid rgba(212, 160, 23, 0.12)",
+  textAlign: "center",
+  aspectRatio: "1 / 1",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
+const exerciseIconStyle = {
+  fontSize: "clamp(48px, 7vw, 72px)",
+  display: "block",
+  marginBottom: "12px",
+};
+
+const exerciseTitleZhStyle = {
+  fontFamily: "var(--font-serif)",
+  fontSize: "var(--fs-h3)",
+  fontWeight: 700,
+  color: "var(--ink-dark)",
+};
+
+const exerciseTitleEnStyle = {
+  fontSize: "var(--fs-card-title)",
+  color: "var(--ink-light)",
+  marginTop: "6px",
+};
+
 export default function Section() {
   const { level, lessonSlug, sectionId } = useParams();
   const levelNum = parseInt(level);
@@ -86,65 +143,108 @@ export default function Section() {
     return (
       <main style={pageStyle}>
         <div style={{ textAlign: "center", padding: "80px 24px" }}>
-          <h2
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "var(--fs-h2)",
-              color: "var(--ink-medium)",
-              marginBottom: "12px",
-            }}
-          >
-            未找到 Not Found
+          <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "var(--fs-h2)", color: "var(--ink-medium)", marginBottom: "12px" }}>
+            <PinyinText>未找到</PinyinText> Not Found
           </h2>
           <p style={{ fontSize: "var(--fs-body)", color: "var(--ink-light)" }}>
-            该页面不存在 This page does not exist
+            <PinyinText>该页面不存在</PinyinText> This page does not exist
           </p>
         </div>
       </main>
     );
   }
 
+  const isExercises = sectionId === "exercises";
+
   return (
     <main style={pageStyle}>
       <div style={headerStyle} className="fade-in-up">
         <span style={iconStyle}>{section.icon}</span>
-        <h1 style={titleZhStyle}>{section.titleZh}</h1>
+        <h1 style={titleZhStyle}>
+          <PinyinText>{section.titleZh}</PinyinText>
+        </h1>
         <p style={titleEnStyle}>{section.titleEn}</p>
         <p style={lessonInfoStyle}>
-          {lesson.titleZh} &middot; {lesson.topicZh}
+          <PinyinText>{lesson.titleZh}</PinyinText> &middot; <PinyinText>{lesson.topicZh}</PinyinText>
           <br />
           {lesson.titleEn} &middot; {lesson.topicEn}
         </p>
       </div>
 
-      <div style={contentBoxStyle} className="fade-in-up">
-        <h2 style={placeholderTitleStyle}>内容即将更新 Content Coming Soon</h2>
-        <p style={placeholderDescStyle}>
-          该部分的学习内容正在编写中。
-          <br />
-          The learning content for this section is being prepared.
-          <br />
-          <br />
-          教师可以在此处添加{section.titleZh}内容。
-          <br />
-          Teachers can add {section.titleEn.toLowerCase()} content here.
-        </p>
+      {isExercises ? (
+        <>
+          <div style={decorDividerStyle}>
+            <div style={decorLineStyle} />
+            <span style={decorCharStyle}>
+              <PinyinText>选择练习类型</PinyinText> Choose Exercise Type
+            </span>
+            <div style={decorLineStyle} />
+          </div>
 
-        <Link
-          to={`/hsk/${levelNum}/${lessonSlug}`}
-          style={backLinkStyle}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "translateY(-2px)";
-            e.currentTarget.style.boxShadow = "0 6px 20px rgba(196, 30, 58, 0.3)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.boxShadow = "none";
-          }}
-        >
-          返回课程 Back to Lesson
-        </Link>
-      </div>
+          <div className="sections-grid">
+            {exerciseTypes.map((ex, index) => (
+              <BounceCard
+                key={ex.id}
+                to={`/hsk/${levelNum}/${lessonSlug}/exercises/${ex.id}`}
+                style={exerciseCardStyle}
+                delay={index}
+              >
+                <span style={exerciseIconStyle}>{ex.icon}</span>
+                <div style={exerciseTitleZhStyle}>
+                  <PinyinText>{ex.titleZh}</PinyinText>
+                </div>
+                <div style={exerciseTitleEnStyle}>{ex.titleEn}</div>
+              </BounceCard>
+            ))}
+          </div>
+
+          <div style={{ textAlign: "center", marginTop: "32px" }}>
+            <Link
+              to={`/hsk/${levelNum}/${lessonSlug}`}
+              style={backLinkStyle}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 6px 20px rgba(196, 30, 58, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <PinyinText>返回课程</PinyinText> Back to Lesson
+            </Link>
+          </div>
+        </>
+      ) : (
+        <div style={contentBoxStyle} className="fade-in-up">
+          <h2 style={placeholderTitleStyle}>
+            <PinyinText>内容即将更新</PinyinText> Content Coming Soon
+          </h2>
+          <p style={placeholderDescStyle}>
+            <PinyinText>该部分的学习内容正在编写中。</PinyinText>
+            <br />
+            The learning content for this section is being prepared.
+            <br /><br />
+            <PinyinText>教师可以在此处添加{section.titleZh}内容。</PinyinText>
+            <br />
+            Teachers can add {section.titleEn.toLowerCase()} content here.
+          </p>
+          <Link
+            to={`/hsk/${levelNum}/${lessonSlug}`}
+            style={backLinkStyle}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = "0 6px 20px rgba(196, 30, 58, 0.3)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "none";
+            }}
+          >
+            <PinyinText>返回课程</PinyinText> Back to Lesson
+          </Link>
+        </div>
+      )}
     </main>
   );
 }

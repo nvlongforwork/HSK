@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import hsk1Lessons from "../data/hsk1";
 import { lessonSections } from "../data/hsk1";
 import BounceCard from "../components/BounceCard";
+import PinyinText from "../components/PinyinText";
 
 const pageStyle = {
   maxWidth: "1000px",
@@ -54,11 +55,7 @@ const decorCharStyle = {
   color: "var(--gold-dark)",
 };
 
-const gridStyle = {
-  display: "grid",
-  gridTemplateColumns: "repeat(3, 1fr)",
-  gap: "24px",
-};
+const gridStyle = {};
 
 const sectionCardStyle = {
   background: "var(--white)",
@@ -67,26 +64,30 @@ const sectionCardStyle = {
   boxShadow: "var(--shadow-md)",
   border: "1px solid rgba(212, 160, 23, 0.12)",
   textAlign: "center",
+  aspectRatio: "1 / 1",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
 };
 
 const sectionIconStyle = {
-  fontSize: "clamp(48px, 6vw, 64px)",
-  padding: "32px 24px 16px",
+  fontSize: "clamp(56px, 8vw, 80px)",
   display: "block",
+  marginBottom: "12px",
 };
 
 const sectionTitleZhStyle = {
   fontFamily: "var(--font-serif)",
-  fontSize: "var(--fs-card-title)",
+  fontSize: "var(--fs-h3)",
   fontWeight: 700,
   color: "var(--ink-dark)",
 };
 
 const sectionTitleEnStyle = {
-  fontSize: "var(--fs-card-desc)",
+  fontSize: "var(--fs-card-title)",
   color: "var(--ink-light)",
-  marginTop: "4px",
-  paddingBottom: "28px",
+  marginTop: "6px",
 };
 
 const notFoundStyle = {
@@ -118,8 +119,12 @@ export default function Lesson() {
     return (
       <main style={pageStyle}>
         <div style={notFoundStyle}>
-          <h2 style={notFoundTitleStyle}>未找到 Not Found</h2>
-          <p style={notFoundDescStyle}>该课程不存在 This lesson does not exist</p>
+          <h2 style={notFoundTitleStyle}>
+            <PinyinText>未找到</PinyinText> Not Found
+          </h2>
+          <p style={notFoundDescStyle}>
+            <PinyinText>该课程不存在</PinyinText> This lesson does not exist
+          </p>
         </div>
       </main>
     );
@@ -128,20 +133,24 @@ export default function Lesson() {
   return (
     <main style={pageStyle}>
       <div style={headerStyle} className="fade-in-up">
-        <h1 style={titleZhStyle}>{lesson.titleZh}</h1>
+        <h1 style={titleZhStyle}>
+          <PinyinText>{lesson.titleZh}</PinyinText>
+        </h1>
         <p style={titleEnStyle}>{lesson.titleEn}</p>
         <p style={topicStyle}>
-          {lesson.topicZh} &middot; {lesson.topicEn}
+          <PinyinText>{lesson.topicZh}</PinyinText> &middot; {lesson.topicEn}
         </p>
       </div>
 
       <div style={decorDividerStyle}>
         <div style={decorLineStyle} />
-        <span style={decorCharStyle}>学习内容 Content</span>
+        <span style={decorCharStyle}>
+          <PinyinText>学习内容</PinyinText> Content
+        </span>
         <div style={decorLineStyle} />
       </div>
 
-      <div style={gridStyle}>
+      <div className="sections-grid">
         {lessonSections.map((section, index) => (
           <BounceCard
             key={section.id}
@@ -150,7 +159,9 @@ export default function Lesson() {
             delay={index}
           >
             <span style={sectionIconStyle}>{section.icon}</span>
-            <div style={sectionTitleZhStyle}>{section.titleZh}</div>
+            <div style={sectionTitleZhStyle}>
+              <PinyinText>{section.titleZh}</PinyinText>
+            </div>
             <div style={sectionTitleEnStyle}>{section.titleEn}</div>
           </BounceCard>
         ))}

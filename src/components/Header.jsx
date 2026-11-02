@@ -1,8 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
+import PinyinText from "./PinyinText";
 
 const headerStyle = {
   background: "linear-gradient(135deg, #8B0000 0%, #C41E3A 50%, #8B0000 100%)",
-  padding: "0",
   position: "sticky",
   top: 0,
   zIndex: 100,
@@ -66,92 +66,102 @@ const breadcrumbStyle = {
   flexWrap: "wrap",
 };
 
-const breadcrumbLinkStyle = {
-  color: "#F5D77B",
-  textDecoration: "none",
-};
-
-const separatorStyle = {
-  color: "rgba(255,255,255,0.4)",
-};
+const linkStyle = { color: "#F5D77B", textDecoration: "none" };
+const sepStyle = { color: "rgba(255,255,255,0.4)" };
+const activeStyle = { color: "#fff" };
 
 const decorBarStyle = {
   height: "4px",
   background: "linear-gradient(90deg, #F5D77B, #D4A017, #F5D77B, #D4A017, #F5D77B)",
-  backgroundSize: "200% 100%",
+};
+
+const sectionNames = {
+  vocabulary: { zh: "词汇", en: "Vocabulary" },
+  grammar: { zh: "语法", en: "Grammar" },
+  exercises: { zh: "练习", en: "Exercises" },
+  "practice-tests": { zh: "模拟测试", en: "Practice Tests" },
+};
+
+const exerciseNames = {
+  "multiple-choice": { zh: "选择题", en: "Multiple Choice" },
+  "read-and-fill": { zh: "阅读填空", en: "Read & Fill" },
+  "flashcards": { zh: "闪卡", en: "Flashcards" },
+  "listen-and-fill": { zh: "听力填空", en: "Listen & Fill" },
 };
 
 export default function Header() {
   const location = useLocation();
-  const pathParts = location.pathname.split("/").filter(Boolean);
+  const p = location.pathname.split("/").filter(Boolean);
 
-  const buildBreadcrumbs = () => {
-    if (pathParts.length < 2 || pathParts[0] !== "hsk") return null;
+  const crumbs = [];
 
-    const crumbs = [];
-    const level = pathParts[1];
-
+  if (p.length >= 2 && p[0] === "hsk") {
+    const level = p[1];
     crumbs.push(
-      <Link key="home" to="/" style={breadcrumbLinkStyle}>首页 Home</Link>,
-      <span key="sep1" style={separatorStyle}>/</span>
+      <Link key="h" to="/" style={linkStyle}><PinyinText>首页</PinyinText> Home</Link>,
+      <span key="s0" style={sepStyle}>/</span>
     );
 
-    if (pathParts.length === 2) {
-      crumbs.push(<span key="level" style={{ color: "#fff" }}>HSK {level}</span>);
+    if (p.length === 2) {
+      crumbs.push(<span key="l" style={activeStyle}>HSK {level}</span>);
     } else {
       crumbs.push(
-        <Link key="level" to={`/hsk/${level}`} style={breadcrumbLinkStyle}>HSK {level}</Link>,
-        <span key="sep2" style={separatorStyle}>/</span>
+        <Link key="l" to={`/hsk/${level}`} style={linkStyle}>HSK {level}</Link>,
+        <span key="s1" style={sepStyle}>/</span>
       );
 
-      const lessonSlug = pathParts[2];
-      const lessonMatch = lessonSlug?.match(/lesson-(\d+)/);
-
-      if (lessonMatch) {
-        const lessonNum = lessonMatch[1];
-
-        if (pathParts.length === 3) {
-          crumbs.push(
-            <span key="lesson" style={{ color: "#fff" }}>
-              第{lessonNum}课 Lesson {lessonNum}
-            </span>
-          );
+      const lessonSlug = p[2];
+      const m = lessonSlug.match(/lesson-(\d+)/);
+      if (m) {
+        const num = m[1];
+        if (p.length === 3) {
+          crumbs.push(<span key="le" style={activeStyle}><PinyinText>第{num}课</PinyinText> L{num}</span>);
         } else {
           crumbs.push(
-            <Link key="lesson" to={`/hsk/${level}/${lessonSlug}`} style={breadcrumbLinkStyle}>
-              第{lessonNum}课
-            </Link>,
-            <span key="sep3" style={separatorStyle}>/</span>
+            <Link key="le" to={`/hsk/${level}/${lessonSlug}`} style={linkStyle}><PinyinText>第{num}课</PinyinText></Link>,
+            <span key="s2" style={sepStyle}>/</span>
           );
-          const sectionNames = {
-            vocabulary: "词汇 Vocabulary",
-            grammar: "语法 Grammar",
-            exercises: "练习 Exercises",
-          };
-          crumbs.push(
-            <span key="section" style={{ color: "#fff" }}>
-              {sectionNames[pathParts[3]] || pathParts[3]}
-            </span>
-          );
+
+          const sectionId = p[3];
+          const sec = sectionNames[sectionId];
+
+          if (p.length === 4) {
+            crumbs.push(
+              <span key="se" style={activeStyle}>
+                {sec ? <><PinyinText>{sec.zh}</PinyinText> {sec.en}</> : sectionId}
+              </span>
+            );
+          } else if (sectionId === "exercises" && p[4]) {
+            crumbs.push(
+              <Link key="se" to={`/hsk/${level}/${lessonSlug}/exercises`} style={linkStyle}>
+                <PinyinText>练习</PinyinText>
+              </Link>,
+              <span key="s3" style={sepStyle}>/</span>
+            );
+            const ex = exerciseNames[p[4]];
+            crumbs.push(
+              <span key="ex" style={activeStyle}>
+                {ex ? <><PinyinText>{ex.zh}</PinyinText> {ex.en}</> : p[4]}
+              </span>
+            );
+          }
         }
       }
     }
-
-    return <nav style={breadcrumbStyle}>{crumbs}</nav>;
-  };
+  }
 
   return (
     <header>
       <div style={headerStyle}>
         <div style={innerStyle}>
           <Link to="/" style={logoStyle}>
-            <span style={logoCharStyle}>汉</span>
+            <span style={logoCharStyle}><PinyinText>汉</PinyinText></span>
             <div style={logoTextStyle}>
               <span style={logoTitleStyle}>HSK Learning</span>
-              <span style={logoSubStyle}>汉语水平考试</span>
+              <span style={logoSubStyle}><PinyinText>汉语水平考试</PinyinText></span>
             </div>
           </Link>
-          <div>{buildBreadcrumbs()}</div>
+          {crumbs.length > 0 && <nav style={breadcrumbStyle}>{crumbs}</nav>}
         </div>
       </div>
       <div style={decorBarStyle} />

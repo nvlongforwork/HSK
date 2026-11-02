@@ -63,20 +63,10 @@ a {
 }
 
 @keyframes bounceIn {
-  0% {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  70% {
-    transform: scale(0.97);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  0% { transform: scale(0.9); opacity: 0; }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(0.97); }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 @keyframes bounceClick {
@@ -88,19 +78,8 @@ a {
 }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .bounce-in {
@@ -131,26 +110,46 @@ a {
   }
 }
 
-.grid-responsive {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-}
-
-@media (max-width: 680px) {
-  .grid-responsive {
-    grid-template-columns: 1fr;
-  }
-}
-
-.grid-sections {
+.home-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
 
-@media (max-width: 680px) {
-  .grid-sections {
+.lessons-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+.sections-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .home-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .lessons-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .home-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .lessons-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .sections-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 }

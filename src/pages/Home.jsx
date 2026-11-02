@@ -1,5 +1,6 @@
 import hskLevels from "../data/hskLevels";
 import BounceCard from "../components/BounceCard";
+import PinyinText from "../components/PinyinText";
 
 const pageStyle = {
   maxWidth: "1200px",
@@ -36,11 +37,7 @@ const heroDescStyle = {
   marginRight: "auto",
 };
 
-const gridStyle = {
-  display: "grid",
-  gridTemplateColumns: "repeat(2, 1fr)",
-  gap: "24px",
-};
+const gridStyle = {};
 
 const cardStyle = {
   background: "var(--white)",
@@ -111,7 +108,6 @@ const cardDescStyle = {
 const cardArrowStyle = {
   fontSize: "clamp(20px, 2.5vw, 28px)",
   color: "var(--red-primary)",
-  transition: "transform 0.3s ease",
 };
 
 const decorDividerStyle = {
@@ -138,10 +134,12 @@ export default function Home() {
   return (
     <main style={pageStyle}>
       <div style={heroStyle} className="fade-in-up">
-        <h1 style={heroTitleStyle}>汉语水平考试</h1>
+        <h1 style={heroTitleStyle}>
+          <PinyinText>汉语水平考试</PinyinText>
+        </h1>
         <p style={heroSubStyle}>Chinese Proficiency Test</p>
         <p style={heroDescStyle}>
-          选择你的学习等级，开始你的中文之旅
+          <PinyinText>选择你的学习等级，开始你的中文之旅</PinyinText>
           <br />
           Choose your level and start your Chinese journey
         </p>
@@ -149,11 +147,13 @@ export default function Home() {
 
       <div style={decorDividerStyle}>
         <div style={decorLineStyle} />
-        <span style={decorCharStyle}>学习等级 Levels</span>
+        <span style={decorCharStyle}>
+          <PinyinText>学习等级</PinyinText> Levels
+        </span>
         <div style={decorLineStyle} />
       </div>
 
-      <div style={gridStyle}>
+      <div className="home-grid">
         {hskLevels.map((level, index) => (
           <BounceCard
             key={level.id}
@@ -164,12 +164,14 @@ export default function Home() {
             <div style={cardTopStyle(level.color)}>
               <div style={cardPatternStyle} />
               <span style={levelNumStyle}>{level.id}</span>
-              <div style={cardTitleZhStyle}>{level.titleZh}</div>
+              <div style={cardTitleZhStyle}>
+                <PinyinText>{level.titleZh}</PinyinText>
+              </div>
               <div style={cardTitleEnStyle}>{level.titleEn}</div>
             </div>
             <div style={cardBottomStyle}>
               <div style={cardDescStyle}>
-                <div>{level.descZh}</div>
+                <div><PinyinText>{level.descZh}</PinyinText></div>
                 <div>{level.descEn}</div>
               </div>
               <span style={cardArrowStyle}>&#10132;</span>

@@ -1,3 +1,5 @@
+import PinyinText from "./PinyinText";
+
 const footerStyle = {
   background: "linear-gradient(135deg, #8B0000 0%, #C41E3A 100%)",
   color: "rgba(255,255,255,0.8)",
@@ -24,7 +26,7 @@ export default function Footer() {
     <footer>
       <div style={decorTopStyle} />
       <div style={footerStyle}>
-        <p style={footerTextZhStyle}>学无止境</p>
+        <p style={footerTextZhStyle}><PinyinText>学无止境</PinyinText></p>
         <p>Learning Never Ends</p>
         <p style={{ marginTop: "12px", opacity: 0.6, fontSize: "clamp(14px, 1.5vw, 16px)" }}>
           HSK Learning App &copy; {new Date().getFullYear()}
