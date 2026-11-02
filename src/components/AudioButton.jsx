@@ -42,13 +42,13 @@ export function useAudioPlayer(src) {
   }, [src, failed]);
 
   useEffect(() => {
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    };
-  }, []);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    setFailed(false);
+    setPlaying(false);
+  }, [src]);
 
   return { play, playing, failed };
 }
