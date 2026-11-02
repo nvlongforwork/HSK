@@ -759,6 +759,58 @@ const vi = {
   "Related to speech and language": "Liên quan đến ngôn ngữ và lời nói",
   "Radical": "Bộ thủ",
 
+  // Lesson 8 vocabulary
+  "to want, to think": "muốn, nghĩ",
+  "cooked rice": "cơm",
+  "afternoon": "buổi chiều",
+  "cup, glass": "ly, cốc",
+
+  // Lesson 8 dialogue
+  "What do you want to drink?": "Bạn muốn uống gì?",
+  "I want to drink tea.": "Tôi muốn uống trà.",
+  "What do you want to eat?": "Bạn muốn ăn gì?",
+  "I want to eat rice.": "Tôi muốn ăn cơm.",
+  "What do you want to do this afternoon?": "Buổi chiều bạn muốn làm gì?",
+  "I want to go to the shop this afternoon.": "Buổi chiều tôi muốn đi cửa hàng.",
+  "What do you want to buy?": "Bạn muốn mua gì?",
+  "I want to buy a cup.": "Tôi muốn mua một cái ly.",
+  "Hello! How much is this cup?": "Xin chào! Cái ly này bao nhiêu tiền?",
+  "28 yuan.": "28 đồng.",
+  "How much is that cup?": "Cái ly kia bao nhiêu tiền?",
+  "That cup is 18 yuan.": "Cái ly kia 18 đồng.",
+
+  // Lesson 8 grammar
+  "Modal Verb 想": "Động từ năng nguyện 想",
+  "想 (xiǎng) is placed before a verb to express a wish, desire, or plan.": "想 (xiǎng) đặt trước động từ để diễn đạt mong muốn hay dự định.",
+  "Verb Phrase": "Cụm động từ",
+  "Interrogative Pronoun 多少": "Đại từ nghi vấn 多少",
+  "多少 (duōshao) is used to ask about quantities greater than ten. The measure word after 多少 can be omitted. 多少 is also used to ask about prices, with the common pattern \"……多少钱？\".": "多少 (duōshao) dùng để hỏi số lượng trên 10, lượng từ đứng sau 多少 có thể lược bỏ. 多少 cũng dùng để hỏi giá cả với cấu trúc thường gặp \"……多少钱？\".",
+  "Measure Words 个 and 口": "Lượng từ 个 và 口",
+  "个 (gè) is the most common measure word in Chinese. It is generally used before nouns that do not have a specific measure word.": "个 (gè) là lượng từ thường gặp nhất trong tiếng Trung, dùng trước những danh từ không có lượng từ riêng.",
+  "口 (kǒu) is a measure word used to describe the number of family members (see Lesson 5).": "口 (kǒu) là lượng từ dùng để đếm số thành viên gia đình (xem bài 5).",
+  "Money Expressions": "Cách diễn đạt số tiền",
+  "The basic unit of Chinese currency (RMB) is 元 (yuán). In spoken Chinese, 块 (kuài) is commonly used instead.": "Đơn vị cơ bản của nhân dân tệ (RMB) là 元 (yuán). Trong văn nói, 块 (kuài) thường được dùng thay thế.",
+  "Written": "Viết",
+  "Spoken": "Nói",
+
+  // Lesson 8 pronunciation
+  "Tone Combinations (3): 3rd Tone + Other Tones": "Kết hợp thanh điệu (3): Thanh 3 + Các thanh khác",
+  "Note on 3rd Tone Combinations": "Lưu ý về kết hợp thanh 3",
+  "When the 3rd tone is followed by a 1st, 2nd, or 4th tone, it becomes a half-3rd tone (211) — the pitch dips down but does not rise back up. When followed by another 3rd tone, the first 3rd tone changes to a 2nd tone (the Third Tone Sandhi rule).": "Khi thanh 3 đứng trước thanh 1, 2, hoặc 4, nó trở thành nửa thanh 3 (211) — cao độ đi xuống nhưng không lên lại. Khi đứng trước một thanh 3 khác, thanh 3 đầu chuyển thành thanh 2 (quy tắc biến điệu thanh 3).",
+
+  // Lesson 8 writing
+  "few, little": "ít, nhỏ",
+  "measure word (general)": "lượng từ (chung)",
+  "Character Structure (3): Top-Bottom and Top-Center-Bottom": "Cấu trúc chữ (3): Trên-Dưới và Trên-Giữa-Dưới",
+  "Top-bottom": "Trên-dưới",
+  "Top-center-bottom": "Trên-giữa-dưới",
+  "Made of two parts stacked vertically": "Gồm hai bộ phận xếp chồng theo chiều dọc",
+  "Made of three parts stacked vertically": "Gồm ba bộ phận xếp chồng theo chiều dọc",
+  "metal radical": "bộ kim",
+  "Related to metal": "Liên quan đến kim loại",
+  "mouth radical": "bộ khẩu",
+  "Related to mouth": "Liên quan đến miệng",
+
   // Lesson 3 writing
   "Basic Strokes (3)": "Các nét cơ bản (3)",
   "horizontal-turning-hook": "ngang gấp móc",
