@@ -635,6 +635,58 @@ const vi = {
   "Left to right (从左到右)": "Từ trái sang phải (从左到右)",
   "Write left strokes before right strokes": "Viết nét trái trước nét phải",
 
+  // Lesson 6 vocabulary
+  "can (learned ability)": "biết, có thể (kỹ năng đã học)",
+  "to speak, to say": "nói",
+  "mother, mom": "mẹ",
+  "dish, food, vegetable": "món ăn, rau",
+  "delicious": "ngon",
+  "to do, to make, to cook": "làm, nấu",
+  "Chinese character": "chữ Hán",
+  "to read (aloud)": "đọc (thành tiếng)",
+
+  // Lesson 6 dialogue
+  "Can you speak Chinese?": "Bạn biết nói tiếng Trung không?",
+  "I can speak Chinese.": "Tôi biết nói tiếng Trung.",
+  "Can your mom speak Chinese?": "Mẹ bạn biết nói tiếng Trung không?",
+  "She can't.": "Bà ấy không biết nói.",
+  "Is Chinese food delicious?": "Món Trung Quốc ngon không?",
+  "Chinese food is very delicious.": "Món Trung Quốc rất ngon.",
+  "Can you cook Chinese food?": "Bạn biết nấu món Trung Quốc không?",
+  "I can't cook.": "Tôi không biết nấu.",
+  "Can you write Chinese characters?": "Bạn biết viết chữ Hán không?",
+  "I can write.": "Tôi biết viết.",
+  "How do you write this character?": "Chữ này viết thế nào?",
+  "Sorry, I can read this character but can't write it.": "Xin lỗi, chữ này tôi biết đọc mà không biết viết.",
+
+  // Lesson 6 grammar
+  "Modal Verb 会 (1)": "Động từ khuyết thiếu 会 (1)",
+  "会 (huì) is placed before a verb to express a skill or ability acquired through learning. Its negative form is 不会.": "会 (huì) đặt trước động từ để diễn đạt kỹ năng hoặc khả năng có được qua học tập. Dạng phủ định là 不会.",
+  "Adjective Predicate Sentences": "Câu có vị ngữ tính từ",
+  "Adjectives can serve as the predicate in Chinese, describing the quality or state of the subject. The degree adverb 很 is often used. The negative form uses 不.": "Tính từ có thể làm vị ngữ trong tiếng Trung, mô tả tính chất hoặc trạng thái của chủ ngữ. Phó từ mức độ 很 thường được sử dụng. Dạng phủ định dùng 不.",
+  "Degree adverb": "Phó từ mức độ",
+  "Adjective": "Tính từ",
+  "Interrogative Pronoun 怎么 (1)": "Đại từ nghi vấn 怎么 (1)",
+  "怎么 (zěnme) is placed before a verb to ask about the way or method of doing something.": "怎么 (zěnme) đặt trước động từ để hỏi về cách thức hoặc phương pháp thực hiện một việc gì đó.",
+
+  // Lesson 6 pronunciation
+  "Tone Combinations (1): 1st Tone + Other Tones": "Kết hợp thanh điệu (1): Thanh 1 + Các thanh khác",
+  "Note on the 3rd Tone in Combinations": "Lưu ý về thanh 3 trong kết hợp",
+  "When the 3rd tone appears in a multi-syllable word, its pronunciation differs from the isolated 3rd tone (214). In combination, it becomes closer to a half-3rd tone (211) — the pitch dips down but does not rise back up.": "Khi thanh 3 xuất hiện trong từ nhiều âm tiết, cách phát âm khác với thanh 3 đơn lẻ (214). Trong kết hợp, nó gần với nửa thanh 3 (211) — cao độ đi xuống nhưng không lên lại.",
+
+  // Lesson 6 writing
+  "Basic Strokes (6)": "Các nét cơ bản (6)",
+  "slanting-turning": "phẩy gấp",
+  "slanting-hook": "móc chéo",
+  "upward-flick": "hất",
+  "east": "đông",
+  "west": "tây",
+  "Character Structure (1): Single-Component vs. Compound": "Cấu trúc chữ (1): Độc thể và Hợp thể",
+  "Single-component": "Chữ độc thể",
+  "Compound": "Chữ hợp thể",
+  "Made of only one part": "Chỉ gồm một bộ phận",
+  "Made of two or more parts": "Gồm hai bộ phận trở lên",
+
   // Lesson 3 writing
   "Basic Strokes (3)": "Các nét cơ bản (3)",
   "horizontal-turning-hook": "ngang gấp móc",
