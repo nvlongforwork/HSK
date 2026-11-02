@@ -133,7 +133,7 @@ a {
 
 .lessons-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
 
@@ -156,7 +156,7 @@ a {
     grid-template-columns: repeat(2, 1fr);
   }
   .lessons-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -166,7 +166,7 @@ a {
     gap: 16px;
   }
   .lessons-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
     gap: 10px;
   }
   .sections-grid {

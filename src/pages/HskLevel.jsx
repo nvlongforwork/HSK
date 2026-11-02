@@ -69,11 +69,11 @@ const cardStyle = {
 };
 
 const cardInnerStyle = {
-  padding: "20px 12px",
+  padding: "16px 20px",
   display: "flex",
-  flexDirection: "column",
+  flexDirection: "row",
   alignItems: "center",
-  gap: "8px",
+  gap: "16px",
 };
 
 const lessonNumStyle = (color) => ({
@@ -90,6 +90,12 @@ const lessonNumStyle = (color) => ({
   flexShrink: 0,
 });
 
+const lessonTextStyle = {
+  flex: 1,
+  minWidth: 0,
+  textAlign: "left",
+};
+
 const lessonTitleZhStyle = {
   fontFamily: "var(--font-serif)",
   fontSize: "var(--fs-card-desc)",
@@ -101,7 +107,7 @@ const lessonTitleZhStyle = {
 const lessonTopicStyle = {
   fontSize: "clamp(20px, 1.5vw, 22px)",
   color: "var(--ink-light)",
-  lineHeight: 1.3,
+  lineHeight: 1.4,
 };
 
 const comingSoonStyle = {
@@ -173,13 +179,15 @@ export default function HskLevel() {
           >
             <div style={cardInnerStyle}>
               <div style={lessonNumStyle(levelData.color)}>{lesson.id}</div>
-              <div style={lessonTitleZhStyle}>
-                <PinyinText>{lesson.titleZh}</PinyinText>
+              <div style={lessonTextStyle}>
+                <div style={lessonTitleZhStyle}>
+                  <PinyinText>{lesson.titleZh}</PinyinText>
+                </div>
+                <div style={lessonTopicStyle}>
+                  <PinyinText>{lesson.topicZh}</PinyinText>
+                </div>
+                <div style={lessonTopicStyle}>{t(lesson.topicEn)}</div>
               </div>
-              <div style={lessonTopicStyle}>
-                <PinyinText>{lesson.topicZh}</PinyinText>
-              </div>
-              <div style={lessonTopicStyle}>{t(lesson.topicEn)}</div>
             </div>
           </BounceCard>
         ))}
