@@ -19,6 +19,7 @@ const hsk1Lessons = [
 
 export const lessonSections = [
   { id: "vocabulary", titleZh: "词汇", titleEn: "Vocabulary", icon: "📖" },
+  { id: "dialogue", titleZh: "会话", titleEn: "Dialogue", icon: "💬" },
   { id: "grammar", titleZh: "语法", titleEn: "Grammar", icon: "📝" },
   { id: "pronunciation", titleZh: "拼音", titleEn: "Pronunciation", icon: "🗣️" },
   { id: "writing", titleZh: "汉字", titleEn: "Writing", icon: "✍️" },

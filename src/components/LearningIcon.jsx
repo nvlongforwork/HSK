@@ -1,5 +1,6 @@
 const drawings = {
   vocabulary: <><path d="M16 8c-4-3-9-3-12-2v20c4-1 8-1 12 2 4-3 8-3 12-2V6c-3-1-8-1-12 2Z" /><path d="M16 8v20M8 11h4M8 15h4M20 11h4M20 15h4" /></>,
+  dialogue: <><path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H10l-4 4v-4H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" /><path d="M12 22h12a2 2 0 0 0 2-2v-8" /><path d="M8 11h8M8 14h5" /></>,
   grammar: <><path d="M18 4H6v24h20V16M18 4v8h8L18 4Z" /><path d="m15 24 2-6 9-9 4 4-9 9-6 2ZM10 10h4M10 15h3" /></>,
   pronunciation: <><path d="M11 6v12a5 5 0 0 0 10 0V6" /><rect x="11" y="6" width="10" height="12" rx="5" /><path d="M6 16a10 10 0 0 0 20 0" /><path d="M16 26v4M12 30h8" /></>,
   writing: <><path d="M6 6h20v20H6z" /><path d="M6 16h20M16 6v20" /><path d="M10 11l3 4l5-7" /></>,

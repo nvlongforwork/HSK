@@ -53,6 +53,7 @@ const vi = {
   "Hello!": "Xin chào!",
   "Home": "Trang chủ",
   "Vocabulary": "Từ vựng",
+  "Dialogue": "Hội thoại",
   "Grammar": "Ngữ pháp",
   "Pronunciation": "Phát âm",
   "Writing": "Tập viết",
