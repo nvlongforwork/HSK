@@ -342,4 +342,28 @@ export default {
   "I came by plane.": "Tôi đến bằng máy bay.",
   "How do you go?": "Bạn đi bằng cách nào?",
   "He has arrived.": "Anh ấy đến rồi.",
+
+  // Lesson 2 pronunciation descriptions
+  'like "j" in "judge" (retroflex, tongue curled back)': 'như "j" trong "judge" (cuốn lưỡi)',
+  'like "ch" in "church" (retroflex, aspirated)': 'như "ch" trong "church" (cuốn lưỡi, bật hơi)',
+  'like "sh" in "ship" (retroflex)': 'như "sh" trong "ship" (cuốn lưỡi)',
+  'like "r" in "run" (retroflex, voiced)': 'như "r" trong "run" (cuốn lưỡi, hữu thanh)',
+  'like "ds" in "beds" (flat tongue)': 'như "ds" trong "beds" (bình thiệt)',
+  'like "ts" in "cats" (flat tongue, aspirated)': 'như "ts" trong "cats" (bình thiệt, bật hơi)',
+  'like "s" in "sit" (flat tongue)': 'như "s" trong "sit" (bình thiệt)',
+  'If there is an **a** or **e**, the tone mark goes on it: dà, méi': "Nếu có **a** hoặc **e**, dấu thanh đặt trên đó: dà, méi",
+  'If there is **ou**, the tone mark goes on the **o**: dōu, gǒu': "Nếu có **ou**, dấu thanh đặt trên **o**: dōu, gǒu",
+  'Otherwise, the tone mark goes on the **last vowel**: guì, liú': "Ngoài ra, dấu thanh đặt trên **nguyên âm cuối**: guì, liú",
+
+  // Lesson 3 pronunciation descriptions
+  'like "j" in "jeep" (tongue against hard palate)': 'như "j" trong "jeep" (lưỡi chạm vòm cứng)',
+  'like "ch" in "cheese" (aspirated, tongue against hard palate)': 'như "ch" trong "cheese" (bật hơi, lưỡi chạm vòm cứng)',
+  'like "sh" in "she" (tongue against hard palate)': 'như "sh" trong "she" (lưỡi chạm vòm cứng)',
+  'like "ds" in "beds" (tongue against teeth)': 'như "ds" trong "beds" (lưỡi chạm răng)',
+  'like "ts" in "cats" (aspirated, tongue against teeth)': 'như "ts" trong "cats" (bật hơi, lưỡi chạm răng)',
+  'like "s" in "see" (tongue against teeth)': 'như "s" trong "see" (lưỡi chạm răng)',
+
+  // Lesson 3 grammar example sentences
+  "What's your name?": "Bạn tên là gì?",
+  "My name is Li Yue.": "Tôi tên là Lý Nguyệt.",
 };
