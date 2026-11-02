@@ -1021,6 +1021,164 @@ const vi = {
   "food radical": "bộ thực",
   "Related to food and eating": "Liên quan đến thức ăn",
 
+  // Lesson 13 vocabulary
+  "hello (on phone)": "a-lô (khi nghe điện thoại)",
+  "to study, to learn": "học tập",
+  "to sleep": "ngủ",
+  "television, TV": "ti vi",
+  "to give; for": "cho, đưa; cho (ai đó)",
+  "modal particle (suggestion)": "trợ từ ngữ khí (đề nghị)",
+  "modal particle (progressive)": "trợ từ ngữ khí (tiếp diễn)",
+  "David (a person's name)": "David (tên người)",
+
+  // Lesson 13 dialogue
+  "Hello! Is David there?": "A-lô, xin chào! David có ở đó không?",
+  "Speaking. Who is this?": "Tôi đây. Ai đấy?",
+  "I'm Li Yue. What are you doing?": "Tôi là Lý Nguyệt. Bạn đang làm gì vậy?",
+  "I'm learning to cook Chinese food.": "Tôi đang học nấu món Trung Quốc.",
+  "What did you do this morning?": "Sáng nay bạn làm gì rồi?",
+  "I studied this morning. And you?": "Sáng nay tôi học bài. Còn bạn?",
+  "I watched TV. Do you like watching TV?": "Tôi xem ti vi. Bạn có thích xem ti vi không?",
+  "Not really, I like reading.": "Không thích lắm, tôi thích đọc sách hơn.",
+  "Where's David?": "David đâu rồi?",
+  "He's sleeping.": "Anh ấy đang ngủ.",
+  "Please give him a call.": "Nhờ bạn gọi điện cho anh ấy nhé.",
+  "Okay.": "Được rồi.",
+
+  // Lesson 13 grammar
+  "Interjection 喂": "Thán từ 喂",
+  "喂 (wèi) is an interjection used when answering or making a phone call. It is similar to \"hello\" on the phone.": "喂 (wèi) là thán từ dùng khi nghe hoặc gọi điện thoại, tương tự như \"a-lô\".",
+  "Progressive Aspect 在……呢": "Thể tiếp diễn 在……呢",
+  "在……呢 indicates an action is ongoing at the time of speaking.": "在……呢 biểu thị hành động đang diễn ra tại thời điểm nói.",
+  "Structure: Subject + 在 + Verb + (Object) + 呢": "Cấu trúc: Chủ ngữ + 在 + Động từ + (Tân ngữ) + 呢",
+  "Telephone Numbers": "Số điện thoại",
+  "Chinese telephone numbers are read digit by digit. The number 1 is usually read as yāo instead of yī to avoid confusion.": "Số điện thoại tiếng Trung được đọc từng chữ số một. Số 1 thường đọc là yāo thay vì yī để tránh nhầm lẫn.",
+  "Modal Particle 吧": "Trợ từ ngữ khí 吧",
+  "吧 (ba) is placed at the end of a sentence to express a suggestion, request, or agreement.": "吧 (ba) đặt ở cuối câu để diễn tả đề nghị, yêu cầu hoặc sự đồng ý.",
+
+  // Lesson 13 pronunciation
+  "Three-Syllable Tone Combinations (2): Starting with 2nd Tone": "Kết hợp thanh điệu từ có ba âm tiết (2): Từ bắt đầu bằng thanh 2",
+
+  // Lesson 13 writing
+  "sun, day": "mặt trời, ngày",
+  "eye": "mắt",
+  "to practice": "luyện tập",
+  "sun radical": "bộ nhật",
+  "Related to sun and time": "Liên quan đến mặt trời và thời gian",
+  "eye radical": "bộ mục",
+  "Related to eyes and seeing": "Liên quan đến mắt và thị giác",
+
+  // Lesson 14 vocabulary
+  "thing, stuff": "đồ, đồ vật",
+  "a little, a bit": "một chút, một ít",
+  "apple": "táo",
+  "to see, to catch sight of": "nhìn thấy, trông thấy",
+  "Mr., sir": "ông, ngài",
+  "to open; to drive": "mở; lái (xe)",
+  "car, vehicle": "xe, xe hơi",
+  "to come back, to return": "quay về, trở lại",
+  "minute (duration)": "phút (thời lượng)",
+  "after, later": "sau, sau đó",
+  "clothes, clothing": "quần áo",
+  "beautiful, pretty": "xinh đẹp, đẹp",
+  "modal particle (exclamation)": "trợ từ ngữ khí (cảm thán)",
+  "few; quite a few (不少)": "ít; khá nhiều (不少)",
+  "these": "những cái này",
+  "all, both": "đều, tất cả",
+  "Zhang (a surname)": "Trương (họ)",
+
+  // Lesson 14 dialogue
+  "Where did you go?": "Bạn đi đâu rồi?",
+  "I went to the shop to buy things.": "Tôi đi cửa hàng mua đồ rồi.",
+  "What did you buy?": "Bạn mua gì?",
+  "I bought some apples.": "Tôi mua một ít táo.",
+  "Did you see Mr. Zhang?": "Bạn có thấy ông Trương không?",
+  "No, I didn't. He's not here.": "Không thấy. Ông ấy không có ở đây.",
+  "Where did he go?": "Ông ấy đi đâu rồi?",
+  "He drove out. He'll be back in ten minutes.": "Ông ấy lái xe ra ngoài rồi, mười phút nữa sẽ về.",
+  "I bought quite a few clothes.": "Tôi mua khá nhiều quần áo.",
+  "These clothes are all so pretty!": "Mấy bộ quần áo này đều đẹp quá!",
+
+  // Lesson 14 grammar
+  "了 After a Verb (Completion)": "了 sau động từ (hoàn thành)",
+  "了 (le) placed after a verb indicates that the action has been completed or has occurred.": "了 (le) đặt sau động từ chỉ hành động đã hoàn thành hoặc đã xảy ra.",
+  "Negative: use 没(有) + Verb, without 了.": "Phủ định: dùng 没(有) + Động từ, không có 了.",
+  "Question: Verb + 了 + Object + 没有?": "Câu hỏi: Động từ + 了 + Tân ngữ + 没有?",
+  "Noun 后": "Danh từ 后",
+  "后 (hòu) means \"after\" or \"later\" and follows a time duration.": "后 (hòu) nghĩa là \"sau\" và đứng sau một khoảng thời gian.",
+  "Modal Particle 啊": "Trợ từ ngữ khí 啊",
+  "啊 (a) is placed at the end of a sentence to express emotion such as surprise, admiration, or emphasis.": "啊 (a) đặt ở cuối câu để bày tỏ cảm xúc như ngạc nhiên, ngưỡng mộ hoặc nhấn mạnh.",
+  "Adverb 都": "Phó từ 都",
+  "都 (dōu) means \"all\" or \"both\" and is placed before the verb. It refers to all items mentioned before it.": "都 (dōu) nghĩa là \"đều, tất cả\" và đặt trước động từ. Nó chỉ tất cả các thành phần được nhắc đến trước nó.",
+
+  // Lesson 14 pronunciation
+  "Three-Syllable Tone Combinations (3): Starting with 3rd Tone": "Kết hợp thanh điệu từ có ba âm tiết (3): Từ bắt đầu bằng thanh 3",
+
+  // Lesson 14 writing
+  "to open": "mở",
+  "car": "xe",
+  "to return": "trở về",
+  "flesh/body radical": "bộ nhục (thịt/cơ thể)",
+  "Related to body parts": "Liên quan đến bộ phận cơ thể",
+  "hand radical": "bộ thủ (tay)",
+  "Related to hand actions": "Liên quan đến hành động tay",
+
+  // Lesson 15 vocabulary
+  "to live, to stay": "ở, sống",
+  "to arrive, to reach": "đến, đến nơi",
+  "taxi": "xe taxi",
+  "airplane": "máy bay",
+  "train": "tàu hỏa",
+  "to sit; to travel by": "ngồi; đi bằng (phương tiện)",
+  "far": "xa",
+  "near, close": "gần",
+  "fast, quick": "nhanh",
+  "slow": "chậm",
+  "from": "từ",
+  "emphasis construction": "cấu trúc nhấn mạnh",
+  "to walk; to go, to leave": "đi bộ; đi, rời đi",
+  "road; route": "đường; tuyến đường",
+  "Shanghai": "Thượng Hải",
+
+  // Lesson 15 dialogue
+  "Did you come by plane?": "Bạn đến bằng máy bay à?",
+  "Yes, I came by plane.": "Vâng, tôi đến bằng máy bay.",
+  "Where did you come from?": "Bạn đến từ đâu?",
+  "I came from Shanghai.": "Tôi đến từ Thượng Hải.",
+  "Where do you live?": "Bạn sống ở đâu?",
+  "I live at school.": "Tôi ở trường.",
+  "Is the school far from here?": "Trường có xa đây không?",
+  "Not far, it's very close.": "Không xa, rất gần.",
+  "How did you get here?": "Bạn đến đây bằng gì?",
+  "I came by taxi.": "Tôi đi taxi đến.",
+  "Is taking a taxi fast?": "Đi taxi có nhanh không?",
+  "Very fast. Taking the train is too slow.": "Rất nhanh. Đi tàu hỏa thì chậm quá.",
+
+  // Lesson 15 grammar
+  "是……的 Construction": "Cấu trúc 是……的",
+  "The 是……的 construction is used to emphasize the time, place, or manner of a past action. The action itself is already known.": "Cấu trúc 是……的 dùng để nhấn mạnh thời gian, địa điểm hoặc cách thức của hành động đã xảy ra. Bản thân hành động đã được biết.",
+  "Structure: Subject + 是 + Time/Place/Manner + Verb + 的": "Cấu trúc: Chủ ngữ + 是 + Thời gian/Địa điểm/Cách thức + Động từ + 的",
+  "Preposition 从": "Giới từ 从",
+  "从 (cóng) means \"from\" and indicates the starting point of an action.": "从 (cóng) nghĩa là \"từ\" và chỉ điểm xuất phát của hành động.",
+  "Structure: 从 + Place + Verb": "Cấu trúc: 从 + Nơi chốn + Động từ",
+  "Preposition 离": "Giới từ 离",
+  "离 (lí) means \"from\" and is used to express the distance between two places.": "离 (lí) nghĩa là \"cách\" và dùng để diễn tả khoảng cách giữa hai nơi.",
+  "Structure: A + 离 + B + 远/近": "Cấu trúc: A + 离 + B + 远/近",
+  "Transportation with 坐": "Phương tiện giao thông với 坐",
+  "坐 (zuò) is used with transportation to express how someone travels.": "坐 (zuò) dùng với phương tiện giao thông để diễn tả cách đi lại.",
+
+  // Lesson 15 pronunciation
+  "Three-Syllable Tone Combinations (4): Starting with 4th Tone": "Kết hợp thanh điệu từ có ba âm tiết (4): Từ bắt đầu bằng thanh 4",
+
+  // Lesson 15 writing
+  "to walk": "đi bộ",
+  "road": "đường",
+  "to sit": "ngồi",
+  "foot radical": "bộ túc (chân)",
+  "Related to feet and walking": "Liên quan đến chân và đi bộ",
+  "earth radical": "bộ thổ (đất)",
+  "Related to earth and ground": "Liên quan đến đất và mặt đất",
+
   // Lesson 3 writing
   "Basic Strokes (3)": "Các nét cơ bản (3)",
   "horizontal-turning-hook": "ngang gấp móc",
