@@ -63,17 +63,18 @@ const decorCharStyle = {
 
 const sectionCardStyle = {
   background: "var(--white)",
-  borderRadius: "var(--radius-md)",
+  borderRadius: "var(--radius-lg)",
   overflow: "hidden",
   boxShadow: "var(--shadow-md)",
   border: "1px solid rgba(212, 160, 23, 0.12)",
   textAlign: "center",
-  padding: "32px 16px",
+  padding: "24px 12px",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
   gap: "10px",
+  aspectRatio: "1",
 };
 
 const sectionIconStyle = {
