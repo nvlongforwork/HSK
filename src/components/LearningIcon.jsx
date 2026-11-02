@@ -1,6 +1,8 @@
 const drawings = {
   vocabulary: <><path d="M16 8c-4-3-9-3-12-2v20c4-1 8-1 12 2 4-3 8-3 12-2V6c-3-1-8-1-12 2Z" /><path d="M16 8v20M8 11h4M8 15h4M20 11h4M20 15h4" /></>,
   grammar: <><path d="M18 4H6v24h20V16M18 4v8h8L18 4Z" /><path d="m15 24 2-6 9-9 4 4-9 9-6 2ZM10 10h4M10 15h3" /></>,
+  pronunciation: <><path d="M12 4C8 4 5 7 5 11v3h4v-3c0-2 1-4 3-4s3 2 3 4v3h4v-3c0-4-3-7-7-7Z" /><path d="M8 14v8a4 4 0 0 0 8 0v-8" /><path d="M12 26v3M8 29h8" /><path d="M22 10c1 1 2 3 2 5s-1 4-2 5M25 7c2 2 3 5 3 8s-1 6-3 8" /></>,
+  writing: <><path d="M6 28h20M10 6l-4 22M22 6l-4 22" /><path d="M7 13h18M9 20h14" /></>,
   exercises: <><path d="m5 27 2-8L23 3l6 6-16 16-8 2ZM19 7l6 6M7 19l6 6" /><path d="M5 27h22" /></>,
   "practice-tests": <><rect x="6" y="6" width="20" height="23" rx="3" /><rect x="11" y="3" width="10" height="6" rx="2" /><path d="m10 16 2 2 4-4M19 16h3M10 23h12" /></>,
   "multiple-choice": <><circle cx="16" cy="16" r="12" /><circle cx="16" cy="16" r="6" /><path d="m12 16 3 3 5-6" /></>,
