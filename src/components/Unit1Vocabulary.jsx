@@ -194,6 +194,11 @@ export default function Unit1Vocabulary({ content, audioBaseUrl }) {
                     <span className="vocabulary-card-pinyin">{entry.pinyin}</span>
                     <span className="vocabulary-card-example" lang="zh-CN">{entry.example || entry.word}</span>
                     {exampleMeaning && <span className="vocabulary-card-translation" lang={language}>{exampleMeaning}</span>}
+                    {audioBaseUrl && (
+                      <span className="vocabulary-card-audio">
+                        <AudioButton src={`${audioBaseUrl}/${stripTones(entry.pinyin)}.mp3`} size="32px" />
+                      </span>
+                    )}
                   </span>
                 </span>
               </button>

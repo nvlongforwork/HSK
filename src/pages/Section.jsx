@@ -39,13 +39,13 @@ const titleZhStyle = {
 };
 
 const titleEnStyle = {
-  fontSize: "clamp(18px, 1.7vw, 24px)",
+  fontSize: "clamp(20px, 1.7vw, 24px)",
   lineHeight: 1.4,
   color: "var(--ink-medium)",
 };
 
 const lessonInfoStyle = {
-  fontSize: "clamp(16px, 1.35vw, 18px)",
+  fontSize: "clamp(20px, 1.35vw, 22px)",
   lineHeight: 1.5,
   color: "var(--ink-light)",
   marginTop: "8px",
@@ -102,7 +102,7 @@ const decorLineStyle = {
 
 const decorCharStyle = {
   fontFamily: "var(--font-serif)",
-  fontSize: "clamp(16px, 1.5vw, 18px)",
+  fontSize: "clamp(20px, 1.5vw, 22px)",
   textAlign: "center",
   lineHeight: 1.5,
   color: "var(--gold-dark)",
@@ -141,7 +141,7 @@ const exerciseTitleZhStyle = {
 };
 
 const exerciseTitleEnStyle = {
-  fontSize: "clamp(16px, 1.5vw, 18px)",
+  fontSize: "clamp(20px, 1.5vw, 22px)",
   color: "var(--ink-light)",
   lineHeight: 1.4,
   maxWidth: "100%",

@@ -27,13 +27,13 @@ const titleZhStyle = {
 };
 
 const titleEnStyle = {
-  fontSize: "clamp(18px, 1.7vw, 24px)",
+  fontSize: "clamp(20px, 1.7vw, 24px)",
   lineHeight: 1.4,
   color: "var(--ink-medium)",
 };
 
 const descStyle = {
-  fontSize: "clamp(16px, 1.35vw, 18px)",
+  fontSize: "clamp(20px, 1.35vw, 22px)",
   lineHeight: 1.5,
   color: "var(--ink-light)",
   marginTop: "8px",
@@ -86,7 +86,7 @@ const lessonNumStyle = (color) => ({
   justifyContent: "center",
   color: "#fff",
   fontWeight: 700,
-  fontSize: "clamp(18px, 2vw, 22px)",
+  fontSize: "clamp(20px, 2vw, 22px)",
   flexShrink: 0,
 });
 
@@ -99,7 +99,7 @@ const lessonTitleZhStyle = {
 };
 
 const lessonTopicStyle = {
-  fontSize: "clamp(14px, 1.5vw, 18px)",
+  fontSize: "clamp(20px, 1.5vw, 22px)",
   color: "var(--ink-light)",
   lineHeight: 1.3,
 };

@@ -28,13 +28,13 @@ const titleZhStyle = {
 };
 
 const titleEnStyle = {
-  fontSize: "clamp(18px, 1.7vw, 24px)",
+  fontSize: "clamp(20px, 1.7vw, 24px)",
   lineHeight: 1.4,
   color: "var(--ink-medium)",
 };
 
 const topicStyle = {
-  fontSize: "clamp(16px, 1.35vw, 18px)",
+  fontSize: "clamp(20px, 1.35vw, 22px)",
   lineHeight: 1.5,
   color: "var(--ink-light)",
   marginTop: "12px",
@@ -68,29 +68,29 @@ const sectionCardStyle = {
   boxShadow: "var(--shadow-md)",
   border: "1px solid rgba(212, 160, 23, 0.12)",
   textAlign: "center",
-  padding: "20px 12px",
+  padding: "32px 16px",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  gap: "6px",
+  gap: "10px",
 };
 
 const sectionIconStyle = {
-  fontSize: "clamp(32px, 4vw, 42px)",
+  fontSize: "clamp(40px, 5vw, 52px)",
   display: "block",
   lineHeight: 1,
 };
 
 const sectionTitleZhStyle = {
   fontFamily: "var(--font-serif)",
-  fontSize: "var(--fs-card-title)",
+  fontSize: "clamp(22px, 2vw, 26px)",
   fontWeight: 700,
   color: "var(--ink-dark)",
 };
 
 const sectionTitleEnStyle = {
-  fontSize: "var(--fs-card-desc)",
+  fontSize: "clamp(20px, 1.8vw, 22px)",
   color: "var(--ink-light)",
 };
 

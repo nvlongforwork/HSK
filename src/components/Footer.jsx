@@ -17,7 +17,7 @@ const decorTopStyle = {
 
 const footerTextZhStyle = {
   fontFamily: "var(--font-serif)",
-  fontSize: "clamp(18px, 2vw, 22px)",
+  fontSize: "clamp(20px, 2vw, 22px)",
   color: "#F5D77B",
   marginBottom: "8px",
 };
@@ -30,7 +30,7 @@ export default function Footer() {
       <div style={footerStyle}>
         <p style={footerTextZhStyle}><PinyinText>学无止境</PinyinText></p>
         <p>{t("Learning Never Ends")}</p>
-        <p style={{ marginTop: "12px", opacity: 0.6, fontSize: "clamp(14px, 1.5vw, 16px)" }}>{t("HSK Learning App © ")}{new Date().getFullYear()}
+        <p style={{ marginTop: "12px", opacity: 0.6, fontSize: "clamp(20px, 1.5vw, 22px)" }}>{t("HSK Learning App © ")}{new Date().getFullYear()}
         </p>
       </div>
     </footer>

@@ -46,7 +46,7 @@ const logoTextStyle = {
 };
 
 const logoTitleStyle = {
-  fontSize: "clamp(18px, 2.5vw, 24px)",
+  fontSize: "clamp(20px, 2.5vw, 24px)",
   fontWeight: 700,
   color: "#FFFFFF",
   letterSpacing: "1px",
@@ -61,7 +61,7 @@ const logoSubStyle = {
 
 const breadcrumbStyle = {
   color: "rgba(255,255,255,0.7)",
-  fontSize: "clamp(14px, 1.5vw, 18px)",
+  fontSize: "clamp(20px, 1.5vw, 22px)",
   display: "flex",
   alignItems: "center",
   gap: "8px",
