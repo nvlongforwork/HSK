@@ -27,8 +27,6 @@ export const lessonSections = [
 export const exerciseTypes = [
   { id: "multiple-choice", titleZh: "选择题", titleEn: "Multiple Choice", icon: "🔘" },
   { id: "read-and-fill", titleZh: "阅读填空", titleEn: "Read & Fill", icon: "📄" },
-  { id: "flashcards", titleZh: "闪卡", titleEn: "Flashcards", icon: "🃏" },
-  { id: "listen-and-fill", titleZh: "听力填空", titleEn: "Listen & Fill", icon: "🎧" },
 ];
 
 export default hsk1Lessons;
