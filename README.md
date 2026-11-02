@@ -46,18 +46,20 @@ not fetch or display the Exercises material.
 
 ## Unit 1 vocabulary pilot
 
-Only `/hsk/1/lesson-1/vocabulary` adds a picture column and Word list / Flashcards
-study tabs. The existing media table remains the source of words, pinyin,
-English meanings, and Chinese example sentences. The front of each card shows
-only the Chinese word. Clicking reveals the current language's meaning, an
-illustration, pinyin, and the example sentence. A language switch keeps the
-current card and face. Next/Previous return to the Chinese face; Enter/Space flip
-the focused card, and Left/Right navigate it.
+Only `/hsk/1/lesson-1/vocabulary` adds Word list / Flashcards study tabs. The
+existing media table remains the source of words, pinyin, English meanings, and
+Chinese example sentences. The image column is reserved for teacher-provided
+images; the previous illustrations and assets have been removed.
 
-Other lessons continue to use the existing Markdown renderer. The Unit 1 visual
-metadata is in `src/data/unit1VocabularyVisuals.js`. OpenMoji SVG files are bundled
-in `public/images/vocabulary/unit-1`, with source and CC BY-SA 4.0 attribution in
-that directory's `ATTRIBUTION.md` and a credit link below the study panel.
+The front of each card shows only the Chinese word. A 650 ms 3D rotation reveals
+the current language's meaning, pinyin, and the example sentence on the reverse.
+The inactive face is hidden from assistive technology. Reduced-motion settings
+disable the rotation. A language switch keeps the current card and face.
+Next/Previous return directly to the Chinese face of the next card; Enter/Space
+flip the focused card, and Left/Right navigate it.
+
+Other lessons continue to use the existing Markdown renderer. Unit 1 example
+sentence translations are in `src/data/unit1ExampleMeanings.js`.
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 

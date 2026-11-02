@@ -1,25 +1,10 @@
 import { useState } from "react";
 import { useLanguage } from "../i18n/useLanguage";
 import { parseVocabulary } from "../utils/vocabulary";
-import { getUnit1Visual, unit1ExampleMeanings } from "../data/unit1VocabularyVisuals";
+import { unit1ExampleMeanings } from "../data/unit1ExampleMeanings";
 import PinyinText from "./PinyinText";
 import MarkdownRenderer from "./MarkdownRenderer";
 import "./unit1-vocabulary.css";
-
-function Illustration({ word, large = false }) {
-  const { language, t } = useLanguage();
-  const visual = getUnit1Visual(word);
-  if (!visual) return <span className="vocabulary-no-image">{t("No illustration yet")}</span>;
-  return (
-    <span className={`vocabulary-illustration${large ? " large" : ""}`}>
-      <span className="vocabulary-picture">
-        <img src={visual.src} alt={visual.alt[language]} width="72" height="72" loading={large ? "eager" : "lazy"} />
-        {visual.accentSrc && <img className="vocabulary-picture-accent" src={visual.accentSrc} alt="" width="32" height="32" aria-hidden="true" />}
-      </span>
-      {visual.hint && <span className="vocabulary-picture-hint">{visual.hint[language]}</span>}
-    </span>
-  );
-}
 
 export default function Unit1Vocabulary({ content }) {
   const { language, t } = useLanguage();
@@ -69,7 +54,7 @@ export default function Unit1Vocabulary({ content }) {
         <p className="vocabulary-table-hint">{t("Swipe the table to see all columns.")}</p>
         <div className="vocabulary-table-wrap" tabIndex={mode === "list" ? 0 : -1} role="region" aria-label={t("Unit 1 vocabulary table")}>
           <table className="vocabulary-table">
-            <caption className="vocabulary-sr-only">{t("Unit 1 vocabulary with pictures and examples")}</caption>
+            <caption className="vocabulary-sr-only">{t("Unit 1 vocabulary list")}</caption>
             <thead><tr>
               <th scope="col">#</th><th scope="col">汉字</th><th scope="col">拼音</th>
               <th scope="col">{language === "vi" ? "Tiếng Việt" : "English"}</th>
@@ -82,7 +67,7 @@ export default function Unit1Vocabulary({ content }) {
                 <th scope="row" className="vocabulary-word" lang="zh-CN"><PinyinText>{item.word}</PinyinText></th>
                 <td className="vocabulary-pinyin">{item.pinyin}</td>
                 <td className="vocabulary-meaning" lang={language}>{t(item.meaning)}</td>
-                <td className="vocabulary-image-cell"><Illustration word={item.word} /></td>
+                <td className="vocabulary-image-cell"><span className="vocabulary-image-pending" aria-label={t("Image pending")}>—</span></td>
                 <td className="vocabulary-example" lang="zh-CN"><PinyinText>{item.example || "—"}</PinyinText></td>
               </tr>
             ))}</tbody>
@@ -91,32 +76,32 @@ export default function Unit1Vocabulary({ content }) {
       </section>
 
       <section id="vocabulary-panel-cards" role="tabpanel" aria-labelledby="vocabulary-tab-cards" hidden={mode !== "cards"}>
-        <p id="vocabulary-flip-help" className="vocabulary-flip-help">{t("Click the card to reveal the meaning, picture and example.")}</p>
+        <p id="vocabulary-flip-help" className="vocabulary-flip-help">{t("Click the card to reveal the meaning and example.")}</p>
         <p className="vocabulary-position" role="status">{t("Card")} {index + 1} / {entries.length}</p>
-        <button className={`vocabulary-flashcard${flipped ? " is-flipped" : ""}`} type="button"
-          aria-pressed={flipped} aria-describedby="vocabulary-flip-help"
-          onClick={() => setFlipped((current) => !current)}
-          onKeyDown={(event) => {
-            if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
-              event.preventDefault(); move(event.key === "ArrowLeft" ? -1 : 1);
-            }
-          }}>
-          {flipped ? (
-            <>
-              <span className="vocabulary-back-meaning" lang={language}>{t(entry.meaning)}</span>
-              <span className="vocabulary-card-pinyin">{entry.pinyin}</span>
-              <Illustration word={entry.word} large />
-              <span className="vocabulary-card-example" lang="zh-CN"><PinyinText>{entry.example || entry.word}</PinyinText></span>
-              {exampleMeaning && <span className="vocabulary-card-translation" lang={language}>{exampleMeaning}</span>}
-              <span className="vocabulary-flip-cue">{t("Click to see the Chinese word")}</span>
-            </>
-          ) : (
-            <>
-              <span className="vocabulary-front-word" lang="zh-CN">{entry.word}</span>
-              <span className="vocabulary-flip-cue">{t("Tap to flip")}</span>
-            </>
-          )}
-        </button>
+        <div className="vocabulary-card-scene">
+          <button className={`vocabulary-flashcard${flipped ? " is-flipped" : ""}`} type="button"
+            aria-pressed={flipped} aria-describedby="vocabulary-flip-help"
+            onClick={() => setFlipped((current) => !current)}
+            onKeyDown={(event) => {
+              if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+                event.preventDefault(); move(event.key === "ArrowLeft" ? -1 : 1);
+              }
+            }}>
+            <span key={`${entry.word}-${index}`} className="vocabulary-card-rotator">
+              <span className="vocabulary-card-face vocabulary-card-front" aria-hidden={flipped} inert={flipped}>
+                <span className="vocabulary-front-word" lang="zh-CN">{entry.word}</span>
+                <span className="vocabulary-flip-cue">{t("Tap to flip")}</span>
+              </span>
+              <span className="vocabulary-card-face vocabulary-card-back" aria-hidden={!flipped} inert={!flipped}>
+                <span className="vocabulary-back-meaning" lang={language}>{t(entry.meaning)}</span>
+                <span className="vocabulary-card-pinyin">{entry.pinyin}</span>
+                <span className="vocabulary-card-example" lang="zh-CN">{entry.example || entry.word}</span>
+                {exampleMeaning && <span className="vocabulary-card-translation" lang={language}>{exampleMeaning}</span>}
+                <span className="vocabulary-flip-cue">{t("Click to see the Chinese word")}</span>
+              </span>
+            </span>
+          </button>
+        </div>
         <div className="vocabulary-card-controls">
           <button type="button" disabled={index === 0} onClick={() => move(-1)}>← {t("Previous")}</button>
           <button type="button" className="vocabulary-flip-control" onClick={() => setFlipped((current) => !current)}>{t("Flip card")}</button>
@@ -125,7 +110,7 @@ export default function Unit1Vocabulary({ content }) {
         <button className="vocabulary-restart" type="button" onClick={() => { setIndex(0); setFlipped(false); }}>{t("Restart cards")}</button>
       </section>
 
-      <p className="vocabulary-credits">{t("Illustrations")}: <a href="https://openmoji.org/" target="_blank" rel="noreferrer">OpenMoji</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a></p>
+
     </div>
   );
 }

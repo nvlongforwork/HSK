@@ -1,7 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { parseVocabulary } from "./vocabulary.js";
-import { getUnit1Visual } from "../data/unit1VocabularyVisuals.js";
 
 test("vocabulary tables keep empty pinyin/example cells in the right columns", () => {
   const entries = parseVocabulary(`# Vocabulary\r
@@ -24,10 +23,4 @@ test("columns are identified by header rather than their position", () => {
   ]);
   assert.deepEqual(parseVocabulary("Not a vocabulary table"), []);
   assert.deepEqual(parseVocabulary(), []);
-});
-
-test("illustrations use bundled assets and unknown future words can fall back", () => {
-  assert.equal(getUnit1Visual("你").src, "/images/vocabulary/unit-1/1FAF5.svg");
-  assert.equal(getUnit1Visual("很").accentSrc, "/images/vocabulary/unit-1/2728.svg");
-  assert.equal(getUnit1Visual("未知"), null);
 });
