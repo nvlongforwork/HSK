@@ -1,0 +1,15 @@
+const MEDIA_BASE = "https://raw.githubusercontent.com/nvlongforwork/HSK-MEDIA/main";
+
+export function getContentUrl(level, lessonNum, file) {
+  return `${MEDIA_BASE}/content/hsk${level}/lesson-${lessonNum}/${file}`;
+}
+
+export function getAudioUrl(level, lessonNum, file) {
+  return `${MEDIA_BASE}/audio/hsk${level}/lesson-${lessonNum}/${file}`;
+}
+
+export function getImageUrl(level, lessonNum, file) {
+  return `${MEDIA_BASE}/images/hsk${level}/lesson-${lessonNum}/${file}`;
+}
+
+export default MEDIA_BASE;

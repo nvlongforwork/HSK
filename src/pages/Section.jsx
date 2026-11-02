@@ -3,6 +3,9 @@ import hsk1Lessons from "../data/hsk1";
 import { lessonSections, exerciseTypes } from "../data/hsk1";
 import BounceCard from "../components/BounceCard";
 import PinyinText from "../components/PinyinText";
+import MarkdownRenderer from "../components/MarkdownRenderer";
+import useMarkdown from "../hooks/useMarkdown";
+import { getContentUrl } from "../utils/mediaUrl";
 
 const pageStyle = {
   maxWidth: "1000px",
@@ -130,6 +133,29 @@ const exerciseTitleEnStyle = {
   marginTop: "6px",
 };
 
+const sectionFileMap = {
+  vocabulary: "vocabulary.md",
+  grammar: "grammar.md",
+  "practice-tests": "exercises.md",
+};
+
+const loadingStyle = {
+  textAlign: "center",
+  padding: "40px",
+  fontSize: "var(--fs-body)",
+  color: "var(--ink-light)",
+};
+
+const spinnerStyle = {
+  display: "inline-block",
+  width: "40px",
+  height: "40px",
+  border: "4px solid var(--cream-dark)",
+  borderTopColor: "var(--red-primary)",
+  borderRadius: "50%",
+  animation: "spin 0.8s linear infinite",
+};
+
 export default function Section() {
   const { level, lessonSlug, sectionId } = useParams();
   const levelNum = parseInt(level);
@@ -138,6 +164,10 @@ export default function Section() {
 
   const lesson = levelNum === 1 ? hsk1Lessons.find((l) => l.id === lessonNum) : null;
   const section = lessonSections.find((s) => s.id === sectionId);
+
+  const mdFile = sectionFileMap[sectionId];
+  const contentUrl = mdFile ? getContentUrl(levelNum, lessonNum, mdFile) : null;
+  const { content, loading, error } = useMarkdown(contentUrl);
 
   if (!lesson || !section) {
     return (
@@ -215,6 +245,33 @@ export default function Section() {
             </Link>
           </div>
         </>
+      ) : loading ? (
+        <div style={loadingStyle} className="fade-in-up">
+          <div style={spinnerStyle} />
+          <p style={{ marginTop: "16px" }}>
+            <PinyinText>加载中</PinyinText> Loading...
+          </p>
+        </div>
+      ) : content ? (
+        <div style={{ ...contentBoxStyle, textAlign: "left" }} className="fade-in-up">
+          <MarkdownRenderer content={content} />
+          <div style={{ textAlign: "center" }}>
+            <Link
+              to={`/hsk/${levelNum}/${lessonSlug}`}
+              style={backLinkStyle}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 6px 20px rgba(196, 30, 58, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <PinyinText>返回课程</PinyinText> Back to Lesson
+            </Link>
+          </div>
+        </div>
       ) : (
         <div style={contentBoxStyle} className="fade-in-up">
           <h2 style={placeholderTitleStyle}>
@@ -224,10 +281,6 @@ export default function Section() {
             <PinyinText>该部分的学习内容正在编写中。</PinyinText>
             <br />
             The learning content for this section is being prepared.
-            <br /><br />
-            <PinyinText>教师可以在此处添加{section.titleZh}内容。</PinyinText>
-            <br />
-            Teachers can add {section.titleEn.toLowerCase()} content here.
           </p>
           <Link
             to={`/hsk/${levelNum}/${lessonSlug}`}
