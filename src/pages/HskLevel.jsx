@@ -7,31 +7,34 @@ import PinyinText from "../components/PinyinText";
 const pageStyle = {
   maxWidth: "1200px",
   margin: "0 auto",
-  padding: "40px 24px 60px",
+  padding: "24px 24px 40px",
 };
 
 const headerStyle = {
   textAlign: "center",
-  marginBottom: "40px",
+  marginBottom: "16px",
 };
 
 const titleZhStyle = {
   fontFamily: "var(--font-serif)",
-  fontSize: "var(--fs-h1)",
+  fontSize: "clamp(26px, 2.5vw, 36px)",
   fontWeight: 900,
   color: "var(--red-primary)",
-  marginBottom: "4px",
+  marginBottom: "2px",
+  lineHeight: 1.3,
 };
 
 const titleEnStyle = {
-  fontSize: "var(--fs-h3)",
+  fontSize: "clamp(18px, 1.7vw, 24px)",
+  lineHeight: 1.4,
   color: "var(--ink-medium)",
 };
 
 const descStyle = {
-  fontSize: "var(--fs-body)",
+  fontSize: "clamp(16px, 1.35vw, 18px)",
+  lineHeight: 1.5,
   color: "var(--ink-light)",
-  marginTop: "12px",
+  marginTop: "8px",
 };
 
 const decorDividerStyle = {
@@ -39,7 +42,7 @@ const decorDividerStyle = {
   alignItems: "center",
   justifyContent: "center",
   gap: "16px",
-  margin: "32px 0 28px",
+  margin: "16px 0",
 };
 
 const decorLineStyle = {
@@ -53,8 +56,6 @@ const decorCharStyle = {
   fontSize: "var(--fs-body)",
   color: "var(--gold-dark)",
 };
-
-const gridStyle = {};
 
 const cardStyle = {
   background: "var(--white)",
@@ -147,7 +148,9 @@ export default function HskLevel() {
           </h1>
           <p style={titleEnStyle}>{levelData.titleEn}</p>
           <p style={descStyle}>
-            <PinyinText>{levelData.descZh}</PinyinText> &middot; {levelData.descEn}
+            <PinyinText>{levelData.descZh}</PinyinText>
+            <br />
+            {levelData.descEn}
           </p>
         </div>
         <div style={comingSoonStyle}>
