@@ -128,9 +128,9 @@ a {
 
 .sections-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  max-width: 700px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -153,7 +153,7 @@ a {
     gap: 10px;
   }
   .sections-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
   }
 }
