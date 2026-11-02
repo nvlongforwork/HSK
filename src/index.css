@@ -19,8 +19,8 @@
   --radius-sm: 8px;
   --radius-md: 16px;
   --radius-lg: 24px;
-  --font-sans: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  --font-serif: 'Noto Serif SC', 'Songti SC', serif;
+  --font-sans: 'SimSun', '宋体', 'Noto Serif SC', 'Songti SC', serif;
+  --font-serif: 'SimSun', '宋体', 'Noto Serif SC', 'Songti SC', serif;
   --fs-body: clamp(20px, 2.2vw, 24px);
   --fs-small: clamp(20px, 1.8vw, 22px);
   --fs-h1: clamp(26px, 2.5vw, 36px);
