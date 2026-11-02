@@ -151,6 +151,7 @@ const exerciseTitleEnStyle = {
 const sectionFileMap = {
   vocabulary: "vocabulary.md",
   grammar: "grammar.md",
+  pronunciation: "pronunciation.md",
 };
 
 const loadingStyle = {
@@ -199,7 +200,8 @@ export default function Section() {
 
   const isExercises = sectionId === "exercises";
   const isUnit1Vocabulary = levelNum === 1 && lessonNum === 1 && sectionId === "vocabulary";
-  const renderedContentStyle = sectionId === "grammar"
+  const isFullWidth = sectionId === "grammar" || sectionId === "pronunciation";
+  const renderedContentStyle = isFullWidth
     ? { ...contentBoxStyle, textAlign: "left", background: "transparent", padding: 0, border: 0, boxShadow: "none" }
     : { ...contentBoxStyle, textAlign: "left" };
 
@@ -258,7 +260,7 @@ export default function Section() {
         </div>
       ) : content ? (
         <div style={renderedContentStyle} className="fade-in-up">
-          {isUnit1Vocabulary ? <Unit1Vocabulary key={content} content={content} audioBaseUrl={getAudioBaseUrl(levelNum, lessonNum)} /> : <MarkdownRenderer content={content} audioBaseUrl={sectionId === "vocabulary" ? getAudioBaseUrl(levelNum, lessonNum) : undefined} groupTopics={sectionId === "grammar"} />}
+          {isUnit1Vocabulary ? <Unit1Vocabulary key={content} content={content} audioBaseUrl={getAudioBaseUrl(levelNum, lessonNum)} /> : <MarkdownRenderer content={content} audioBaseUrl={sectionId === "vocabulary" ? getAudioBaseUrl(levelNum, lessonNum) : undefined} groupTopics={sectionId === "grammar" || sectionId === "pronunciation"} />}
           <div style={{ textAlign: "center" }}>
             <Link
               to={`/hsk/${levelNum}/${lessonSlug}`}

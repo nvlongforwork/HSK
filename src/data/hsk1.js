@@ -20,6 +20,7 @@ const hsk1Lessons = [
 export const lessonSections = [
   { id: "vocabulary", titleZh: "词汇", titleEn: "Vocabulary", icon: "📖" },
   { id: "grammar", titleZh: "语法", titleEn: "Grammar", icon: "📝" },
+  { id: "pronunciation", titleZh: "拼音", titleEn: "Pronunciation", icon: "🗣️" },
   { id: "exercises", titleZh: "练习", titleEn: "Exercises", icon: "✏️" },
   { id: "practice-tests", titleZh: "模拟测试", titleEn: "Practice Tests", icon: "📋" },
 ];
