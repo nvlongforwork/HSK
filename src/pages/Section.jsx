@@ -8,7 +8,7 @@ import PinyinText from "../components/PinyinText";
 import MarkdownRenderer from "../components/MarkdownRenderer";
 import Unit1Vocabulary from "../components/Unit1Vocabulary";
 import useMarkdown from "../hooks/useMarkdown";
-import { getContentUrl } from "../utils/mediaUrl";
+import { getContentUrl, getAudioBaseUrl } from "../utils/mediaUrl";
 
 const pageStyle = {
   width: "100%",
@@ -271,7 +271,7 @@ export default function Section() {
         </div>
       ) : content ? (
         <div style={renderedContentStyle} className="fade-in-up">
-          {isUnit1Vocabulary ? <Unit1Vocabulary key={content} content={content} /> : <MarkdownRenderer content={content} groupTopics={sectionId === "grammar"} />}
+          {isUnit1Vocabulary ? <Unit1Vocabulary key={content} content={content} audioBaseUrl={getAudioBaseUrl(levelNum, lessonNum)} /> : <MarkdownRenderer content={content} audioBaseUrl={sectionId === "vocabulary" ? getAudioBaseUrl(levelNum, lessonNum) : undefined} groupTopics={sectionId === "grammar"} />}
           <div style={{ textAlign: "center" }}>
             <Link
               to={`/hsk/${levelNum}/${lessonSlug}`}

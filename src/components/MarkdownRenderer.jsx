@@ -1,6 +1,7 @@
 import { cloneElement, useId } from "react";
 import { useLanguage } from "../i18n/useLanguage";
 import PinyinText from "./PinyinText";
+import AudioButton, { stripTones } from "./AudioButton";
 import "./grammar-topics.css";
 
 const sectionStyle = {
@@ -170,11 +171,15 @@ function renderInline(text) {
   return parts;
 }
 
-function parseTable(lines) {
+function parseTable(lines, audioBaseUrl) {
   const headers = lines[0]
     .split("|")
     .map((h) => h.trim())
     .filter(Boolean);
+
+  const hasPinyin = audioBaseUrl && headers.some((h) => h === "拼音");
+  const pinyinIndex = headers.indexOf("拼音");
+
   const rows = lines.slice(2).map((line) =>
     line
       .split("|")
@@ -187,6 +192,7 @@ function parseTable(lines) {
       <table style={tableStyle}>
         <thead>
           <tr>
+            {hasPinyin && <th style={{ ...thStyle, width: "48px", textAlign: "center" }}>🔈</th>}
             {headers.map((h, i) => (
               <th key={i} style={thStyle}>
                 <PinyinText>{h}</PinyinText>
@@ -195,22 +201,31 @@ function parseTable(lines) {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, ri) => (
-            <tr key={ri} style={{ background: ri % 2 === 0 ? "var(--white)" : "var(--cream)" }}>
-              {row.map((cell, ci) => (
-                <td key={ci} style={ci === 1 ? tdZhStyle : tdStyle}>
-                  <PinyinText>{cell}</PinyinText>
-                </td>
-              ))}
-            </tr>
-          ))}
+          {rows.map((row, ri) => {
+            const pinyin = hasPinyin && row[pinyinIndex] ? row[pinyinIndex] : null;
+            const audioFile = pinyin ? stripTones(pinyin) + ".mp3" : null;
+            return (
+              <tr key={ri} style={{ background: ri % 2 === 0 ? "var(--white)" : "var(--cream)" }}>
+                {hasPinyin && (
+                  <td style={{ ...tdStyle, textAlign: "center", padding: "6px" }}>
+                    {audioFile && <AudioButton src={`${audioBaseUrl}/${audioFile}`} />}
+                  </td>
+                )}
+                {row.map((cell, ci) => (
+                  <td key={ci} style={ci === 1 ? tdZhStyle : tdStyle}>
+                    <PinyinText>{cell}</PinyinText>
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
   );
 }
 
-export default function MarkdownRenderer({ content, groupTopics = false }) {
+export default function MarkdownRenderer({ content, audioBaseUrl, groupTopics = false }) {
   const { t } = useLanguage();
   const headingId = useId();
   if (!content) return null;
@@ -258,7 +273,7 @@ export default function MarkdownRenderer({ content, groupTopics = false }) {
         tableLines.push(lines[i]);
         i++;
       }
-      elements.push(<div key={key++}>{parseTable(tableLines)}</div>);
+      elements.push(<div key={key++}>{parseTable(tableLines, audioBaseUrl)}</div>);
     } else if (line.startsWith("> ")) {
       const quoteLines = [];
       while (i < lines.length && lines[i].startsWith("> ")) {

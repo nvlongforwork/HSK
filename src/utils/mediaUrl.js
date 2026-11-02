@@ -8,6 +8,10 @@ export function getAudioUrl(level, lessonNum, file) {
   return `${MEDIA_BASE}/audio/hsk${level}/lesson-${lessonNum}/${file}`;
 }
 
+export function getAudioBaseUrl(level, lessonNum) {
+  return `${MEDIA_BASE}/audio/hsk${level}/lesson-${lessonNum}`;
+}
+
 export function getImageUrl(level, lessonNum, file) {
   return `${MEDIA_BASE}/images/hsk${level}/lesson-${lessonNum}/${file}`;
 }

@@ -3,10 +3,11 @@ import { useLanguage } from "../i18n/useLanguage";
 import { parseVocabulary } from "../utils/vocabulary";
 import { unit1ExampleMeanings } from "../data/unit1ExampleMeanings";
 import PinyinText from "./PinyinText";
+import AudioButton, { stripTones } from "./AudioButton";
 import MarkdownRenderer from "./MarkdownRenderer";
 import "./unit1-vocabulary.css";
 
-export default function Unit1Vocabulary({ content }) {
+export default function Unit1Vocabulary({ content, audioBaseUrl }) {
   const { language, t } = useLanguage();
   const entries = parseVocabulary(content);
   const [mode, setMode] = useState("list");
@@ -56,18 +57,23 @@ export default function Unit1Vocabulary({ content }) {
           <table className="vocabulary-table">
             <caption className="vocabulary-sr-only">{t("Unit 1 vocabulary list")}</caption>
             <thead><tr>
-              <th scope="col">#</th><th scope="col">汉字</th><th scope="col">拼音</th>
+              <th scope="col">#</th>
+              {audioBaseUrl && <th scope="col" className="vocabulary-audio-col">🔈</th>}
+              <th scope="col">汉字</th><th scope="col">拼音</th>
               <th scope="col">{language === "vi" ? "Tiếng Việt" : "English"}</th>
-              <th scope="col"><PinyinText>图片</PinyinText><span>{t("Image")}</span></th>
               <th scope="col"><PinyinText>例句</PinyinText><span>{t("Example")}</span></th>
             </tr></thead>
             <tbody>{entries.map((item, row) => (
               <tr key={`${item.word}-${row}`}>
                 <td className="vocabulary-row-number">{row + 1}</td>
+                {audioBaseUrl && (
+                  <td className="vocabulary-audio-cell">
+                    <AudioButton src={`${audioBaseUrl}/${stripTones(item.pinyin)}.mp3`} />
+                  </td>
+                )}
                 <th scope="row" className="vocabulary-word" lang="zh-CN"><PinyinText>{item.word}</PinyinText></th>
                 <td className="vocabulary-pinyin">{item.pinyin}</td>
                 <td className="vocabulary-meaning" lang={language}>{t(item.meaning)}</td>
-                <td className="vocabulary-image-cell"><span className="vocabulary-image-pending" aria-label={t("Image pending")}>—</span></td>
                 <td className="vocabulary-example" lang="zh-CN"><PinyinText>{item.example || "—"}</PinyinText></td>
               </tr>
             ))}</tbody>
@@ -90,6 +96,11 @@ export default function Unit1Vocabulary({ content }) {
             <span key={`${entry.word}-${index}`} className="vocabulary-card-rotator">
               <span className="vocabulary-card-face vocabulary-card-front" aria-hidden={flipped} inert={flipped}>
                 <span className="vocabulary-front-word" lang="zh-CN">{entry.word}</span>
+                {audioBaseUrl && (
+                  <span className="vocabulary-card-audio">
+                    <AudioButton src={`${audioBaseUrl}/${stripTones(entry.pinyin)}.mp3`} size="24px" />
+                  </span>
+                )}
                 <span className="vocabulary-flip-cue">{t("Tap to flip")}</span>
               </span>
               <span className="vocabulary-card-face vocabulary-card-back" aria-hidden={!flipped} inert={!flipped}>
