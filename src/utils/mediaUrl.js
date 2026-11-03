@@ -1,8 +1,8 @@
 const MEDIA_BASE = "https://raw.githubusercontent.com/nvlongforwork/HSK-MEDIA/main";
-const HSK1_VOCABULARY_BASE = "https://raw.githubusercontent.com/nvlongforwork/HSK-MEDIA/feat/tinh-nang-moi";
+const HSK1_CONTENT_BASE = "https://raw.githubusercontent.com/nvlongforwork/HSK-MEDIA/feat/tinh-nang-moi";
 
 export function getContentUrl(level, lessonNum, file) {
-  const base = level === 1 && file === "vocabulary.md" ? HSK1_VOCABULARY_BASE : MEDIA_BASE;
+  const base = level === 1 && ["vocabulary.md", "grammar.md"].includes(file) ? HSK1_CONTENT_BASE : MEDIA_BASE;
   return `${base}/content/hsk${level}/lesson-${lessonNum}/${file}`;
 }
 
