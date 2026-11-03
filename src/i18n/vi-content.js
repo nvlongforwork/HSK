@@ -444,4 +444,9 @@ export default {
   "Hear the Destination or Activity": "Nghe địa điểm hoặc hoạt động",
   "Compare 坐飞机 and 坐火车, then 看电影 and 看电视. The first word is the same within each pair; listen to the rest of the phrase before choosing an answer in the activity below.": "So sánh 坐飞机 với 坐火车, rồi 看电影 với 看电视. Từ đầu của mỗi cặp giống nhau; hãy nghe hết phần còn lại trước khi chọn đáp án bên dưới.",
   "zh, ch, sh, r are retroflex consonants — the tongue tip curls back toward the hard palate. Only zh and ch briefly make contact:": "zh, ch, sh, r là các phụ âm uốn lưỡi: đầu lưỡi cong về phía vòm cứng. Chỉ zh và ch chạm nhanh vào vòm:",
+  "Human-recorded audio by Yue Tan, ": "Bản ghi giọng người thật của Yue Tan, giấy phép ",
+  ", via ": ", qua ",
+  "Words without recordings use a Mandarin voice installed on your device.": "Các từ chưa có bản ghi dùng giọng Mandarin có trên thiết bị của bạn.",
+  "Play pronunciation": "Nghe phát âm",
+  "Mandarin audio unavailable": "Không có giọng Mandarin trên thiết bị",
 };

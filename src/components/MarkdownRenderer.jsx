@@ -2,6 +2,8 @@ import { cloneElement, useId } from "react";
 import { useLanguage } from "../i18n/useLanguage";
 import PinyinText from "./PinyinText";
 import AudioButton, { stripTones, SpeakerIcon } from "./AudioButton";
+import useMandarinVoice from "../hooks/useMandarinVoice";
+import { getVocabularyRecordingUrl } from "../data/hsk1AudioWords";
 import "./grammar-topics.css";
 
 const sectionStyle = {
@@ -171,17 +173,20 @@ function renderInline(text) {
   return parts;
 }
 
-function parseTable(lines, audioBaseUrl) {
+function parseTable(lines, audioBaseUrl, vocabularyAudio, voice) {
   const headers = lines[0]
     .split("|")
     .map((h) => h.trim())
     .filter(Boolean);
 
-  const hasPinyin = audioBaseUrl && headers.some((h) => h === "拼音");
-  const pinyinIndex = headers.indexOf("拼音");
+  const pinyinIndex = headers.findIndex((h) => h === "拼音" || h === "Pinyin");
+  const wordIndex = pinyinIndex - 1;
+  const hasWordAudio = vocabularyAudio && wordIndex >= 0
+    && ["汉字", "Character", "Chữ"].includes(headers[wordIndex]);
+  const hasPinyin = !hasWordAudio && audioBaseUrl && headers.some((h) => h === "拼音");
 
   const rows = lines.slice(2).map((line) =>
-    line
+    hasWordAudio ? line.trim().replace(/^\||\|$/g, "").split("|").map((c) => c.trim()) : line
       .split("|")
       .map((c) => c.trim())
       .filter(Boolean)
@@ -192,7 +197,7 @@ function parseTable(lines, audioBaseUrl) {
       <table style={tableStyle}>
         <thead>
           <tr>
-            {hasPinyin && <th style={{ ...thStyle, width: "48px", textAlign: "center" }}><SpeakerIcon size="22" /></th>}
+            {(hasPinyin || hasWordAudio) && <th style={{ ...thStyle, width: "48px", textAlign: "center" }}><SpeakerIcon size="22" /></th>}
             {headers.map((h, i) => (
               <th key={i} style={thStyle}>
                 <PinyinText>{h}</PinyinText>
@@ -204,8 +209,14 @@ function parseTable(lines, audioBaseUrl) {
           {rows.map((row, ri) => {
             const pinyin = hasPinyin && row[pinyinIndex] ? row[pinyinIndex] : null;
             const audioFile = pinyin ? stripTones(pinyin) + ".mp3" : null;
+            const word = hasWordAudio ? row[wordIndex] : null;
             return (
               <tr key={ri} style={{ background: ri % 2 === 0 ? "var(--white)" : "var(--cream)" }}>
+                {hasWordAudio && (
+                  <td style={{ ...tdStyle, textAlign: "center", padding: "6px" }}>
+                    {word && <AudioButton src={getVocabularyRecordingUrl(word)} text={word} voice={voice} />}
+                  </td>
+                )}
                 {hasPinyin && (
                   <td style={{ ...tdStyle, textAlign: "center", padding: "6px" }}>
                     {audioFile && <AudioButton src={`${audioBaseUrl}/${audioFile}`} />}
@@ -225,8 +236,9 @@ function parseTable(lines, audioBaseUrl) {
   );
 }
 
-export default function MarkdownRenderer({ content, audioBaseUrl, groupTopics = false }) {
+export default function MarkdownRenderer({ content, audioBaseUrl, vocabularyAudio = false, groupTopics = false }) {
   const { t } = useLanguage();
+  const voice = useMandarinVoice(vocabularyAudio);
   const headingId = useId();
   if (!content) return null;
 
@@ -273,7 +285,7 @@ export default function MarkdownRenderer({ content, audioBaseUrl, groupTopics = 
         tableLines.push(lines[i]);
         i++;
       }
-      elements.push(<div key={key++}>{parseTable(tableLines, audioBaseUrl)}</div>);
+      elements.push(<div key={key++}>{parseTable(tableLines, audioBaseUrl, vocabularyAudio, voice)}</div>);
     } else if (line.startsWith("> ")) {
       const quoteLines = [];
       while (i < lines.length && lines[i].startsWith("> ")) {

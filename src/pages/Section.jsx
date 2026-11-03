@@ -263,8 +263,17 @@ export default function Section() {
         </div>
       ) : content ? (
         <div style={renderedContentStyle} className="fade-in-up">
-          {isUnit1Vocabulary ? <Unit1Vocabulary key={content} content={content} audioBaseUrl={getAudioBaseUrl(levelNum, lessonNum)} /> : <MarkdownRenderer content={content} audioBaseUrl={sectionId === "vocabulary" ? getAudioBaseUrl(levelNum, lessonNum) : undefined} groupTopics={sectionId === "dialogue" || sectionId === "grammar" || sectionId === "pronunciation" || sectionId === "writing"} />}
+          {isUnit1Vocabulary ? <Unit1Vocabulary key={content} content={content} /> : <MarkdownRenderer content={content} vocabularyAudio={sectionId === "vocabulary" && levelNum === 1} audioBaseUrl={sectionId === "vocabulary" && levelNum !== 1 ? getAudioBaseUrl(levelNum, lessonNum) : undefined} groupTopics={sectionId === "dialogue" || sectionId === "grammar" || sectionId === "pronunciation" || sectionId === "writing"} />}
           {sectionId === "pronunciation" && levelNum === 1 && <PronunciationPractice key={lessonNum} lessonNum={lessonNum} />}
+          {sectionId === "vocabulary" && levelNum === 1 && (
+            <p style={{ fontSize: "var(--fs-small)", color: "var(--ink-light)", lineHeight: 1.6, marginTop: "20px" }}>
+              {t("Human-recorded audio by Yue Tan, ")}
+              <a href="https://creativecommons.org/licenses/by-sa/3.0/us/" target="_blank" rel="noopener noreferrer">CC BY-SA</a>
+              {t(", via ")}
+              <a href="https://github.com/hugolpz/audio-cmn" target="_blank" rel="noopener noreferrer">audio-cmn</a>.
+              {" "}{t("Words without recordings use a Mandarin voice installed on your device.")}
+            </p>
+          )}
           <div style={{ textAlign: "center" }}>
             <Link
               to={`/hsk/${levelNum}/${lessonSlug}`}
