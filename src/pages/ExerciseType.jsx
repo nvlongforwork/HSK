@@ -7,6 +7,8 @@ import { Quiz, Flashcards } from "../components/ExerciseActivities";
 import useMarkdown from "../hooks/useMarkdown";
 import { getContentUrl } from "../utils/mediaUrl";
 import { parseExercises } from "../utils/exercises";
+import HskReading from "../components/HskReading";
+import { getReadingLesson } from "../data/hsk1Reading";
 import "./exercises.css";
 
 export default function ExerciseType() {
@@ -17,7 +19,8 @@ export default function ExerciseType() {
   const exercise = exerciseTypes.find((item) => item.id === exerciseId);
   const valid = Boolean(lesson && exercise);
   const listening = exerciseId === "listen-and-fill";
-  const url = valid && !listening ? getContentUrl(1, lessonNum, "exercises.md") : null;
+  const reading = exerciseId === "hsk-reading";
+  const url = valid && !listening && !reading ? getContentUrl(1, lessonNum, "exercises.md") : null;
   const { content, loading, error, retry } = useMarkdown(url);
   const data = parseExercises(content || "");
   const items = exerciseId === "multiple-choice" ? data.multipleChoice
@@ -46,7 +49,8 @@ export default function ExerciseType() {
                 aria-current={item.id === exerciseId ? "page" : undefined}>{t(item.titleEn)}</Link>
             ))}
           </nav>
-          {listening ? (
+          {!reading && <p className="exercise-scope">{t("These extra exercises retain the original Vietnamese prompts and explanations. The HSK reading practice above supports English and Vietnamese feedback.")}</p>}
+          {reading ? <HskReading key={lessonNum} lesson={getReadingLesson(lessonNum)} /> : listening ? (
             <section className="exercise-panel">
               <h2>{t("听力即将更新 · Audio coming soon")}</h2>
               <p>{t("Listening exercises will be available when lesson recordings are added. Try the other exercise types while you wait.")}</p>

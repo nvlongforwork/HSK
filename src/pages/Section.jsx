@@ -222,6 +222,9 @@ export default function Section() {
             <div style={decorLineStyle} />
           </div>
 
+          <p className="exercise-scope" style={{ maxWidth: 760, margin: "0 auto 20px", textAlign: "center" }}>
+            {t("Read & practice in HSK 1 style. Extra choice and writing exercises reinforce each lesson; they are not a timed mock exam.")}
+          </p>
           <div className="sections-grid exercise-types-grid">
             {exerciseTypes.map((ex, index) => (
               <BounceCard

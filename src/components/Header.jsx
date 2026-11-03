@@ -85,8 +85,9 @@ const sectionNames = {
 };
 
 const exerciseNames = {
-  "multiple-choice": { zh: "选择题", en: "Multiple Choice" },
-  "read-and-fill": { zh: "阅读填空", en: "Read & Fill" },
+  "hsk-reading": { zh: "阅读练习", en: "HSK Reading Practice" },
+  "multiple-choice": { zh: "补充选择", en: "Extra Choice Practice" },
+  "read-and-fill": { zh: "汉字填空", en: "Extra Writing Practice" },
   "flashcards": { zh: "闪卡", en: "Flashcards" },
   "listen-and-fill": { zh: "听力填空", en: "Listen & Fill" },
 };
