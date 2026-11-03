@@ -10,7 +10,7 @@ test("English is the default and leaves source text unchanged", () => {
 
 test("Vietnamese uses complete phrases and preserves Chinese and pinyin", () => {
   assert.equal(translateText('How do you say "Hello" in Chinese?', "vi"), '"Xin chào" trong tiếng Trung nói thế nào?');
-  assert.equal(translateText("nǐ - you; xièxie - thank you; péngyou - friend", "vi"), "nǐ - bạn; xièxie - cảm ơn; péngyou - bạn bè");
+  assert.equal(translateText("nǐ - you; xièxie - thank you; péngyou - friend", "vi"), "nǐ - bạn, anh, chị...; xièxie - cảm ơn; péngyou - bạn bè");
   assert.equal(translateText("你好吗？— 我___好。", "vi"), "你好吗？— 我___好。");
   assert.equal(translateText("Score: 3 / 4", "vi"), "Điểm: 3 / 4");
   assert.equal(translateText("Subject + Verb + 了 + Object", "vi"), "Chủ ngữ + Động từ + 了 + Tân ngữ");

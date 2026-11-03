@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback } from "react";
 import { useLanguage } from "../i18n/useLanguage";
 import { parseVocabulary } from "../utils/vocabulary";
 import { unit1ExampleMeanings } from "../data/unit1ExampleMeanings";
@@ -19,13 +19,11 @@ export default function Unit1Vocabulary({ content, audioBaseUrl }) {
   const [round, setRound] = useState(1);
   const [completed, setCompleted] = useState(false);
 
-  if (!entries.length) return <MarkdownRenderer content={content} />;
-
   const currentEntryIndex = deck[deckIndex];
   const entry = entries[currentEntryIndex] || entries[0];
-  const exampleMeaning = unit1ExampleMeanings[entry.example]?.[language];
+  const exampleMeaning = unit1ExampleMeanings[entry?.example]?.[language];
 
-  const audioSrc = audioBaseUrl ? `${audioBaseUrl}/${stripTones(entry.pinyin)}.mp3` : null;
+  const audioSrc = audioBaseUrl && entry ? `${audioBaseUrl}/${stripTones(entry.pinyin)}.mp3` : null;
   const { play: playAudio } = useAudioPlayer(audioSrc);
 
   function selectMode(next) {
@@ -47,6 +45,8 @@ export default function Unit1Vocabulary({ content, audioBaseUrl }) {
       return next;
     });
   }, [audioSrc, playAudio]);
+
+  if (!entries.length) return <MarkdownRenderer content={content} />;
 
   function handleKnown() {
     const newKnown = new Set(known);

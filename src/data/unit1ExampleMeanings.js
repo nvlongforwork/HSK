@@ -4,4 +4,5 @@ export const unit1ExampleMeanings = {
   "你们好！": { en: "Hello, everyone!", vi: "Chào các bạn!" },
   "对不起！": { en: "Sorry!", vi: "Xin lỗi!" },
   "没关系！": { en: "It's okay!", vi: "Không sao!" },
+  "我们很好。": { en: "We're fine.", vi: "Chúng tôi khỏe." },
 };
