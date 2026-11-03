@@ -1,0 +1,102 @@
+.pronunciation-practice {
+  margin: 28px 0;
+  padding: clamp(18px, 3vw, 28px);
+  border: 1px solid var(--gold-light);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  color: var(--ink-dark);
+}
+
+.pronunciation-practice h3 {
+  margin: 0 0 8px;
+  color: var(--red-primary);
+  font-size: var(--fs-h3);
+}
+
+.pronunciation-practice p {
+  margin: 0 0 18px;
+  color: var(--ink-medium);
+  line-height: 1.6;
+}
+
+.pronunciation-practice .pronunciation-practice-unavailable {
+  margin-bottom: 0;
+}
+
+.pronunciation-practice-toolbar,
+.pronunciation-practice-toolbar button,
+.pronunciation-practice-feedback {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pronunciation-practice-toolbar {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.pronunciation-practice-toolbar button,
+.pronunciation-practice-feedback button {
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--red-primary);
+  color: #fff;
+  padding: 9px 16px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.pronunciation-practice-toolbar button {
+  background: var(--cream);
+  color: var(--ink-dark);
+}
+
+.pronunciation-practice-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.pronunciation-practice-options button {
+  min-height: 88px;
+  border: 1px solid var(--gold-light);
+  border-radius: var(--radius-md);
+  background: var(--cream);
+  color: var(--ink-dark);
+  font-size: clamp(24px, 3vw, 34px);
+  cursor: pointer;
+}
+
+.pronunciation-practice-options button:disabled {
+  cursor: default;
+}
+
+.pronunciation-practice-options button.correct {
+  border-color: #228759;
+  background: #e9f7ef;
+}
+
+.pronunciation-practice-options button.incorrect {
+  border-color: var(--red-primary);
+  background: #fff0f1;
+}
+
+.pronunciation-practice-feedback {
+  align-items: flex-start;
+  flex-direction: column;
+  margin-top: 18px;
+  line-height: 1.6;
+}
+
+@media (max-width: 520px) {
+  .pronunciation-practice-options {
+    gap: 8px;
+  }
+
+  .pronunciation-practice-options button {
+    min-height: 72px;
+  }
+}

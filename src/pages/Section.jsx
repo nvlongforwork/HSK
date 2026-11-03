@@ -9,6 +9,7 @@ import MarkdownRenderer from "../components/MarkdownRenderer";
 import Unit1Vocabulary from "../components/Unit1Vocabulary";
 import useMarkdown from "../hooks/useMarkdown";
 import { getContentUrl, getAudioBaseUrl } from "../utils/mediaUrl";
+import PronunciationPractice from "../components/PronunciationPractice";
 
 const pageStyle = {
   width: "100%",
@@ -263,6 +264,7 @@ export default function Section() {
       ) : content ? (
         <div style={renderedContentStyle} className="fade-in-up">
           {isUnit1Vocabulary ? <Unit1Vocabulary key={content} content={content} audioBaseUrl={getAudioBaseUrl(levelNum, lessonNum)} /> : <MarkdownRenderer content={content} audioBaseUrl={sectionId === "vocabulary" ? getAudioBaseUrl(levelNum, lessonNum) : undefined} groupTopics={sectionId === "dialogue" || sectionId === "grammar" || sectionId === "pronunciation" || sectionId === "writing"} />}
+          {sectionId === "pronunciation" && levelNum === 1 && <PronunciationPractice key={lessonNum} lessonNum={lessonNum} />}
           <div style={{ textAlign: "center" }}>
             <Link
               to={`/hsk/${levelNum}/${lessonSlug}`}
