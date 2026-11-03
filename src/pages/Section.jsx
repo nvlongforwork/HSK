@@ -263,6 +263,11 @@ export default function Section() {
         </div>
       ) : content ? (
         <div style={renderedContentStyle} className="fade-in-up">
+          {sectionId === "writing" && levelNum === 1 && (
+            <p style={{ ...loadingStyle, textAlign: "left", padding: "12px 16px", marginBottom: "20px", borderLeft: "4px solid var(--gold-primary)", background: "var(--cream)", borderRadius: "0 var(--radius-sm) var(--radius-sm) 0", lineHeight: 1.6 }}>
+              {t("The legacy HSK 1 exam tests listening and reading only. Study these characters and strokes to support recognition; handwriting is optional exam preparation.")}
+            </p>
+          )}
           {isUnit1Vocabulary ? <Unit1Vocabulary key={content} content={content} /> : <MarkdownRenderer content={content} vocabularyAudio={sectionId === "vocabulary" && levelNum === 1} audioBaseUrl={sectionId === "vocabulary" && levelNum !== 1 ? getAudioBaseUrl(levelNum, lessonNum) : undefined} groupTopics={sectionId === "dialogue" || sectionId === "grammar" || sectionId === "pronunciation" || sectionId === "writing"} />}
           {sectionId === "pronunciation" && levelNum === 1 && <PronunciationPractice key={lessonNum} lessonNum={lessonNum} />}
           {sectionId === "vocabulary" && levelNum === 1 && (

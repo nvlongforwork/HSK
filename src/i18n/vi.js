@@ -184,6 +184,8 @@ const vi = {
   "dot": "chấm",
   "right-falling": "mác",
   "Simple Characters": "Chữ đơn",
+  "Focus Characters": "Chữ Hán trọng tâm",
+  "The legacy HSK 1 exam tests listening and reading only. Study these characters and strokes to support recognition; handwriting is optional exam preparation.": "Đề HSK 1 format cũ chỉ thi Nghe và Đọc. Học các chữ Hán và nét viết này để nhận diện từ tốt hơn; luyện viết tay là phần bổ trợ, không bắt buộc để thi.",
   "Character": "Chữ",
   "Strokes": "Số nét",
   "three": "ba",
@@ -618,6 +620,9 @@ const vi = {
   "Stroke Order Rules (3)": "Quy tắc thứ tự nét (3)",
   "Outside before inside (先外后内)": "Ngoài trước trong sau (先外后内)",
   "Write outer strokes before inner strokes": "Viết nét bên ngoài trước nét bên trong",
+  "Outside, inside, then close (先外后内再封口)": "Ngoài trước, trong sau, đóng khung cuối cùng (先外后内再封口)",
+  "For enclosed characters, write the first two outer strokes, the inside, and the closing bottom stroke last": "Với chữ có khung bao, viết hai nét ngoài đầu tiên, phần bên trong, rồi nét ngang đóng khung dưới cùng",
+  "open the enclosure, write the inside, then close it with 一": "mở khung bao, viết phần trong, rồi đóng khung bằng nét 一",
   "Center before sides (先中间后两边)": "Giữa trước hai bên sau (先中间后两边)",
   "Write the center stroke before the two sides": "Viết nét ở giữa trước rồi viết hai bên",
 
