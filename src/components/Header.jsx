@@ -2,6 +2,7 @@ import { useLanguage } from "../i18n/useLanguage";
 import { Link, useLocation } from "react-router-dom";
 import PinyinText from "./PinyinText";
 import LanguageSwitch from "./LanguageSwitch";
+import { CLOZE_START_LESSON } from "../data/hsk1Cloze";
 
 const headerStyle = {
   background: "linear-gradient(135deg, #8B0000 0%, #C41E3A 50%, #8B0000 100%)",
@@ -86,7 +87,7 @@ const sectionNames = {
 
 const exerciseNames = {
   "hsk-reading": { zh: "阅读练习", en: "HSK Reading Practice" },
-  "multiple-choice": { zh: "补充选择", en: "Extra Choice Practice" },
+  "multiple-choice": { zh: "完形填空", en: "Cloze Reading" },
   "read-and-fill": { zh: "汉字填空", en: "Extra Writing Practice" },
   "flashcards": { zh: "闪卡", en: "Flashcards" },
   "listen-and-fill": { zh: "听力填空", en: "Listen & Fill" },
@@ -142,7 +143,8 @@ export default function Header() {
               </Link>,
               <span key="s3" style={sepStyle}>/</span>
             );
-            const ex = exerciseNames[p[4]];
+            const ex = p[4] === "multiple-choice" && Number(num) < CLOZE_START_LESSON
+              ? { zh: "单句选择", en: "Sentence Choice" } : exerciseNames[p[4]];
             crumbs.push(
               <span key="ex" style={activeStyle}>
                 {ex ? <><PinyinText>{ex.zh}</PinyinText> {t(ex.en)}</> : p[4]}

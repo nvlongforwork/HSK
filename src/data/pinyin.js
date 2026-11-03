@@ -50,6 +50,7 @@ const pinyinMap = {
   "京": "jīng",
   "王": "wáng", "李": "lǐ", "您": "nín", "两": "liǎng", "以": "yǐ", "视": "shì",
   "喂": "wéi", "判": "pàn", "断": "duàn", "句": "jù", "配": "pèi", "问": "wèn", "答": "dá",
+  "馆": "guǎn", "它": "tā", "给": "gěi", "影": "yǐng", "件": "jiàn", "要": "yào",
 };
 
 export default pinyinMap;

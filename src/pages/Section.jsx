@@ -5,6 +5,7 @@ import hsk1Lessons from "../data/hsk1";
 import { lessonSections, exerciseTypes } from "../data/hsk1";
 import BounceCard from "../components/BounceCard";
 import PinyinText from "../components/PinyinText";
+import { CLOZE_START_LESSON } from "../data/hsk1Cloze";
 import MarkdownRenderer from "../components/MarkdownRenderer";
 import Unit1Vocabulary from "../components/Unit1Vocabulary";
 import useMarkdown from "../hooks/useMarkdown";
@@ -235,9 +236,9 @@ export default function Section() {
               >
                 <span style={exerciseIconStyle}><LearningIcon name={ex.id} /></span>
                 <div style={exerciseTitleZhStyle}>
-                  <PinyinText>{ex.titleZh}</PinyinText>
+                  <PinyinText>{ex.id === "multiple-choice" ? levelNum === 1 && lessonNum >= CLOZE_START_LESSON ? "完形填空" : "单句选择" : ex.titleZh}</PinyinText>
                 </div>
-                <div style={exerciseTitleEnStyle}>{t(ex.titleEn)}</div>
+                <div style={exerciseTitleEnStyle}>{ex.id === "multiple-choice" ? t(levelNum === 1 && lessonNum >= CLOZE_START_LESSON ? "Cloze Reading" : "Sentence Choice") : t(ex.titleEn)}</div>
               </BounceCard>
             ))}
           </div>

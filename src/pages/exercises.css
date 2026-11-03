@@ -47,6 +47,14 @@
 .hsk-options .exercise-option { min-height: 76px; line-height: 2; }
 .hsk-word-bank { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px; background: var(--cream); border-radius: var(--radius-sm); line-height: 2.3; }
 .hsk-word-bank span { padding: 2px 10px; border: 1px solid var(--gold-light); border-radius: var(--radius-sm); background: white; }
+.cloze-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.cloze-passage { position: sticky; top: 88px; padding: 20px; background: var(--cream); border: 1px solid var(--gold-light); border-radius: var(--radius-sm); }
+.cloze-passage p { line-height: 2.8; font-size: clamp(18px, 2.2vw, 24px); overflow-wrap: anywhere; }
+.cloze-gap { display: inline-block; padding: 0 4px; color: var(--red-dark); font-weight: 700; border-bottom: 2px solid var(--red-primary); white-space: nowrap; }
+.cloze-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cloze-options .exercise-option { min-height: 66px; line-height: 2; }
+.cloze-questions .exercise-question { scroll-margin-top: 100px; }
+.cloze-questions .exercise-question:first-of-type { margin-top: 0; }
 @media (max-width: 560px) {
   .exercise-page { padding: 24px 16px 40px; }
   .exercise-panel { padding: 20px 16px; }
@@ -55,4 +63,7 @@
   .exercise-tabs a { text-align: center; padding: 10px 8px; }
   .exercise-button { padding: 10px 12px; }
   .hsk-options { grid-template-columns: 1fr; }
+  .cloze-layout { grid-template-columns: 1fr; }
+  .cloze-passage { position: static; }
+  .cloze-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
