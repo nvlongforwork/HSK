@@ -24,7 +24,6 @@ export const lessonSections = [
   { id: "pronunciation", titleZh: "拼音", titleEn: "Pronunciation", icon: "🗣️" },
   { id: "writing", titleZh: "汉字", titleEn: "Writing", icon: "✍️" },
   { id: "exercises", titleZh: "练习", titleEn: "Exercises", icon: "✏️" },
-  { id: "practice-tests", titleZh: "模拟测试", titleEn: "Practice Tests", icon: "📋" },
 ];
 
 export const exerciseTypes = [

@@ -82,7 +82,6 @@ const sectionNames = {
   vocabulary: { zh: "词汇", en: "Vocabulary" },
   grammar: { zh: "语法", en: "Grammar" },
   exercises: { zh: "练习", en: "Exercises" },
-  "practice-tests": { zh: "模拟测试", en: "Practice Tests" },
 };
 
 const exerciseNames = {
