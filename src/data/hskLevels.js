@@ -5,7 +5,8 @@ const hskLevels = [
     titleEn: "HSK Level 1",
     descZh: "入门 · 150词",
     descEn: "Beginner · 150 Words",
-    color: "#C41E3A",
+    color: "#FBB031",
+    textColor: "#3D2A08",
     lessons: 15,
   },
   {
@@ -14,7 +15,8 @@ const hskLevels = [
     titleEn: "HSK Level 2",
     descZh: "基础 · 300词",
     descEn: "Elementary · 300 Words",
-    color: "#D4A017",
+    color: "#1A95A7",
+    textColor: "#FFFFFF",
     lessons: 15,
   },
   {
@@ -23,7 +25,8 @@ const hskLevels = [
     titleEn: "HSK Level 3",
     descZh: "中级 · 600词",
     descEn: "Intermediate · 600 Words",
-    color: "#2E8B57",
+    color: "#F36F27",
+    textColor: "#3B200E",
     lessons: 20,
   },
   {
@@ -32,7 +35,8 @@ const hskLevels = [
     titleEn: "HSK Level 4",
     descZh: "中高级 · 1200词",
     descEn: "Upper-Intermediate · 1200 Words",
-    color: "#1E3A5F",
+    color: "#C12705",
+    textColor: "#FFFFFF",
     lessons: 20,
   },
   {
@@ -41,7 +45,8 @@ const hskLevels = [
     titleEn: "HSK Level 5",
     descZh: "高级 · 2500词",
     descEn: "Advanced · 2500 Words",
-    color: "#6B3FA0",
+    color: "#1A3F76",
+    textColor: "#FFFFFF",
     lessons: 36,
   },
   {
@@ -50,7 +55,8 @@ const hskLevels = [
     titleEn: "HSK Level 6",
     descZh: "精通 · 5000词",
     descEn: "Mastery · 5000 Words",
-    color: "#8B4513",
+    color: "#503258",
+    textColor: "#FFFFFF",
     lessons: 40,
   },
 ];

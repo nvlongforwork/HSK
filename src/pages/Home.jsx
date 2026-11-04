@@ -36,9 +36,10 @@ export default function Home() {
           {hskLevels.map((level, index) => (
             <BounceCard key={level.id} to={`/hsk/${level.id}`} delay={index}
               style={{ background: "var(--white)", borderRadius: "var(--radius-md)",
+                "--level-color": level.color, "--level-ink": level.textColor,
                 overflow: "hidden", boxShadow: "var(--shadow-md)",
                 border: "1px solid rgba(212, 160, 23, 0.15)" }}>
-              <div className="home-card-top" style={{ background: `linear-gradient(135deg, ${level.color}, ${level.color}CC)` }}>
+              <div className="home-card-top">
                 <div style={cardPatternStyle} aria-hidden="true" />
                 <span className="home-card-number" aria-hidden="true">{level.id}</span>
                 <h3 className="home-card-title"><PinyinText>{level.titleZh}</PinyinText></h3>

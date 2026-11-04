@@ -76,15 +76,15 @@ const cardInnerStyle = {
   gap: "16px",
 };
 
-const lessonNumStyle = (color) => ({
+const lessonNumStyle = (color, textColor) => ({
   width: "48px",
   height: "48px",
   borderRadius: "50%",
-  background: `linear-gradient(135deg, ${color}, ${color}CC)`,
+  background: color,
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  color: "#fff",
+  color: textColor,
   fontWeight: 700,
   fontSize: "clamp(20px, 2vw, 22px)",
   flexShrink: 0,
@@ -178,7 +178,7 @@ export default function HskLevel() {
             delay={index}
           >
             <div style={cardInnerStyle}>
-              <div style={lessonNumStyle(levelData.color)}>{lesson.id}</div>
+              <div style={lessonNumStyle(levelData.color, levelData.textColor)}>{lesson.id}</div>
               <div style={lessonTextStyle}>
                 <div style={lessonTitleZhStyle}>
                   <PinyinText>{lesson.titleZh}</PinyinText>
