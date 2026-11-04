@@ -2,9 +2,10 @@ import { useLanguage } from "../i18n/useLanguage";
 import { useState } from "react";
 import PinyinText from "./PinyinText";
 import { isCorrectAnswer } from "../utils/exercises";
+import { displayLegacyExercise, displayLegacyOption } from "../utils/legacyExerciseLocale";
 
 export function Quiz({ items, multipleChoice = false }) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [answers, setAnswers] = useState({});
   const [checked, setChecked] = useState(false);
   const scoreItems = items.filter((item) => !item.selfReview);
@@ -26,9 +27,10 @@ export function Quiz({ items, multipleChoice = false }) {
       <p className="exercise-meta">{answered} / {items.length}{t(" answered")}</p>
       {items.map((item, index) => {
         const feedbackId = `feedback-${index}`;
+        const display = displayLegacyExercise(item, language, multipleChoice);
         return (
           <fieldset className="exercise-question" key={index}>
-            <legend>{index + 1}. <PinyinText>{t(item.prompt)}</PinyinText></legend>
+            <legend>{index + 1}. <PinyinText>{display.prompt}</PinyinText></legend>
             {multipleChoice ? (
               <div className="exercise-options">
                 {item.options.map((option) => (
@@ -37,7 +39,7 @@ export function Quiz({ items, multipleChoice = false }) {
                       checked={answers[index] === option.label} disabled={checked}
                       aria-describedby={checked ? feedbackId : undefined}
                       onChange={() => setAnswers({ ...answers, [index]: option.label })} />
-                    <span>{option.label}. <PinyinText>{t(option.text)}</PinyinText></span>
+                    <span>{option.label}. <PinyinText>{displayLegacyOption(option.text, language)}</PinyinText></span>
                   </label>
                 ))}
               </div>
@@ -54,12 +56,12 @@ export function Quiz({ items, multipleChoice = false }) {
                 <p id={feedbackId} className={`exercise-feedback ${item.selfReview ? "" : correct(item, index) ? "text-correct" : "text-incorrect"}`}>
                   {t(item.selfReview ? "Review with your teacher. Model / note: " : correct(item, index) ? "✓ Correct! " : "Try this answer: ")}
                   <PinyinText>{t(multipleChoice
-                    ? item.options.filter((option) => option.correct).map((option) => `${option.label}. ${option.text}`).join("")
+                    ? item.options.filter((option) => option.correct).map((option) => `${option.label}. ${displayLegacyOption(option.text, language)}`).join("")
                     : item.answer)}</PinyinText>
                 </p>
-                {item.explanation && (
+                {display.explanation && (
                   <div className="exercise-explanation">
-                    <PinyinText>{t(item.explanation)}</PinyinText>
+                    <PinyinText>{display.explanation}</PinyinText>
                   </div>
                 )}
               </>

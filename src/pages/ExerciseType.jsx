@@ -7,6 +7,10 @@ import { Quiz, Flashcards } from "../components/ExerciseActivities";
 import useMarkdown from "../hooks/useMarkdown";
 import { getContentUrl } from "../utils/mediaUrl";
 import { parseExercises } from "../utils/exercises";
+import HskReading from "../components/HskReading";
+import { getReadingLesson } from "../data/hsk1Reading";
+import ClozePassage from "../components/ClozePassage";
+import { CLOZE_START_LESSON, getClozePassage } from "../data/hsk1Cloze";
 import "./exercises.css";
 
 export default function ExerciseType() {
@@ -17,7 +21,9 @@ export default function ExerciseType() {
   const exercise = exerciseTypes.find((item) => item.id === exerciseId);
   const valid = Boolean(lesson && exercise);
   const listening = exerciseId === "listen-and-fill";
-  const url = valid && !listening ? getContentUrl(1, lessonNum, "exercises.md") : null;
+  const reading = exerciseId === "hsk-reading";
+  const cloze = exerciseId === "multiple-choice" && lessonNum >= CLOZE_START_LESSON;
+  const url = valid && !listening && !reading && !cloze ? getContentUrl(1, lessonNum, "exercises.md") : null;
   const { content, loading, error, retry } = useMarkdown(url);
   const data = parseExercises(content || "");
   const items = exerciseId === "multiple-choice" ? data.multipleChoice
@@ -36,17 +42,21 @@ export default function ExerciseType() {
         <>
           <header className="exercise-heading fade-in-up">
             <span className="exercise-icon" aria-hidden="true"><LearningIcon name={exercise.id} /></span>
-            <h1><PinyinText>{exercise.titleZh}</PinyinText></h1>
-            <p>{t(exercise.titleEn)}</p>
+            <h1><PinyinText>{exerciseId === "multiple-choice" ? cloze ? "完形填空" : "单句选择" : exercise.titleZh}</PinyinText></h1>
+            <p>{exerciseId === "multiple-choice" ? cloze ? t("Cloze Reading") : t("Sentence Choice") : t(exercise.titleEn)}</p>
             <p className="exercise-meta"><PinyinText>{t(`${lesson.titleZh} · ${lesson.topicZh}`)}</PinyinText><br />{t(lesson.titleEn)} · {t(lesson.topicEn)}</p>
           </header>
           <nav className="exercise-tabs" aria-label={t("Exercise types")}>
             {exerciseTypes.map((item) => (
               <Link key={item.id} to={`/hsk/1/${lessonSlug}/exercises/${item.id}`}
-                aria-current={item.id === exerciseId ? "page" : undefined}>{t(item.titleEn)}</Link>
+                aria-current={item.id === exerciseId ? "page" : undefined}>
+                {item.id === "multiple-choice" ? t(lessonNum >= CLOZE_START_LESSON ? "Cloze Reading" : "Sentence Choice") : t(item.titleEn)}
+              </Link>
             ))}
           </nav>
-          {listening ? (
+          {!reading && !cloze && <p className="exercise-scope">{t("Extra exercises use short word-meaning cues in English mode and the original detailed explanations in Vietnamese mode.")}</p>}
+          {reading ? <HskReading key={lessonNum} lesson={getReadingLesson(lessonNum)} />
+            : cloze ? <ClozePassage key={lessonNum} lessonNum={lessonNum} passage={getClozePassage(lessonNum)} /> : listening ? (
             <section className="exercise-panel">
               <h2>{t("听力即将更新 · Audio coming soon")}</h2>
               <p>{t("Listening exercises will be available when lesson recordings are added. Try the other exercise types while you wait.")}</p>

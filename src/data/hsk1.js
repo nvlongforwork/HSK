@@ -24,12 +24,12 @@ export const lessonSections = [
   { id: "pronunciation", titleZh: "拼音", titleEn: "Pronunciation", icon: "🗣️" },
   { id: "writing", titleZh: "汉字", titleEn: "Writing", icon: "✍️" },
   { id: "exercises", titleZh: "练习", titleEn: "Exercises", icon: "✏️" },
-  { id: "practice-tests", titleZh: "模拟测试", titleEn: "Practice Tests", icon: "📋" },
 ];
 
 export const exerciseTypes = [
-  { id: "multiple-choice", titleZh: "选择题", titleEn: "Multiple Choice", icon: "🔘" },
-  { id: "read-and-fill", titleZh: "阅读填空", titleEn: "Read & Fill", icon: "📄" },
+  { id: "hsk-reading", titleZh: "阅读练习", titleEn: "HSK Reading Practice", icon: "📖" },
+  { id: "multiple-choice", titleZh: "完形填空", titleEn: "Cloze Reading", icon: "🔘" },
+  { id: "read-and-fill", titleZh: "汉字填空", titleEn: "Extra Writing Practice", icon: "📄" },
 ];
 
 export default hsk1Lessons;

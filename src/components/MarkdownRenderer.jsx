@@ -4,6 +4,7 @@ import PinyinText from "./PinyinText";
 import AudioButton, { stripTones, SpeakerIcon } from "./AudioButton";
 import useMandarinVoice from "../hooks/useMandarinVoice";
 import { getVocabularyRecordingUrl } from "../data/hsk1AudioWords";
+import { translateMarkdown } from "../i18n/translateMarkdown";
 import "./grammar-topics.css";
 
 const sectionStyle = {
@@ -237,12 +238,12 @@ function parseTable(lines, audioBaseUrl, vocabularyAudio, voice) {
 }
 
 export default function MarkdownRenderer({ content, audioBaseUrl, vocabularyAudio = false, groupTopics = false }) {
-  const { t } = useLanguage();
+  const { language } = useLanguage();
   const voice = useMandarinVoice(vocabularyAudio);
   const headingId = useId();
   if (!content) return null;
 
-  const lines = t(content).split("\n");
+  const lines = translateMarkdown(content, language).split("\n");
   const elements = [];
   let i = 0;
   let key = 0;

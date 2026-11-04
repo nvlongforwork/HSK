@@ -1,9 +1,18 @@
 import content from "./vi-content.js";
+import fixes from "./vi-hsk1-fixes.js";
 
 // Display translations only: source text, answer keys, Hanzi and pinyin stay intact.
 const vi = {
   ...content,
+  ...fixes,
   "Language": "Ngôn ngữ",
+  "HSK Reading Practice": "Luyện đọc theo HSK",
+  "Extra Choice Practice": "Luyện chọn đáp án thêm",
+  "Cloze Reading": "Đọc điền từ trắc nghiệm",
+  "Sentence Choice": "Chọn đáp án theo câu",
+  "Extra Writing Practice": "Luyện viết thêm",
+  "Read & practice in HSK 1 style. Extra choice and writing exercises reinforce each lesson; they are not a timed mock exam.": "Luyện đọc theo dạng HSK 1. Các bài chọn đáp án và viết thêm giúp ôn từng bài; đây không phải đề thi thử tính giờ.",
+  "Extra exercises use short word-meaning cues in English mode and the original detailed explanations in Vietnamese mode.": "Bài luyện thêm có gợi ý nghĩa từ ngắn bằng tiếng Anh hoặc giải thích chi tiết gốc bằng tiếng Việt, tùy chế độ bạn chọn.",
   "Vocabulary study mode": "Chế độ học từ vựng",
   "Word list": "Danh sách từ",
   "words": "từ vựng",
@@ -57,7 +66,6 @@ const vi = {
   "Grammar": "Ngữ pháp",
   "Pronunciation": "Phát âm",
   "Writing": "Tập viết",
-  "Practice Tests": "Đề luyện tập",
   "Exercises": "Bài tập",
   "Content": "Nội dung",
   "Multiple Choice": "Trắc nghiệm",

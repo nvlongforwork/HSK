@@ -35,6 +35,26 @@
 .flashcard-back { font-size: var(--fs-h3); }
 .exercise-reset { display: block; margin: 24px auto 0; border: 0; background: none; color: var(--red-primary); font: inherit; font-size: var(--fs-small); text-decoration: underline; cursor: pointer; }
 .exercise-back { display: inline-block; margin-top: 28px; font-size: var(--fs-small); color: var(--red-primary); }
+.exercise-scope { color: var(--ink-medium); background: var(--cream); border-radius: var(--radius-sm); padding: 12px 16px; font-size: var(--fs-small); line-height: 1.6; }
+.hsk-reading-section { margin-top: 32px; border-top: 1px solid var(--gold-light); padding-top: 24px; }
+.hsk-reading-section h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+.hsk-reading-section h2 span:not(.hsk-ruby) { font-family: var(--font-sans); font-size: var(--fs-body); font-weight: 400; color: var(--ink-medium); }
+.hsk-ruby ruby { ruby-position: over; white-space: nowrap; margin-right: .08em; }
+.hsk-ruby rt { font-family: var(--font-sans); font-size: .54em; line-height: 1.2; font-weight: 400; color: var(--ink-light); }
+.hsk-reading .exercise-question legend { line-height: 2.5; }
+.hsk-compare { display: block; margin: 2px 0 8px; }
+.hsk-options { margin-top: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.hsk-options .exercise-option { min-height: 76px; line-height: 2; }
+.hsk-word-bank { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px; background: var(--cream); border-radius: var(--radius-sm); line-height: 2.3; }
+.hsk-word-bank span { padding: 2px 10px; border: 1px solid var(--gold-light); border-radius: var(--radius-sm); background: white; }
+.cloze-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.cloze-passage { position: sticky; top: 88px; padding: 20px; background: var(--cream); border: 1px solid var(--gold-light); border-radius: var(--radius-sm); }
+.cloze-passage p { line-height: 2.8; font-size: clamp(18px, 2.2vw, 24px); overflow-wrap: anywhere; }
+.cloze-gap { display: inline-block; padding: 0 4px; color: var(--red-dark); font-weight: 700; border-bottom: 2px solid var(--red-primary); white-space: nowrap; }
+.cloze-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cloze-options .exercise-option { min-height: 66px; line-height: 2; }
+.cloze-questions .exercise-question { scroll-margin-top: 100px; }
+.cloze-questions .exercise-question:first-of-type { margin-top: 0; }
 @media (max-width: 560px) {
   .exercise-page { padding: 24px 16px 40px; }
   .exercise-panel { padding: 20px 16px; }
@@ -42,4 +62,8 @@
   .exercise-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .exercise-tabs a { text-align: center; padding: 10px 8px; }
   .exercise-button { padding: 10px 12px; }
+  .hsk-options { grid-template-columns: 1fr; }
+  .cloze-layout { grid-template-columns: 1fr; }
+  .cloze-passage { position: static; }
+  .cloze-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
