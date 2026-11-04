@@ -54,7 +54,7 @@ export default function ExerciseType() {
               </Link>
             ))}
           </nav>
-          {!reading && !cloze && <p className="exercise-scope">{t("These extra exercises retain the original Vietnamese prompts and explanations. The HSK reading practice above supports English and Vietnamese feedback.")}</p>}
+          {!reading && !cloze && <p className="exercise-scope">{t("Extra exercises use short word-meaning cues in English mode and the original detailed explanations in Vietnamese mode.")}</p>}
           {reading ? <HskReading key={lessonNum} lesson={getReadingLesson(lessonNum)} />
             : cloze ? <ClozePassage key={lessonNum} lessonNum={lessonNum} passage={getClozePassage(lessonNum)} /> : listening ? (
             <section className="exercise-panel">
