@@ -158,6 +158,9 @@ html[lang="vi"] {
 
 .sections-grid > * { min-width: 0; }
 
+.lesson-sections-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.lesson-sections-grid > *:nth-child(n) { grid-column: auto; }
+
 @media (max-width: 900px) {
   .sections-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
   .sections-grid > *:nth-child(1),

@@ -143,7 +143,7 @@ export default function Lesson() {
         <div style={decorLineStyle} />
       </div>
 
-      <div className="sections-grid">
+      <div className="sections-grid lesson-sections-grid">
         {lessonSections.map((section, index) => (
           <BounceCard
             key={section.id}
