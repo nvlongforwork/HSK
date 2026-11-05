@@ -186,15 +186,12 @@ export default function Unit1Vocabulary({ content }) {
                 onClick={handleFlip}>
                 <span key={`${entry.word}-${currentEntryIndex}-${round}`} className="vocabulary-card-rotator">
                   <span className="vocabulary-card-face vocabulary-card-front" aria-hidden={flipped} inert={flipped}>
-                    <span className="vocabulary-front-word" lang="zh-CN">{entry.word}</span>
-                    <span className="vocabulary-card-audio">
-                      <AudioButton src={audioSrc} text={entry.word} voice={voice} size="24px" />
-                    </span>
+                    {getUnit1VocabularyImage(entry.word) && <img className="vocabulary-card-image" src={getUnit1VocabularyImage(entry.word)} alt={entry.word} width="260" height="260" />}
                     <span className="vocabulary-flip-cue">{t("Tap to flip")}</span>
                   </span>
                   <span className="vocabulary-card-face vocabulary-card-back" aria-hidden={!flipped} inert={!flipped}>
+                    <span className="vocabulary-back-word" lang="zh-CN">{entry.word}</span>
                     <span className="vocabulary-back-meaning" lang={language}>{t(entry.meaning)}</span>
-                    {getUnit1VocabularyImage(entry.word) && <img className="vocabulary-card-image" src={getUnit1VocabularyImage(entry.word)} alt="" width="160" height="160" />}
                     <span className="vocabulary-card-pinyin">{entry.pinyin}</span>
                     <span className="vocabulary-card-example" lang="zh-CN">{entry.example || entry.word}</span>
                     {exampleMeaning && <span className="vocabulary-card-translation" lang={language}>{exampleMeaning}</span>}
