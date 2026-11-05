@@ -137,7 +137,7 @@ export default function Unit1Vocabulary({ content }) {
                 <td className="vocabulary-pinyin">{item.pinyin}</td>
                 <td className="vocabulary-meaning" lang={language}>{t(item.meaning)}</td>
                 <td className="vocabulary-image-cell">
-                  {getUnit1VocabularyImage(item.word) && <img src={getUnit1VocabularyImage(item.word)} alt="" loading="lazy" width="88" height="88" />}
+                  {getUnit1VocabularyImage(item.word) && <img src={getUnit1VocabularyImage(item.word)} alt="" loading="lazy" width="126" height="92" />}
                 </td>
                 <td className="vocabulary-example" lang="zh-CN"><PinyinText>{item.example || "—"}</PinyinText></td>
               </tr>
@@ -186,7 +186,7 @@ export default function Unit1Vocabulary({ content }) {
                 onClick={handleFlip}>
                 <span key={`${entry.word}-${currentEntryIndex}-${round}`} className="vocabulary-card-rotator">
                   <span className="vocabulary-card-face vocabulary-card-front" aria-hidden={flipped} inert={flipped}>
-                    {getUnit1VocabularyImage(entry.word) && <img className="vocabulary-card-image" src={getUnit1VocabularyImage(entry.word)} alt={entry.word} width="260" height="260" />}
+                    {getUnit1VocabularyImage(entry.word) && <img className="vocabulary-card-image" src={getUnit1VocabularyImage(entry.word)} alt={entry.word} width="453" height="326" />}
                     <span className="vocabulary-flip-cue">{t("Tap to flip")}</span>
                   </span>
                   <span className="vocabulary-card-face vocabulary-card-back" aria-hidden={!flipped} inert={!flipped}>
