@@ -99,6 +99,21 @@ const imagesByLesson = {
     "年": "nian.webp",
     "日": "ri.webp",
   },
+  8: {
+    "想": "xiang.webp",
+    "吃": "chi.webp",
+    "饭": "fan.webp",
+    "喝": "he.webp",
+    "水": "shui.webp",
+    "茶": "cha.webp",
+    "米饭": "mifan.webp",
+    "菜": "cai.webp",
+    "杯子": "beizi.webp",
+    "这": "zhe.webp",
+    "苹果": "pingguo.webp",
+    "水果": "shuiguo.webp",
+    "饭馆": "fanguan.webp",
+  },
 };
 
 export function getHsk1VocabularyImage(lessonNum, word) {
