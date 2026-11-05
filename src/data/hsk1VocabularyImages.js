@@ -28,6 +28,22 @@ const imagesByLesson = {
     "他": "ta_he.webp",
     "她": "ta_she.webp",
   },
+  4: {
+    "老师": "laoshi.webp",
+    "学生": "xuesheng.webp",
+    "同学": "tongxue.webp",
+    "朋友": "pengyou.webp",
+    "医生": "yisheng.webp",
+    "先生": "xiansheng.webp",
+    "小姐": "xiaojie.webp",
+    "爸爸": "baba.webp",
+    "妈妈": "mama.webp",
+    "和": "he.webp",
+    "的": "de.webp",
+    "谁": "shei.webp",
+    "哪": "na.webp",
+    "呢": "ne.webp",
+  },
 };
 
 export function getHsk1VocabularyImage(lessonNum, word) {
