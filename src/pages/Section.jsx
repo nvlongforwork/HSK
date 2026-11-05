@@ -7,7 +7,7 @@ import BounceCard from "../components/BounceCard";
 import PinyinText from "../components/PinyinText";
 import { CLOZE_START_LESSON } from "../data/hsk1Cloze";
 import MarkdownRenderer from "../components/MarkdownRenderer";
-import Unit1Vocabulary from "../components/Unit1Vocabulary";
+import Hsk1IllustratedVocabulary from "../components/Hsk1IllustratedVocabulary";
 import useMarkdown from "../hooks/useMarkdown";
 import { getContentUrl, getAudioBaseUrl } from "../utils/mediaUrl";
 import PronunciationPractice from "../components/PronunciationPractice";
@@ -203,7 +203,7 @@ export default function Section() {
   }
 
   const isExercises = sectionId === "exercises";
-  const isUnit1Vocabulary = levelNum === 1 && lessonNum === 1 && sectionId === "vocabulary";
+  const hasIllustratedVocabulary = levelNum === 1 && [1, 2].includes(lessonNum) && sectionId === "vocabulary";
   const isFullWidth = sectionId === "dialogue" || sectionId === "grammar" || sectionId === "pronunciation" || sectionId === "writing";
   const renderedContentStyle = isFullWidth
     ? { ...contentBoxStyle, textAlign: "left", background: "transparent", padding: 0, border: 0, boxShadow: "none" }
@@ -272,7 +272,7 @@ export default function Section() {
               {t("The legacy HSK 1 exam tests listening and reading only. Study these characters and strokes to support recognition; handwriting is optional exam preparation.")}
             </p>
           )}
-          {isUnit1Vocabulary ? <Unit1Vocabulary key={content} content={content} /> : <MarkdownRenderer content={content} vocabularyAudio={sectionId === "vocabulary" && levelNum === 1} audioBaseUrl={sectionId === "vocabulary" && levelNum !== 1 ? getAudioBaseUrl(levelNum, lessonNum) : undefined} groupTopics={sectionId === "dialogue" || sectionId === "grammar" || sectionId === "pronunciation" || sectionId === "writing"} />}
+          {hasIllustratedVocabulary ? <Hsk1IllustratedVocabulary key={content} content={content} lessonNum={lessonNum} /> : <MarkdownRenderer content={content} vocabularyAudio={sectionId === "vocabulary" && levelNum === 1} audioBaseUrl={sectionId === "vocabulary" && levelNum !== 1 ? getAudioBaseUrl(levelNum, lessonNum) : undefined} groupTopics={sectionId === "dialogue" || sectionId === "grammar" || sectionId === "pronunciation" || sectionId === "writing"} />}
           {sectionId === "pronunciation" && levelNum === 1 && <PronunciationPractice key={lessonNum} lessonNum={lessonNum} />}
           {sectionId === "vocabulary" && levelNum === 1 && (
             <p style={{ fontSize: "var(--fs-small)", color: "var(--ink-light)", lineHeight: 1.6, marginTop: "20px" }}>

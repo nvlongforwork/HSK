@@ -24,3 +24,13 @@ test("columns are identified by header rather than their position", () => {
   assert.deepEqual(parseVocabulary("Not a vocabulary table"), []);
   assert.deepEqual(parseVocabulary(), []);
 });
+
+test("lesson 2 vocabulary uses Character, Pinyin, and Meaning headers", () => {
+  assert.deepEqual(parseVocabulary(`| # | Character | Pinyin | Meaning | Example |
+|---|---|---|---|---|
+| 1 | 谢谢 | xièxie | thank you | 谢谢你！|
+| 2 | 没 | méi | not; have not | 没关系！|`), [
+    { word: "谢谢", pinyin: "xièxie", meaning: "thank you", example: "谢谢你！" },
+    { word: "没", pinyin: "méi", meaning: "not; have not", example: "没关系！" },
+  ]);
+});

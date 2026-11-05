@@ -1,16 +1,16 @@
 import { useState, useCallback } from "react";
 import { useLanguage } from "../i18n/useLanguage";
 import { parseVocabulary } from "../utils/vocabulary";
-import { unit1ExampleMeanings } from "../data/unit1ExampleMeanings";
+import { hsk1ExampleMeanings } from "../data/hsk1ExampleMeanings";
 import PinyinText from "./PinyinText";
 import AudioButton, { useAudioPlayer, SpeakerIcon } from "./AudioButton";
 import MarkdownRenderer from "./MarkdownRenderer";
 import useMandarinVoice from "../hooks/useMandarinVoice";
 import { getVocabularyRecordingUrl } from "../data/hsk1AudioWords";
-import { getUnit1VocabularyImage } from "../data/unit1VocabularyImages";
-import "./unit1-vocabulary.css";
+import { getHsk1VocabularyImage } from "../data/hsk1VocabularyImages";
+import "./hsk1-illustrated-vocabulary.css";
 
-export default function Unit1Vocabulary({ content }) {
+export default function Hsk1IllustratedVocabulary({ content, lessonNum }) {
   const { language, t } = useLanguage();
   const entries = parseVocabulary(content);
   const [mode, setMode] = useState("list");
@@ -24,7 +24,8 @@ export default function Unit1Vocabulary({ content }) {
 
   const currentEntryIndex = deck[deckIndex];
   const entry = entries[currentEntryIndex] || entries[0];
-  const exampleMeaning = unit1ExampleMeanings[entry?.example]?.[language];
+  const exampleMeaning = hsk1ExampleMeanings[entry?.example]?.[language];
+  const tableLabel = language === "vi" ? `Bảng từ vựng Bài ${lessonNum}` : `Lesson ${lessonNum} vocabulary table`;
 
   const voice = useMandarinVoice();
   const audioSrc = entry ? getVocabularyRecordingUrl(entry.word) : null;
@@ -99,7 +100,7 @@ export default function Unit1Vocabulary({ content }) {
   }
 
   return (
-    <div className="unit1-vocabulary">
+    <div className="hsk1-vocabulary">
       <div className="vocabulary-mode-bar">
         <div role="tablist" className="vocabulary-modes" aria-label={t("Vocabulary study mode")} onKeyDown={tabKeys}>
           <button id="vocabulary-tab-list" type="button" role="tab" aria-selected={mode === "list"}
@@ -116,9 +117,9 @@ export default function Unit1Vocabulary({ content }) {
 
       <section id="vocabulary-panel-list" role="tabpanel" aria-labelledby="vocabulary-tab-list" hidden={mode !== "list"}>
         <p className="vocabulary-table-hint">{t("Swipe the table to see all columns.")}</p>
-        <div className="vocabulary-table-wrap" tabIndex={mode === "list" ? 0 : -1} role="region" aria-label={t("Unit 1 vocabulary table")}>
+        <div className="vocabulary-table-wrap" tabIndex={mode === "list" ? 0 : -1} role="region" aria-label={tableLabel}>
           <table className="vocabulary-table">
-            <caption className="vocabulary-sr-only">{t("Unit 1 vocabulary list")}</caption>
+            <caption className="vocabulary-sr-only">{tableLabel}</caption>
             <thead><tr>
               <th scope="col">#</th>
               <th scope="col" className="vocabulary-audio-col"><SpeakerIcon size="22" /></th>
@@ -137,7 +138,7 @@ export default function Unit1Vocabulary({ content }) {
                 <td className="vocabulary-pinyin">{item.pinyin}</td>
                 <td className="vocabulary-meaning" lang={language}>{t(item.meaning)}</td>
                 <td className="vocabulary-image-cell">
-                  {getUnit1VocabularyImage(item.word) && <img src={getUnit1VocabularyImage(item.word)} alt="" loading="lazy" width="126" height="92" />}
+                  {getHsk1VocabularyImage(lessonNum, item.word) && <img src={getHsk1VocabularyImage(lessonNum, item.word)} alt="" loading="lazy" width="126" height="92" />}
                 </td>
                 <td className="vocabulary-example" lang="zh-CN"><PinyinText>{item.example || "—"}</PinyinText></td>
               </tr>
@@ -186,7 +187,7 @@ export default function Unit1Vocabulary({ content }) {
                 onClick={handleFlip}>
                 <span key={`${entry.word}-${currentEntryIndex}-${round}`} className="vocabulary-card-rotator">
                   <span className="vocabulary-card-face vocabulary-card-front" aria-hidden={flipped} inert={flipped}>
-                    {getUnit1VocabularyImage(entry.word) && <img className="vocabulary-card-image" src={getUnit1VocabularyImage(entry.word)} alt={entry.word} width="453" height="326" />}
+                    {getHsk1VocabularyImage(lessonNum, entry.word) && <img className="vocabulary-card-image" src={getHsk1VocabularyImage(lessonNum, entry.word)} alt={entry.word} width={lessonNum === 2 ? 454 : 453} height={lessonNum === 2 ? 450 : 326} />}
                     <span className="vocabulary-flip-cue">{t("Tap to flip")}</span>
                   </span>
                   <span className="vocabulary-card-face vocabulary-card-back" aria-hidden={!flipped} inert={!flipped}>
