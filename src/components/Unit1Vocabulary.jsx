@@ -7,6 +7,7 @@ import AudioButton, { useAudioPlayer, SpeakerIcon } from "./AudioButton";
 import MarkdownRenderer from "./MarkdownRenderer";
 import useMandarinVoice from "../hooks/useMandarinVoice";
 import { getVocabularyRecordingUrl } from "../data/hsk1AudioWords";
+import { getUnit1VocabularyImage } from "../data/unit1VocabularyImages";
 import "./unit1-vocabulary.css";
 
 export default function Unit1Vocabulary({ content }) {
@@ -123,6 +124,7 @@ export default function Unit1Vocabulary({ content }) {
               <th scope="col" className="vocabulary-audio-col"><SpeakerIcon size="22" /></th>
               <th scope="col">汉字</th><th scope="col">拼音</th>
               <th scope="col">{language === "vi" ? "Tiếng Việt" : "English"}</th>
+              <th scope="col"><PinyinText>图片</PinyinText><span>{t("Image")}</span></th>
               <th scope="col"><PinyinText>例句</PinyinText><span>{t("Example")}</span></th>
             </tr></thead>
             <tbody>{entries.map((item, row) => (
@@ -134,6 +136,9 @@ export default function Unit1Vocabulary({ content }) {
                 <th scope="row" className="vocabulary-word" lang="zh-CN"><PinyinText>{item.word}</PinyinText></th>
                 <td className="vocabulary-pinyin">{item.pinyin}</td>
                 <td className="vocabulary-meaning" lang={language}>{t(item.meaning)}</td>
+                <td className="vocabulary-image-cell">
+                  {getUnit1VocabularyImage(item.word) && <img src={getUnit1VocabularyImage(item.word)} alt="" loading="lazy" width="88" height="88" />}
+                </td>
                 <td className="vocabulary-example" lang="zh-CN"><PinyinText>{item.example || "—"}</PinyinText></td>
               </tr>
             ))}</tbody>
@@ -189,6 +194,7 @@ export default function Unit1Vocabulary({ content }) {
                   </span>
                   <span className="vocabulary-card-face vocabulary-card-back" aria-hidden={!flipped} inert={!flipped}>
                     <span className="vocabulary-back-meaning" lang={language}>{t(entry.meaning)}</span>
+                    {getUnit1VocabularyImage(entry.word) && <img className="vocabulary-card-image" src={getUnit1VocabularyImage(entry.word)} alt="" width="160" height="160" />}
                     <span className="vocabulary-card-pinyin">{entry.pinyin}</span>
                     <span className="vocabulary-card-example" lang="zh-CN">{entry.example || entry.word}</span>
                     {exampleMeaning && <span className="vocabulary-card-translation" lang={language}>{exampleMeaning}</span>}
