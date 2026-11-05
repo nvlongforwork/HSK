@@ -44,6 +44,28 @@ const imagesByLesson = {
     "哪": "na.webp",
     "呢": "ne.webp",
   },
+  5: {
+    "猫": "mao.webp",
+    "狗": "gou.webp",
+    "大": "da.webp",
+    "小": "xiao.webp",
+    "多": "duo.webp",
+    "少": "shao.webp",
+    "有": "you.webp",
+    "没有": "meiyou.webp",
+    "个": "ge.webp",
+    "一": "yi.webp",
+    "岁": "sui.webp",
+    "二": "er.webp",
+    "三": "san.webp",
+    "四": "si.webp",
+    "五": "wu.webp",
+    "六": "liu.webp",
+    "七": "qi.webp",
+    "八": "ba.webp",
+    "九": "jiu.webp",
+    "十": "shi.webp",
+  },
 };
 
 export function getHsk1VocabularyImage(lessonNum, word) {
