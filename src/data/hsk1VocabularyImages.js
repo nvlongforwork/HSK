@@ -133,6 +133,20 @@ const imagesByLesson = {
     "里": "li.webp",
     "商店": "shangdian.webp",
   },
+  10: {
+    "能": "neng.webp",
+    "坐": "zuo.webp",
+    "这儿": "zher.webp",
+    "那儿": "nar.webp",
+    "前面": "qianmian.webp",
+    "后面": "houmian.webp",
+    "上": "shang.webp",
+    "下": "xia.webp",
+    "桌子": "zhuozi.webp",
+    "椅子": "yizi.webp",
+    "电脑": "diannao.webp",
+    "本": "ben.webp",
+  },
 };
 
 export function getHsk1VocabularyImage(lessonNum, word) {

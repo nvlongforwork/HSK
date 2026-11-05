@@ -203,7 +203,7 @@ export default function Section() {
   }
 
   const isExercises = sectionId === "exercises";
-  const hasIllustratedVocabulary = levelNum === 1 && [1, 2, 3, 4, 5, 6, 7, 8, 9].includes(lessonNum) && sectionId === "vocabulary";
+  const hasIllustratedVocabulary = levelNum === 1 && [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].includes(lessonNum) && sectionId === "vocabulary";
   const isFullWidth = sectionId === "dialogue" || sectionId === "grammar" || sectionId === "pronunciation" || sectionId === "writing";
   const renderedContentStyle = isFullWidth
     ? { ...contentBoxStyle, textAlign: "left", background: "transparent", padding: 0, border: 0, boxShadow: "none" }
