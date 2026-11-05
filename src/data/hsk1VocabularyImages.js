@@ -66,6 +66,22 @@ const imagesByLesson = {
     "九": "jiu.webp",
     "十": "shi.webp",
   },
+  6: {
+    "会": "hui.webp",
+    "说": "shuo.webp",
+    "妈妈": "mama.webp",
+    "菜": "cai.webp",
+    "很": "hen.webp",
+    "好吃": "haochi.webp",
+    "做": "zuo.webp",
+    "写": "xie.webp",
+    "汉字": "hanzi.webp",
+    "字": "zi.webp",
+    "怎么": "zenme.webp",
+    "读": "du.webp",
+    "汉语": "hanyu.webp",
+    "说话": "shuohua.webp",
+  },
 };
 
 export function getHsk1VocabularyImage(lessonNum, word) {
