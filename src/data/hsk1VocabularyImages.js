@@ -82,6 +82,23 @@ const imagesByLesson = {
     "汉语": "hanyu.webp",
     "说话": "shuohua.webp",
   },
+  7: {
+    "请": "qing.webp",
+    "问": "wen.webp",
+    "今天": "jintian.webp",
+    "号": "hao.webp",
+    "月": "yue.webp",
+    "星期": "xingqi.webp",
+    "昨天": "zuotian.webp",
+    "明天": "mingtian.webp",
+    "去": "qu.webp",
+    "学校": "xuexiao.webp",
+    "看": "kan.webp",
+    "书": "shu.webp",
+    "几": "ji.webp",
+    "年": "nian.webp",
+    "日": "ri.webp",
+  },
 };
 
 export function getHsk1VocabularyImage(lessonNum, word) {
