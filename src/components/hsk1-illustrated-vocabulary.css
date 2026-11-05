@@ -22,6 +22,7 @@
 .vocabulary-meaning { max-width: 180px; line-height: 1.5; }
 .vocabulary-image-cell { width: 142px; text-align: center; }
 .vocabulary-image-cell img { display: block; width: 126px; height: 92px; object-fit: contain; margin: 0 auto; }
+.vocabulary-supplemental { margin-top: 28px; }
 .vocabulary-audio-col { width: 48px; text-align: center; }
 .vocabulary-audio-cell { width: 48px; text-align: center; padding: 6px !important; }
 .vocabulary-card-audio { margin-top: -4px; }

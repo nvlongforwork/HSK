@@ -8,4 +8,11 @@ export const hsk1ExampleMeanings = {
   "谢谢你！": { en: "Thank you!", vi: "Cảm ơn bạn!" },
   "不客气！": { en: "You're welcome!", vi: "Không có gì!" },
   "再见！": { en: "Goodbye!", vi: "Tạm biệt!" },
+  "你叫什么名字？": { en: "What's your name?", vi: "Bạn tên là gì?" },
+  "我叫李月。": { en: "My name is Li Yue.", vi: "Tôi tên là Lý Nguyệt." },
+  "你是老师吗？": { en: "Are you a teacher?", vi: "Bạn là giáo viên phải không?" },
+  "我是学生。": { en: "I am a student.", vi: "Tôi là học sinh." },
+  "你是中国人吗？": { en: "Are you Chinese?", vi: "Bạn là người Trung Quốc phải không?" },
+  "他叫什么名字？": { en: "What's his name?", vi: "Anh ấy tên là gì?" },
+  "她是老师吗？": { en: "Is she a teacher?", vi: "Cô ấy là giáo viên phải không?" },
 };

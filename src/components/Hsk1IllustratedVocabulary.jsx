@@ -26,6 +26,8 @@ export default function Hsk1IllustratedVocabulary({ content, lessonNum }) {
   const entry = entries[currentEntryIndex] || entries[0];
   const exampleMeaning = hsk1ExampleMeanings[entry?.example]?.[language];
   const tableLabel = language === "vi" ? `Bảng từ vựng Bài ${lessonNum}` : `Lesson ${lessonNum} vocabulary table`;
+  const supplementaryStart = content.indexOf("### 专有名词");
+  const supplementaryContent = supplementaryStart >= 0 ? content.slice(supplementaryStart) : "";
 
   const voice = useMandarinVoice();
   const audioSrc = entry ? getVocabularyRecordingUrl(entry.word) : null;
@@ -145,6 +147,7 @@ export default function Hsk1IllustratedVocabulary({ content, lessonNum }) {
             ))}</tbody>
           </table>
         </div>
+        {supplementaryContent && <div className="vocabulary-supplemental"><MarkdownRenderer content={supplementaryContent} vocabularyAudio /></div>}
       </section>
 
       <section id="vocabulary-panel-cards" role="tabpanel" aria-labelledby="vocabulary-tab-cards" hidden={mode !== "cards"}>
@@ -187,7 +190,7 @@ export default function Hsk1IllustratedVocabulary({ content, lessonNum }) {
                 onClick={handleFlip}>
                 <span key={`${entry.word}-${currentEntryIndex}-${round}`} className="vocabulary-card-rotator">
                   <span className="vocabulary-card-face vocabulary-card-front" aria-hidden={flipped} inert={flipped}>
-                    {getHsk1VocabularyImage(lessonNum, entry.word) && <img className="vocabulary-card-image" src={getHsk1VocabularyImage(lessonNum, entry.word)} alt={entry.word} width={lessonNum === 2 ? 454 : 453} height={lessonNum === 2 ? 450 : 326} />}
+                    {getHsk1VocabularyImage(lessonNum, entry.word) && <img className="vocabulary-card-image" src={getHsk1VocabularyImage(lessonNum, entry.word)} alt={entry.word} />}
                     <span className="vocabulary-flip-cue">{t("Tap to flip")}</span>
                   </span>
                   <span className="vocabulary-card-face vocabulary-card-back" aria-hidden={!flipped} inert={!flipped}>
