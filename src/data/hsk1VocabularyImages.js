@@ -114,6 +114,25 @@ const imagesByLesson = {
     "水果": "shuiguo.webp",
     "饭馆": "fanguan.webp",
   },
+  9: {
+    "小": "xiao.webp",
+    "猫": "mao.webp",
+    "在": "zai.webp",
+    "那儿": "nar.webp",
+    "狗": "gou.webp",
+    "椅子": "yizi.webp",
+    "下面": "xiamian.webp",
+    "哪儿": "nar_where.webp",
+    "工作": "gongzuo.webp",
+    "儿子": "erzi.webp",
+    "医院": "yiyuan.webp",
+    "医生": "yisheng.webp",
+    "爸爸": "baba.webp",
+    "家": "jia.webp",
+    "女儿": "nver.webp",
+    "里": "li.webp",
+    "商店": "shangdian.webp",
+  },
 };
 
 export function getHsk1VocabularyImage(lessonNum, word) {
