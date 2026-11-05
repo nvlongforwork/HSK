@@ -147,6 +147,21 @@ const imagesByLesson = {
     "电脑": "diannao.webp",
     "本": "ben.webp",
   },
+  11: {
+    "现在": "xianzai.webp",
+    "点": "dian.webp",
+    "分": "fen.webp",
+    "半": "ban.webp",
+    "上午": "shangwu.webp",
+    "下午": "xiawu.webp",
+    "时候": "shihou.webp",
+    "去": "qu.webp",
+    "来": "lai.webp",
+    "回": "hui.webp",
+    "电影": "dianying.webp",
+    "中午": "zhongwu.webp",
+    "零": "ling.webp",
+  },
 };
 
 export function getHsk1VocabularyImage(lessonNum, word) {
