@@ -6,6 +6,7 @@ import HskLevel from "./pages/HskLevel";
 import Lesson from "./pages/Lesson";
 import Section from "./pages/Section";
 import ExerciseType from "./pages/ExerciseType";
+import WritingWorksheet from "./pages/WritingWorksheet";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/writing-worksheet" element={<WritingWorksheet />} />
         <Route path="/hsk/:level" element={<HskLevel />} />
         <Route path="/hsk/:level/:lessonSlug" element={<Lesson />} />
         <Route path="/hsk/:level/:lessonSlug/:sectionId" element={<Section />} />

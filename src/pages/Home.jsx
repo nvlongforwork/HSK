@@ -2,6 +2,7 @@ import { useLanguage } from "../i18n/useLanguage";
 import hskLevels from "../data/hskLevels";
 import BounceCard from "../components/BounceCard";
 import PinyinText from "../components/PinyinText";
+import { Link } from "react-router-dom";
 import "./home.css";
 
 const cardPatternStyle = {
@@ -15,7 +16,7 @@ const cardPatternStyle = {
 };
 
 export default function Home() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <main className="home-page">
       <header className="home-hero fade-in-up">
@@ -55,6 +56,16 @@ export default function Home() {
             </BounceCard>
           ))}
         </div>
+      </section>
+      <section className="home-tools" aria-label={language === "vi" ? "Công cụ cho giáo viên" : "Teacher tools"}>
+        <Link to="/writing-worksheet" className="home-tool-card">
+          <span className="home-tool-icon" aria-hidden="true">✎</span>
+          <span className="home-tool-copy">
+            <strong>{language === "vi" ? "Tạo writing worksheet" : "Create a writing worksheet"}</strong>
+            <span>{language === "vi" ? "Nhập chữ Hán · Tải phiếu luyện viết PDF khổ A4" : "Enter Chinese characters · Download an A4 practice PDF"}</span>
+          </span>
+          <span className="home-tool-arrow" aria-hidden="true">➜</span>
+        </Link>
       </section>
     </main>
   );

@@ -93,11 +93,19 @@ const exerciseNames = {
 };
 
 export default function Header() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const location = useLocation();
   const p = location.pathname.split("/").filter(Boolean);
 
   const crumbs = [];
+
+  if (p[0] === "writing-worksheet") {
+    crumbs.push(
+      <Link key="home" to="/" style={linkStyle}><PinyinText>首页</PinyinText>{t(" Home")}</Link>,
+      <span key="separator" style={sepStyle}>/</span>,
+      <span key="worksheet" style={activeStyle}>{language === "vi" ? "Tạo writing worksheet" : "Writing worksheet"}</span>
+    );
+  }
 
   if (p.length >= 2 && p[0] === "hsk") {
     const level = p[1];
