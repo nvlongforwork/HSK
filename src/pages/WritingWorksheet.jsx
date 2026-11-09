@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../i18n/useLanguage";
-import { loadStrokeData, MAX_CHARACTERS, MAX_CHARACTERS_PER_PAGE, parseWritingWords, renderWorksheetPages } from "../utils/writingWorksheet";
+import { getWorksheetPinyin, loadStrokeData, MAX_CHARACTERS, MAX_CHARACTERS_PER_PAGE, parseWritingWords, renderWorksheetPages } from "../utils/writingWorksheet";
 import brushFontUrl from "@expo-google-fonts/ma-shan-zheng/400Regular/MaShanZheng_400Regular.ttf?url";
 import pinyinFontUrl from "@expo-google-fonts/noto-sans/400Regular/NotoSans_400Regular.ttf?url";
 import "./writing-worksheet.css";
@@ -49,11 +49,12 @@ export default function WritingWorksheet() {
         const chars = parsed.words.join("");
         const [strokeData] = await Promise.all([
           loadStrokeData([...chars]),
-          document.fonts.load('32px "Worksheet Brush"', chars).catch(() => {}),
+          document.fonts.load('32px "Worksheet Brush"', chars),
+          document.fonts.load('16px "Worksheet Pinyin"', parsed.words.map(getWorksheetPinyin).join(" ")),
         ]);
         if (active) {
-          const pages = renderWorksheetPages(parsed.words, strokeData, { title });
-          setPreview(pages.map((canvas) => canvas.toDataURL("image/jpeg", 0.83)));
+          const pages = renderWorksheetPages(parsed.words, strokeData, { dpi: 144, title });
+          setPreview(pages.map((canvas) => canvas.toDataURL("image/png")));
         }
       } catch {
         if (active) setError(copy.error);
@@ -72,7 +73,8 @@ export default function WritingWorksheet() {
       const chars = parsed.words.join("");
       const [strokeData] = await Promise.all([
         loadStrokeData([...chars]),
-        document.fonts.load('32px "Worksheet Brush"', chars).catch(() => {}),
+        document.fonts.load('32px "Worksheet Brush"', chars),
+        document.fonts.load('16px "Worksheet Pinyin"', parsed.words.map(getWorksheetPinyin).join(" ")),
       ]);
       const { createWritingWorksheetPdf } = await import("../utils/writingWorksheetPdf");
       const pdf = await createWritingWorksheetPdf(parsed.words, strokeData, { title, fontUrl: brushFontUrl, pinyinFontUrl });

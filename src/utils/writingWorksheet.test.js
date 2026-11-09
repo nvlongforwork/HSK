@@ -24,6 +24,6 @@ test("keeps HSK 1 tone marks, neutral tones, initials and textbook polyphonic re
   for (const [word, expected] of Object.entries({
     我们: "wǒmen", 你们: "nǐmen", 想: "xiǎng", 学习: "xuéxí",
     谢谢: "xièxie", 不客气: "bú kèqi", 谁: "shéi", 喂: "wéi", 了: "le",
-    认识: "rènshi", 衣服: "yīfu", 一点儿: "yìdiǎnr", 你好: "nǐ hǎo",
+    认识: "rènshi", 衣服: "yīfu", 一点儿: "yìdiǎnr", 好: "hǎo", 你好: "nǐ hǎo",
   })) assert.equal(getWorksheetPinyin(word), expected, word);
 });

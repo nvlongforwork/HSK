@@ -120,7 +120,7 @@ function makePage(dpi, pageNumber, title) {
   ctx.fillRect(0, 0, PAGE_WIDTH_MM, PAGE_HEIGHT_MM);
   ctx.fillStyle = "#24212a";
   ctx.textAlign = "left";
-  ctx.font = 'bold 6px "Noto Serif SC", "SimSun", serif';
+  ctx.font = '6px "Worksheet Brush", "KaiTi", serif';
   ctx.fillText(title || "汉字书写练习", 14, 20, 135);
   ctx.font = "3.1px Arial, sans-serif";
   ctx.fillStyle = "#777";
@@ -145,11 +145,11 @@ export function renderWorksheetPages(words, strokesByCharacter, { dpi = 110, tit
       ctx.font = "4.2px Arial, sans-serif";
       ctx.fillText(firstOnPage ? `${wordIndex + 1}.` : "–", 14, y + 5);
       ctx.fillStyle = "#252329";
-      ctx.font = '7.5px "Noto Serif SC", "KaiTi", "SimSun", serif';
+      ctx.font = '7.5px "Worksheet Brush", "KaiTi", serif';
       ctx.fillText(firstOnPage ? word : char, 23, y + 6, 90);
       if (firstOnPage) {
         ctx.fillStyle = "#74747c";
-        ctx.font = '4px "Noto Serif SC", Georgia, serif';
+        ctx.font = '4px "Worksheet Pinyin", Arial, sans-serif';
         ctx.fillText(getWorksheetPinyin(word), 117, y + 5, 78);
       }
       drawCharacterRow(ctx, char, y + 5, strokesByCharacter[char]);
