@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../i18n/useLanguage";
-import { loadStrokeData, MAX_CHARACTERS, parseWritingWords, pdfFromJpegs, renderWorksheetPages } from "../utils/writingWorksheet";
+import { loadStrokeData, MAX_CHARACTERS, MAX_CHARACTERS_PER_PAGE, parseWritingWords, pdfFromJpegs, renderWorksheetPages } from "../utils/writingWorksheet";
 import "./writing-worksheet.css";
 
 const labels = {
   en: {
     title: "Create a writing worksheet", subtitle: "Make printable Chinese character practice pages in minutes.",
-    input: "Characters or words to practise", hint: "Enter one word per line, or separate words with commas. Each character gets its own tracing row.",
+    input: "Characters or words to practise", hint: `Enter one word per line, or separate words with commas. Each character gets its own tracing row; up to ${MAX_CHARACTERS_PER_PAGE} characters fit on each A4 page.`,
     paperTitle: "Title on the worksheet (optional)", paperPlaceholder: "Chinese writing practice",
     example: "Try an example", create: "Download A4 PDF", creating: "Creating PDF…",
     preview: "A4 preview", previewHint: "The first square is a model, the next four are tracing guides, and the remaining six are for independent practice.",
@@ -17,7 +17,7 @@ const labels = {
   },
   vi: {
     title: "Tạo writing worksheet", subtitle: "Tạo trang luyện viết chữ Hán để in cho học sinh.",
-    input: "Chữ hoặc từ cần tập viết", hint: "Nhập mỗi từ trên một dòng hoặc ngăn cách bằng dấu phẩy. Mỗi chữ Hán có một hàng tập viết riêng.",
+    input: "Chữ hoặc từ cần tập viết", hint: `Nhập mỗi từ trên một dòng hoặc ngăn cách bằng dấu phẩy. Mỗi chữ Hán có một hàng tập viết riêng; tối đa ${MAX_CHARACTERS_PER_PAGE} chữ trên mỗi trang A4.`,
     paperTitle: "Tiêu đề trên phiếu (không bắt buộc)", paperPlaceholder: "Luyện viết chữ Hán",
     example: "Dùng mẫu thử", create: "Tải PDF khổ A4", creating: "Đang tạo PDF…",
     preview: "Xem trước khổ A4", previewHint: "Ô đầu là chữ mẫu, bốn ô tiếp theo có chữ mờ để tô nét, sáu ô còn lại dành cho học sinh tự viết.",

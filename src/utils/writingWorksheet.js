@@ -1,8 +1,25 @@
-import pinyinMap from "../data/pinyin.js";
+import { pinyin } from "pinyin-pro";
+import hsk1Pinyin from "../data/hsk1WorksheetPinyin.js";
 
 export const PAGE_WIDTH_MM = 210;
 export const PAGE_HEIGHT_MM = 297;
 export const MAX_CHARACTERS = 60;
+export const MAX_CHARACTERS_PER_PAGE = 7;
+
+export function getWorksheetPinyin(word) {
+  return hsk1Pinyin[word] || pinyin(word, { toneType: "symbol" });
+}
+
+export function paginateWritingWords(words) {
+  const rows = words.flatMap((word, wordIndex) => [...word].map((char, charIndex) => ({
+    word, wordIndex, char, charIndex,
+  })));
+  const pages = [];
+  for (let i = 0; i < rows.length; i += MAX_CHARACTERS_PER_PAGE) {
+    pages.push(rows.slice(i, i + MAX_CHARACTERS_PER_PAGE));
+  }
+  return pages;
+}
 
 export function parseWritingWords(input) {
   const words = input.split(/[\n,，、;；]+/).map((part) => [...part.matchAll(/\p{Script=Han}/gu)].map(([char]) => char).join(""))
@@ -71,16 +88,16 @@ function drawCharacterRow(ctx, char, y, strokes) {
   if (strokes?.length) {
     const stepSize = Math.min(8.2, 174 / strokes.length - 0.7);
     for (let i = 0; i < strokes.length; i++) {
-      drawStrokeStep(ctx, strokes, i, startX + i * (stepSize + 0.7), y + 1, stepSize);
+      drawStrokeStep(ctx, strokes, i, startX + i * (stepSize + 0.7), y + 0.5, stepSize);
     }
   } else {
     ctx.fillStyle = "#979797";
     ctx.font = '3.2px "Noto Serif SC", "SimSun", serif';
     ctx.textAlign = "left";
-    ctx.fillText("笔顺暂不可用 / Stroke guide unavailable", startX, y + 7);
+    ctx.fillText("笔顺暂不可用 / Stroke guide unavailable", startX, y + 5);
   }
 
-  const gridY = y + 12.8;
+  const gridY = y + 10;
   for (let i = 0; i < 11; i++) {
     const x = startX + i * size;
     drawGrid(ctx, x, gridY, size);
@@ -116,47 +133,31 @@ function makePage(dpi, pageNumber, title) {
   ctx.textAlign = "right";
   ctx.font = "3px Arial, sans-serif";
   ctx.fillText(String(pageNumber), 196, 288);
-  return { canvas, ctx, y: 39 };
+  return { canvas, ctx };
 }
 
 export function renderWorksheetPages(words, strokesByCharacter, { dpi = 110, title = "" } = {}) {
-  const pages = [];
-  let page = makePage(dpi, 1, title);
-  pages.push(page.canvas);
-  words.forEach((word, index) => {
-    const chars = [...word];
-    const drawWordHeader = () => {
-      const { ctx, y } = page;
+  return paginateWritingWords(words).map((rows, pageIndex) => {
+    const { canvas, ctx } = makePage(dpi, pageIndex + 1, title);
+    rows.forEach(({ word, wordIndex, char, charIndex }, rowIndex) => {
+      const y = 38 + rowIndex * 35;
+      const firstOnPage = rowIndex === 0 || charIndex === 0;
       ctx.textAlign = "left";
       ctx.fillStyle = "#666";
       ctx.font = "4.2px Arial, sans-serif";
-      ctx.fillText(`${index + 1}.`, 14, y + 6);
+      ctx.fillText(firstOnPage ? `${wordIndex + 1}.` : "↳", 14, y + 5);
       ctx.fillStyle = "#252329";
-      ctx.font = '8px "Noto Serif SC", "KaiTi", "SimSun", serif';
-      ctx.fillText(word, 23, y + 7, 90);
-      const pinyin = chars.map((char) => pinyinMap[char] || "").filter(Boolean).join("  ");
-      ctx.fillStyle = "#74747c";
-      ctx.font = '4px "Noto Serif SC", Georgia, serif';
-      ctx.fillText(pinyin, 117, y + 6, 78);
-      page.y += 12;
-    };
-    const nextPage = () => {
-      page = makePage(dpi, pages.length + 1, title);
-      pages.push(page.canvas);
-    };
-    if (page.y + 55 > 280) nextPage();
-    drawWordHeader();
-    chars.forEach((char) => {
-      if (page.y + 35 > 280) { nextPage(); drawWordHeader(); }
-      drawCharacterRow(page.ctx, char, page.y, strokesByCharacter[char]);
-      page.y += 33;
+      ctx.font = '7.5px "Noto Serif SC", "KaiTi", "SimSun", serif';
+      ctx.fillText(firstOnPage ? word : char, 23, y + 6, 90);
+      if (firstOnPage) {
+        ctx.fillStyle = "#74747c";
+        ctx.font = '4px "Noto Serif SC", Georgia, serif';
+        ctx.fillText(getWorksheetPinyin(word), 117, y + 5, 78);
+      }
+      drawCharacterRow(ctx, char, y + 5, strokesByCharacter[char]);
     });
-    page.y += 10;
-    page.ctx.strokeStyle = "#e7e7e7";
-    page.ctx.lineWidth = 0.2;
-    line(page.ctx, 14, page.y - 5, 196, page.y - 5);
+    return canvas;
   });
-  return pages;
 }
 
 const encoder = new TextEncoder();
