@@ -55,18 +55,16 @@ function line(ctx, x1, y1, x2, y2) {
 }
 
 function drawGrid(ctx, x, y, size) {
-  ctx.strokeStyle = "#d2d2d2";
+  ctx.strokeStyle = "#c9c9c9";
   ctx.lineWidth = 0.22;
   ctx.setLineDash([]);
   ctx.strokeRect(x, y, size, size);
-  ctx.strokeStyle = "#d8d8d8";
-  ctx.lineWidth = 0.16;
-  ctx.setLineDash([0.8, 0.8]);
+  ctx.strokeStyle = "#dedede";
+  ctx.lineWidth = 0.14;
   line(ctx, x, y, x + size, y + size);
   line(ctx, x + size, y, x, y + size);
   line(ctx, x + size / 2, y, x + size / 2, y + size);
   line(ctx, x, y + size / 2, x + size, y + size / 2);
-  ctx.setLineDash([]);
 }
 
 function drawStrokeStep(ctx, strokes, step, x, y, size) {
@@ -75,7 +73,7 @@ function drawStrokeStep(ctx, strokes, step, x, y, size) {
   ctx.translate(x, y + size * 0.879);
   ctx.scale(size / 1024, -size / 1024);
   for (let i = 0; i <= step; i++) {
-    ctx.fillStyle = i === step ? "#c41e3a" : "#252329";
+    ctx.fillStyle = i === step ? "#ae655b" : "#555052";
     ctx.fill(new Path2D(strokes[i]));
   }
   ctx.restore();
@@ -102,8 +100,8 @@ function drawCharacterRow(ctx, char, y, strokes) {
     const x = startX + i * size;
     drawGrid(ctx, x, gridY, size);
     if (i < 5) {
-      ctx.fillStyle = i === 0 ? "#27242b" : "#c9c9c9";
-      ctx.font = `12.3px "Noto Serif SC", "KaiTi", "SimSun", serif`;
+      ctx.fillStyle = i === 0 ? "#343236" : "#d2d2d2";
+      ctx.font = `12.3px "Worksheet Brush", "KaiTi", "Noto Serif SC", serif`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText(char, x + size / 2, gridY + size / 2 + 0.4, size - 1);
@@ -145,7 +143,7 @@ export function renderWorksheetPages(words, strokesByCharacter, { dpi = 110, tit
       ctx.textAlign = "left";
       ctx.fillStyle = "#666";
       ctx.font = "4.2px Arial, sans-serif";
-      ctx.fillText(firstOnPage ? `${wordIndex + 1}.` : "↳", 14, y + 5);
+      ctx.fillText(firstOnPage ? `${wordIndex + 1}.` : "–", 14, y + 5);
       ctx.fillStyle = "#252329";
       ctx.font = '7.5px "Noto Serif SC", "KaiTi", "SimSun", serif';
       ctx.fillText(firstOnPage ? word : char, 23, y + 6, 90);
@@ -158,46 +156,4 @@ export function renderWorksheetPages(words, strokesByCharacter, { dpi = 110, tit
     });
     return canvas;
   });
-}
-
-const encoder = new TextEncoder();
-
-export function pdfFromJpegs(images) {
-  if (!images.length) throw new Error("A PDF needs at least one page");
-  const chunks = [];
-  const offsets = [0];
-  let length = 0;
-  function append(bytes) { chunks.push(bytes); length += bytes.length; }
-  function write(value) { append(encoder.encode(value)); }
-  function object(id, body) {
-    offsets[id] = length;
-    write(`${id} 0 obj\n${body}\nendobj\n`);
-  }
-
-  write("%PDF-1.4\n");
-  const pageRefs = images.map((_, i) => `${3 + i * 3} 0 R`).join(" ");
-  object(1, "<< /Type /Catalog /Pages 2 0 R >>");
-  object(2, `<< /Type /Pages /Kids [ ${pageRefs} ] /Count ${images.length} >>`);
-  images.forEach(({ dataUrl, width, height }, i) => {
-    const pageId = 3 + i * 3;
-    const imageId = pageId + 1;
-    const contentId = pageId + 2;
-    const binary = atob(dataUrl.split(",")[1]);
-    const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
-    object(pageId, `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.276 841.89] /Resources << /XObject << /Im${i} ${imageId} 0 R >> >> /Contents ${contentId} 0 R >>`);
-    offsets[imageId] = length;
-    write(`${imageId} 0 obj\n<< /Type /XObject /Subtype /Image /Width ${width} /Height ${height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${bytes.length} >>\nstream\n`);
-    append(bytes);
-    write("\nendstream\nendobj\n");
-    const content = `q 595.276 0 0 841.89 0 0 cm /Im${i} Do Q\n`;
-    object(contentId, `<< /Length ${content.length} >>\nstream\n${content}endstream`);
-  });
-  const xref = length;
-  write(`xref\n0 ${offsets.length}\n0000000000 65535 f \n`);
-  for (let i = 1; i < offsets.length; i++) write(`${String(offsets[i]).padStart(10, "0")} 00000 n \n`);
-  write(`trailer\n<< /Size ${offsets.length} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`);
-  const pdf = new Uint8Array(length);
-  let position = 0;
-  for (const chunk of chunks) { pdf.set(chunk, position); position += chunk.length; }
-  return pdf;
 }

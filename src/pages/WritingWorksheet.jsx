@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../i18n/useLanguage";
-import { loadStrokeData, MAX_CHARACTERS, MAX_CHARACTERS_PER_PAGE, parseWritingWords, pdfFromJpegs, renderWorksheetPages } from "../utils/writingWorksheet";
+import { loadStrokeData, MAX_CHARACTERS, MAX_CHARACTERS_PER_PAGE, parseWritingWords, renderWorksheetPages } from "../utils/writingWorksheet";
+import brushFontUrl from "@expo-google-fonts/ma-shan-zheng/400Regular/MaShanZheng_400Regular.ttf?url";
+import pinyinFontUrl from "@expo-google-fonts/noto-sans/400Regular/NotoSans_400Regular.ttf?url";
 import "./writing-worksheet.css";
 
 const labels = {
@@ -47,7 +49,7 @@ export default function WritingWorksheet() {
         const chars = parsed.words.join("");
         const [strokeData] = await Promise.all([
           loadStrokeData([...chars]),
-          document.fonts.load('32px "Noto Serif SC"', chars).catch(() => {}),
+          document.fonts.load('32px "Worksheet Brush"', chars).catch(() => {}),
         ]);
         if (active) {
           const pages = renderWorksheetPages(parsed.words, strokeData, { title });
@@ -70,11 +72,11 @@ export default function WritingWorksheet() {
       const chars = parsed.words.join("");
       const [strokeData] = await Promise.all([
         loadStrokeData([...chars]),
-        document.fonts.load('32px "Noto Serif SC"', chars).catch(() => {}),
+        document.fonts.load('32px "Worksheet Brush"', chars).catch(() => {}),
       ]);
-      const images = renderWorksheetPages(parsed.words, strokeData, { dpi: 240, title })
-        .map((canvas) => ({ dataUrl: canvas.toDataURL("image/jpeg", 0.94), width: canvas.width, height: canvas.height }));
-      const file = new Blob([pdfFromJpegs(images)], { type: "application/pdf" });
+      const { createWritingWorksheetPdf } = await import("../utils/writingWorksheetPdf");
+      const pdf = await createWritingWorksheetPdf(parsed.words, strokeData, { title, fontUrl: brushFontUrl, pinyinFontUrl });
+      const file = new Blob([pdf], { type: "application/pdf" });
       const url = URL.createObjectURL(file);
       const link = document.createElement("a");
       link.href = url;

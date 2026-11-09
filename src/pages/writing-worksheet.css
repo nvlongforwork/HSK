@@ -35,3 +35,10 @@
 .worksheet-loading { text-align: center; font-size: 14px; color: var(--ink-light); margin-bottom: 12px; }
 @media (max-width: 880px) { .worksheet-layout { grid-template-columns: 1fr; } .worksheet-controls { max-width: none; } }
 @media (max-width: 560px) { .worksheet-page { padding: 20px 16px 48px; } .worksheet-controls, .worksheet-preview { padding: 16px; } }
+@font-face {
+  font-family: "Worksheet Brush";
+  src: url("@expo-google-fonts/ma-shan-zheng/400Regular/MaShanZheng_400Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
