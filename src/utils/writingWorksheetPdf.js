@@ -74,7 +74,7 @@ function characterRow(page, row, y, strokes, brushFont, latinFont) {
 }
 
 /** Return a genuine vector A4 PDF: outlines/text/grid paths, no JPEG page images. */
-export async function createWritingWorksheetPdf(words, strokesByCharacter, { title = "", fontBytes, fontUrl, pinyinFontBytes, pinyinFontUrl } = {}) {
+export async function createWritingWorksheetPdf(words, strokesByCharacter, { title = "", fontBytes, fontUrl, pinyinFontBytes, pinyinFontUrl, fallbackPinyinFontBytes, fallbackPinyinFontUrl } = {}) {
   if (!words?.length) throw new Error("Enter at least one Chinese word");
   const fetchFont = async (url) => {
     const response = await fetch(url);
@@ -90,11 +90,16 @@ export async function createWritingWorksheetPdf(words, strokesByCharacter, { tit
   const brushFont = await doc.embedFont(bytes);
   const pinyinFont = await doc.embedFont(latinBytes);
   const latinFont = await doc.embedFont(StandardFonts.Helvetica);
+  const fontFile = fontkit.create(new Uint8Array(latinBytes));
+  const needsFallback = (value) => [...value].some((char) => !fontFile.hasGlyphForCodePoint(char.codePointAt(0)));
+  const fallbackFont = paginateWritingWords(words).some((rows) => rows.some(({ word }) => needsFallback(getWorksheetPinyin(word))))
+    ? await doc.embedFont(fallbackPinyinFontBytes || await fetchFont(fallbackPinyinFontUrl))
+    : null;
 
   paginateWritingWords(words).forEach((rows, pageIndex) => {
     const page = doc.addPage([pt(PAGE_WIDTH_MM), pt(PAGE_HEIGHT_MM)]);
     label(page, title || "汉字书写练习", 14, 20, 6, /\p{Script=Han}/u.test(title || "汉字书写练习") ? brushFont : pinyinFont, color("#24212a"), 135);
-    label(page, "Name: ____________________       Date: __________", 14, 27, 3.1, latinFont, color("#777777"));
+    label(page, "Name: ____________________       Date: __________", 14, 27, 3.1, pinyinFont, color("#777777"));
     rule(page, 14, 31, 196, 31, color("#e5e5e5"), 0.24);
     label(page, String(pageIndex + 1), 195, 288, 3, latinFont, color("#777777"));
 
@@ -104,7 +109,10 @@ export async function createWritingWorksheetPdf(words, strokesByCharacter, { tit
       const firstOnPage = rowIndex === 0 || charIndex === 0;
       label(page, firstOnPage ? `${wordIndex + 1}.` : "-", 14, y + WORKSHEET_ROW.headerBaseline, 4.2, latinFont, color("#666666"));
       label(page, firstOnPage ? word : char, 23, y + WORKSHEET_ROW.headerBaseline, WORKSHEET_ROW.headerFont, brushFont, color("#252329"), 90);
-      if (firstOnPage) label(page, getWorksheetPinyin(word), 117, y + WORKSHEET_ROW.headerBaseline, WORKSHEET_ROW.pinyinFont, pinyinFont, color("#74747c"), 78);
+      if (firstOnPage) {
+        const reading = getWorksheetPinyin(word);
+        label(page, reading, 117, y + WORKSHEET_ROW.headerBaseline, WORKSHEET_ROW.pinyinFont, needsFallback(reading) ? fallbackFont : pinyinFont, color("#74747c"), 78);
+      }
       characterRow(page, row, y, strokesByCharacter[char], brushFont, latinFont);
     });
   });

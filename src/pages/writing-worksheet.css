@@ -44,7 +44,7 @@
 }
 @font-face {
   font-family: "Worksheet Pinyin";
-  src: url("@expo-google-fonts/noto-sans/400Regular/NotoSans_400Regular.ttf") format("truetype");
+  src: url("../assets/fonts/Cohaerentia-Regular.ttf") format("truetype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;

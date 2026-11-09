@@ -126,7 +126,7 @@ function makePage(dpi, pageNumber, title) {
   ctx.textAlign = "left";
   ctx.font = '6px "Worksheet Brush", "KaiTi", serif';
   ctx.fillText(title || "汉字书写练习", 14, 20, 135);
-  ctx.font = "3.1px Arial, sans-serif";
+  ctx.font = '3.1px "Worksheet Pinyin", Georgia, serif';
   ctx.fillStyle = "#777";
   ctx.fillText("Name: ____________________       Date: __________", 14, 27);
   ctx.strokeStyle = "#e5e5e5";
@@ -153,7 +153,7 @@ export function renderWorksheetPages(words, strokesByCharacter, { dpi = 110, tit
       ctx.fillText(firstOnPage ? word : char, 23, y + WORKSHEET_ROW.headerBaseline, 90);
       if (firstOnPage) {
         ctx.fillStyle = "#74747c";
-        ctx.font = `${WORKSHEET_ROW.pinyinFont}px "Worksheet Pinyin", Arial, sans-serif`;
+        ctx.font = `${WORKSHEET_ROW.pinyinFont}px "Worksheet Pinyin", "Noto Sans", sans-serif`;
         ctx.fillText(getWorksheetPinyin(word), 117, y + WORKSHEET_ROW.headerBaseline, 78);
       }
       drawCharacterRow(ctx, char, y, strokesByCharacter[char]);
