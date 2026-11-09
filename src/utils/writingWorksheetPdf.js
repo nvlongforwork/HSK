@@ -1,7 +1,7 @@
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import fontkit from "@pdf-lib/fontkit";
 import svgpath from "svgpath";
-import { getWorksheetPinyin, PAGE_HEIGHT_MM, PAGE_WIDTH_MM, paginateWritingWords } from "./writingWorksheet.js";
+import { getWorksheetPinyin, PAGE_HEIGHT_MM, PAGE_WIDTH_MM, paginateWritingWords, WORKSHEET_ROW } from "./writingWorksheet.js";
 
 const pt = (mm) => mm * 72 / 25.4;
 const color = (hex) => rgb(...[1, 3, 5].map((offset) => parseInt(hex.slice(offset, offset + 2), 16) / 255));
@@ -53,15 +53,15 @@ function strokeGuide(page, strokes, x, y, size, step) {
 function characterRow(page, row, y, strokes, brushFont, latinFont) {
   const { char } = row;
   if (strokes?.length) {
-    const stepSize = Math.min(8.2, 174 / strokes.length - 0.7);
-    strokes.forEach((_, i) => strokeGuide(page, strokes, 14 + i * (stepSize + 0.7), y + 0.5, stepSize, i));
+    const stepSize = Math.min(WORKSHEET_ROW.strokesMaxSize, 174 / strokes.length - 0.7);
+    strokes.forEach((_, i) => strokeGuide(page, strokes, 14 + i * (stepSize + 0.7), y + WORKSHEET_ROW.strokesTop, stepSize, i));
   } else {
-    label(page, "Stroke guide unavailable", 14, y + 5, 3.2, latinFont, color("#979797"));
+    label(page, "Stroke guide unavailable", 14, y + 13, 3.2, latinFont, color("#979797"));
   }
-  const gridY = y + 10;
+  const gridY = y + WORKSHEET_ROW.gridTop;
   for (let i = 0; i < 11; i++) {
-    const x = 14 + i * 16.5;
-    grid(page, x, gridY, 16.5);
+    const x = 14 + i * WORKSHEET_ROW.gridSize;
+    grid(page, x, gridY, WORKSHEET_ROW.gridSize);
     if (i < 5) {
       const fontSize = pt(12.3);
       const glyphWidth = brushFont.widthOfTextAtSize(char, fontSize);
@@ -100,12 +100,12 @@ export async function createWritingWorksheetPdf(words, strokesByCharacter, { tit
 
     rows.forEach((row, rowIndex) => {
       const { word, wordIndex, char, charIndex } = row;
-      const y = 38 + rowIndex * 35;
+      const y = WORKSHEET_ROW.top + rowIndex * WORKSHEET_ROW.pitch;
       const firstOnPage = rowIndex === 0 || charIndex === 0;
-      label(page, firstOnPage ? `${wordIndex + 1}.` : "-", 14, y + 5, 4.2, latinFont, color("#666666"));
-      label(page, firstOnPage ? word : char, 23, y + 6, 7.5, brushFont, color("#252329"), 90);
-      if (firstOnPage) label(page, getWorksheetPinyin(word), 117, y + 5, 4, pinyinFont, color("#74747c"), 78);
-      characterRow(page, row, y + 5, strokesByCharacter[char], brushFont, latinFont);
+      label(page, firstOnPage ? `${wordIndex + 1}.` : "-", 14, y + WORKSHEET_ROW.headerBaseline, 4.2, latinFont, color("#666666"));
+      label(page, firstOnPage ? word : char, 23, y + WORKSHEET_ROW.headerBaseline, WORKSHEET_ROW.headerFont, brushFont, color("#252329"), 90);
+      if (firstOnPage) label(page, getWorksheetPinyin(word), 117, y + WORKSHEET_ROW.headerBaseline, WORKSHEET_ROW.pinyinFont, pinyinFont, color("#74747c"), 78);
+      characterRow(page, row, y, strokesByCharacter[char], brushFont, latinFont);
     });
   });
   return doc.save({ useObjectStreams: false });

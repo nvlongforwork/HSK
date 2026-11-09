@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { getWorksheetPinyin, MAX_CHARACTERS, MAX_CHARACTERS_PER_PAGE, paginateWritingWords, parseWritingWords } from "./writingWorksheet.js";
+import { getWorksheetPinyin, MAX_CHARACTERS, MAX_CHARACTERS_PER_PAGE, paginateWritingWords, parseWritingWords, WORKSHEET_ROW } from "./writingWorksheet.js";
 
 test("extracts Chinese words from lines and common separators", () => {
   assert.deepEqual(parseWritingWords("我们，想\n学习; hello 你好"), {
@@ -18,6 +18,13 @@ test("fits at most seven characters on each A4 page, including multi-character w
   const pages = paginateWritingWords(["我们", "想", "学习", "你好", "谢谢"]);
   assert.deepEqual(pages.map((page) => page.map(({ char }) => char).join("")), ["我们想学习你好", "谢谢"]);
   assert.deepEqual(pages[1][0], { word: "谢谢", wordIndex: 4, char: "谢", charIndex: 0 });
+});
+
+test("keeps heading, stroke guide and writing grid in separate vertical bands", () => {
+  assert.ok(WORKSHEET_ROW.headerBaseline + WORKSHEET_ROW.headerFont * 0.25 < WORKSHEET_ROW.strokesTop);
+  assert.ok(WORKSHEET_ROW.strokesTop + WORKSHEET_ROW.strokesMaxSize < WORKSHEET_ROW.gridTop);
+  assert.ok(WORKSHEET_ROW.gridTop + WORKSHEET_ROW.gridSize < WORKSHEET_ROW.pitch);
+  assert.ok(WORKSHEET_ROW.top + 6 * WORKSHEET_ROW.pitch + WORKSHEET_ROW.gridTop + WORKSHEET_ROW.gridSize < 288);
 });
 
 test("keeps HSK 1 tone marks, neutral tones, initials and textbook polyphonic readings", () => {

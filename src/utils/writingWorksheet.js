@@ -5,6 +5,10 @@ export const PAGE_WIDTH_MM = 210;
 export const PAGE_HEIGHT_MM = 297;
 export const MAX_CHARACTERS = 60;
 export const MAX_CHARACTERS_PER_PAGE = 7;
+export const WORKSHEET_ROW = Object.freeze({
+  top: 38, pitch: 35, headerBaseline: 5, headerFont: 5.5, pinyinFont: 3.8,
+  strokesTop: 8, strokesMaxSize: 6.5, gridTop: 16.5, gridSize: 16.5,
+});
 
 export function getWorksheetPinyin(word) {
   return hsk1Pinyin[word] || pinyin(word, { toneType: "symbol" });
@@ -81,21 +85,21 @@ function drawStrokeStep(ctx, strokes, step, x, y, size) {
 
 function drawCharacterRow(ctx, char, y, strokes) {
   const startX = 14;
-  const size = 16.5;
+  const size = WORKSHEET_ROW.gridSize;
 
   if (strokes?.length) {
-    const stepSize = Math.min(8.2, 174 / strokes.length - 0.7);
+    const stepSize = Math.min(WORKSHEET_ROW.strokesMaxSize, 174 / strokes.length - 0.7);
     for (let i = 0; i < strokes.length; i++) {
-      drawStrokeStep(ctx, strokes, i, startX + i * (stepSize + 0.7), y + 0.5, stepSize);
+      drawStrokeStep(ctx, strokes, i, startX + i * (stepSize + 0.7), y + WORKSHEET_ROW.strokesTop, stepSize);
     }
   } else {
     ctx.fillStyle = "#979797";
     ctx.font = '3.2px "Noto Serif SC", "SimSun", serif';
     ctx.textAlign = "left";
-    ctx.fillText("笔顺暂不可用 / Stroke guide unavailable", startX, y + 5);
+    ctx.fillText("笔顺暂不可用 / Stroke guide unavailable", startX, y + 13);
   }
 
-  const gridY = y + 10;
+  const gridY = y + WORKSHEET_ROW.gridTop;
   for (let i = 0; i < 11; i++) {
     const x = startX + i * size;
     drawGrid(ctx, x, gridY, size);
@@ -138,21 +142,21 @@ export function renderWorksheetPages(words, strokesByCharacter, { dpi = 110, tit
   return paginateWritingWords(words).map((rows, pageIndex) => {
     const { canvas, ctx } = makePage(dpi, pageIndex + 1, title);
     rows.forEach(({ word, wordIndex, char, charIndex }, rowIndex) => {
-      const y = 38 + rowIndex * 35;
+      const y = WORKSHEET_ROW.top + rowIndex * WORKSHEET_ROW.pitch;
       const firstOnPage = rowIndex === 0 || charIndex === 0;
       ctx.textAlign = "left";
       ctx.fillStyle = "#666";
       ctx.font = "4.2px Arial, sans-serif";
-      ctx.fillText(firstOnPage ? `${wordIndex + 1}.` : "–", 14, y + 5);
+      ctx.fillText(firstOnPage ? `${wordIndex + 1}.` : "–", 14, y + WORKSHEET_ROW.headerBaseline);
       ctx.fillStyle = "#252329";
-      ctx.font = '7.5px "Worksheet Brush", "KaiTi", serif';
-      ctx.fillText(firstOnPage ? word : char, 23, y + 6, 90);
+      ctx.font = `${WORKSHEET_ROW.headerFont}px "Worksheet Brush", "KaiTi", serif`;
+      ctx.fillText(firstOnPage ? word : char, 23, y + WORKSHEET_ROW.headerBaseline, 90);
       if (firstOnPage) {
         ctx.fillStyle = "#74747c";
-        ctx.font = '4px "Worksheet Pinyin", Arial, sans-serif';
-        ctx.fillText(getWorksheetPinyin(word), 117, y + 5, 78);
+        ctx.font = `${WORKSHEET_ROW.pinyinFont}px "Worksheet Pinyin", Arial, sans-serif`;
+        ctx.fillText(getWorksheetPinyin(word), 117, y + WORKSHEET_ROW.headerBaseline, 78);
       }
-      drawCharacterRow(ctx, char, y + 5, strokesByCharacter[char]);
+      drawCharacterRow(ctx, char, y, strokesByCharacter[char]);
     });
     return canvas;
   });
