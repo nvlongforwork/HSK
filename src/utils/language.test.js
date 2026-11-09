@@ -40,3 +40,14 @@ test("Markdown translations preserve pinyin table cells and phonetic spelling", 
   assert.match(result, /ü, üe, üan, ün → yu, yue, yuan, yun/);
   assert.equal(translateMarkdown(source, "en"), source);
 });
+
+test("Vietnamese dialogue, money and pronunciation labels stay consistent", () => {
+  assert.equal(translateText("28 yuan.", "vi"), "28 nhân dân tệ.");
+  assert.equal(translateText("That cup is 18 yuan.", "vi"), "Cái ly kia 18 nhân dân tệ.");
+  assert.equal(translateText("No.", "vi"), "Không.");
+  assert.equal(translateText("Yes.", "vi"), "Được.");
+  assert.equal(translateText("Thanks!", "vi"), "Cảm ơn!");
+  assert.equal(translateText("few, little", "vi"), "ít");
+  assert.equal(translateText("She won't come — the weather is too cold.", "vi"), "Cô ấy sẽ không đến; trời lạnh quá.");
+  assert.equal(translateMarkdown("**Practice Words - Neutral Tone:**", "vi"), "**Từ luyện đọc thanh nhẹ:**");
+});

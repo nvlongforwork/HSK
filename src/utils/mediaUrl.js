@@ -1,4 +1,4 @@
-const MEDIA_BASE = "https://raw.githubusercontent.com/nvlongforwork/HSK-MEDIA/main";
+const MEDIA_BASE = "https://raw.githubusercontent.com/nvlongforwork/HSK-MEDIA/feat/tinh-nang-moi";
 
 export function getContentUrl(level, lessonNum, file) {
   return `${MEDIA_BASE}/content/hsk${level}/lesson-${lessonNum}/${file}`;
