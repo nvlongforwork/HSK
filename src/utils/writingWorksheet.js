@@ -1,5 +1,6 @@
 import { pinyin } from "pinyin-pro";
 import hsk1Pinyin from "../data/hsk1WorksheetPinyin.js";
+import { getStrokeParts, strokeAnnotations } from "./writingStrokeGuide.js";
 
 export const PAGE_WIDTH_MM = 210;
 export const PAGE_HEIGHT_MM = 297;
@@ -12,7 +13,8 @@ export const WORKSHEET_HEADER_FIELDS = Object.freeze([
 ]);
 export const WORKSHEET_ROW = Object.freeze({
   top: 38, pitch: 35, headerBaseline: 5, headerFont: 5.5, pinyinFont: 3.8,
-  strokesTop: 8, strokesMaxSize: 6.5, gridTop: 16.5, gridSize: 16.5,
+  diagramX: 14, diagramTop: 2, diagramSize: 31, strokesX: 49,
+  strokesTop: 8, strokesMaxSize: 6.5, gridX: 49, gridTop: 16.5, gridSize: 16.3,
 });
 
 export function getWorksheetPinyin(word) {
@@ -48,7 +50,7 @@ export async function loadStrokeData(characters) {
           if (!response.ok) throw new Error("Stroke data unavailable");
           return response.json();
         })
-        .then((data) => Array.isArray(data.strokes) ? data.strokes : null)
+        .then((data) => Array.isArray(data.strokes) ? { strokes: data.strokes, medians: data.medians } : null)
         .catch(() => null));
     }
     return [char, await strokeCache.get(char)];
@@ -88,27 +90,66 @@ function drawStrokeStep(ctx, strokes, step, x, y, size) {
   ctx.restore();
 }
 
-function drawCharacterRow(ctx, char, y, strokes) {
-  const startX = 14;
-  const size = WORKSHEET_ROW.gridSize;
+function drawStrokeDiagram(ctx, data, x, y, size) {
+  const { strokes, medians } = getStrokeParts(data);
+  if (medians.length !== strokes.length) return;
+  ctx.save();
+  ctx.save();
+  ctx.translate(x, y + size * 900 / 1024);
+  ctx.scale(size / 1024, -size / 1024);
+  ctx.fillStyle = "#d2d2d2";
+  strokes.forEach((stroke) => ctx.fill(new Path2D(stroke)));
+  ctx.restore();
 
-  if (strokes?.length) {
-    const stepSize = Math.min(WORKSHEET_ROW.strokesMaxSize, 174 / strokes.length - 0.7);
+  for (const { number, points, arrow, labelX, labelY } of strokeAnnotations(medians, x, y, size)) {
+    ctx.strokeStyle = "#343236";
+    ctx.lineWidth = 0.22;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.beginPath();
+    points.forEach((point, index) => index ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y));
+    ctx.stroke();
+    line(ctx, arrow[0].x, arrow[0].y, arrow[1].x, arrow[1].y);
+    line(ctx, arrow[0].x, arrow[0].y, arrow[2].x, arrow[2].y);
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(labelX, labelY, 2.2, 1.9);
+    ctx.strokeStyle = "#c2c2c2";
+    ctx.lineWidth = 0.12;
+    ctx.strokeRect(labelX, labelY, 2.2, 1.9);
+    ctx.fillStyle = "#343236";
+    ctx.font = "1.45px Arial, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(String(number), labelX + 1.1, labelY + 0.97);
+  }
+  ctx.restore();
+}
+
+function drawCharacterRow(ctx, char, y, data) {
+  const startX = WORKSHEET_ROW.gridX;
+  const size = WORKSHEET_ROW.gridSize;
+  const { strokes, medians } = getStrokeParts(data);
+
+  if (strokes.length) {
+    if (medians.length === strokes.length) {
+      drawStrokeDiagram(ctx, data, WORKSHEET_ROW.diagramX, y + WORKSHEET_ROW.diagramTop, WORKSHEET_ROW.diagramSize);
+    }
+    const stepSize = Math.min(WORKSHEET_ROW.strokesMaxSize, 145 / strokes.length - 0.7);
     for (let i = 0; i < strokes.length; i++) {
-      drawStrokeStep(ctx, strokes, i, startX + i * (stepSize + 0.7), y + WORKSHEET_ROW.strokesTop, stepSize);
+      drawStrokeStep(ctx, strokes, i, WORKSHEET_ROW.strokesX + i * (stepSize + 0.7), y + WORKSHEET_ROW.strokesTop, stepSize);
     }
   } else {
     ctx.fillStyle = "#979797";
     ctx.font = '3.2px "Noto Serif SC", "SimSun", serif';
     ctx.textAlign = "left";
-    ctx.fillText("笔顺暂不可用 / Stroke guide unavailable", startX, y + 13);
+    ctx.fillText("笔顺暂不可用 / Stroke guide unavailable", WORKSHEET_ROW.strokesX, y + 13);
   }
 
   const gridY = y + WORKSHEET_ROW.gridTop;
-  for (let i = 0; i < 11; i++) {
+  for (let i = 0; i < 9; i++) {
     const x = startX + i * size;
     drawGrid(ctx, x, gridY, size);
-    if (i < 5) {
+    if (i < 4) {
       ctx.fillStyle = i === 0 ? "#343236" : "#d2d2d2";
       ctx.font = `12.3px "Worksheet Brush", "KaiTi", "Noto Serif SC", serif`;
       ctx.textAlign = "center";
@@ -157,14 +198,14 @@ export function renderWorksheetPages(words, strokesByCharacter, { dpi = 110, tit
       ctx.textAlign = "left";
       ctx.fillStyle = "#666";
       ctx.font = "4.2px Arial, sans-serif";
-      ctx.fillText(firstOnPage ? `${wordIndex + 1}.` : "–", 14, y + WORKSHEET_ROW.headerBaseline);
+      ctx.fillText(firstOnPage ? `${wordIndex + 1}.` : "–", 49, y + WORKSHEET_ROW.headerBaseline);
       ctx.fillStyle = "#252329";
       ctx.font = `${WORKSHEET_ROW.headerFont}px "Worksheet Brush", "KaiTi", serif`;
-      ctx.fillText(firstOnPage ? word : char, 23, y + WORKSHEET_ROW.headerBaseline, 90);
+      ctx.fillText(firstOnPage ? word : char, 58, y + WORKSHEET_ROW.headerBaseline, 60);
       if (firstOnPage) {
         ctx.fillStyle = "#74747c";
         ctx.font = `${WORKSHEET_ROW.pinyinFont}px "Worksheet Pinyin", "Noto Sans", sans-serif`;
-        ctx.fillText(getWorksheetPinyin(word), 117, y + WORKSHEET_ROW.headerBaseline, 78);
+        ctx.fillText(getWorksheetPinyin(word), 123, y + WORKSHEET_ROW.headerBaseline, 72);
       }
       drawCharacterRow(ctx, char, y, strokesByCharacter[char]);
     });
