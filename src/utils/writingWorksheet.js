@@ -5,6 +5,11 @@ export const PAGE_WIDTH_MM = 210;
 export const PAGE_HEIGHT_MM = 297;
 export const MAX_CHARACTERS = 60;
 export const MAX_CHARACTERS_PER_PAGE = 7;
+export const WORKSHEET_HEADER_FIELDS = Object.freeze([
+  { label: "Name", x: 14, lineStart: 26, lineEnd: 101 },
+  { label: "Date", x: 111, lineStart: 122, lineEnd: 150 },
+  { label: "Score", x: 158, lineStart: 171, lineEnd: 196 },
+]);
 export const WORKSHEET_ROW = Object.freeze({
   top: 38, pitch: 35, headerBaseline: 5, headerFont: 5.5, pinyinFont: 3.8,
   strokesTop: 8, strokesMaxSize: 6.5, gridTop: 16.5, gridSize: 16.5,
@@ -128,7 +133,12 @@ function makePage(dpi, pageNumber, title) {
   ctx.fillText(title || "汉字书写练习", 14, 20, 135);
   ctx.font = '3.1px "Worksheet Pinyin", Georgia, serif';
   ctx.fillStyle = "#777";
-  ctx.fillText("Name: ____________________       Date: __________", 14, 27);
+  WORKSHEET_HEADER_FIELDS.forEach(({ label, x, lineStart, lineEnd }) => {
+    ctx.fillText(`${label}:`, x, 27);
+    ctx.strokeStyle = "#999";
+    ctx.lineWidth = 0.18;
+    line(ctx, lineStart, 27.6, lineEnd, 27.6);
+  });
   ctx.strokeStyle = "#e5e5e5";
   ctx.lineWidth = 0.24;
   line(ctx, 14, 31, 196, 31);

@@ -51,7 +51,7 @@ export default function WritingWorksheet() {
         const [strokeData] = await Promise.all([
           loadStrokeData([...chars]),
           document.fonts.load('32px "Worksheet Brush"', chars),
-          document.fonts.load('16px "Worksheet Pinyin"', `${parsed.words.map(getWorksheetPinyin).join(" ")} Name Date`),
+          document.fonts.load('16px "Worksheet Pinyin"', `${parsed.words.map(getWorksheetPinyin).join(" ")} Name Date Score`),
         ]);
         if (active) {
           const pages = renderWorksheetPages(parsed.words, strokeData, { dpi: 144, title });
@@ -75,7 +75,7 @@ export default function WritingWorksheet() {
       const [strokeData] = await Promise.all([
         loadStrokeData([...chars]),
         document.fonts.load('32px "Worksheet Brush"', chars),
-        document.fonts.load('16px "Worksheet Pinyin"', `${parsed.words.map(getWorksheetPinyin).join(" ")} Name Date`),
+        document.fonts.load('16px "Worksheet Pinyin"', `${parsed.words.map(getWorksheetPinyin).join(" ")} Name Date Score`),
       ]);
       const { createWritingWorksheetPdf } = await import("../utils/writingWorksheetPdf");
       const pdf = await createWritingWorksheetPdf(parsed.words, strokeData, { title, fontUrl: brushFontUrl, pinyinFontUrl, fallbackPinyinFontUrl });

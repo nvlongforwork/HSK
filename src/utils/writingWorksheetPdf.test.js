@@ -7,7 +7,7 @@ import { createWritingWorksheetPdf } from "./writingWorksheetPdf.js";
 
 test("Cohaerentia contains every HSK 1 tone mark and worksheet header letter", () => {
   const font = fontkit.create(readFileSync(new URL("../assets/fonts/Cohaerentia-Regular.ttf", import.meta.url)));
-  for (const char of [...new Set([...Object.values(hsk1Pinyin).join(""), ..."Name: Date:_ "])]) {
+  for (const char of [...new Set([...Object.values(hsk1Pinyin).join(""), ..."Name: Date: Score: "])]) {
     assert.ok(font.hasGlyphForCodePoint(char.codePointAt(0)), `Missing font glyph: ${char}`);
   }
 });

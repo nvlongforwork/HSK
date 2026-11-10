@@ -1,7 +1,7 @@
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import fontkit from "@pdf-lib/fontkit";
 import svgpath from "svgpath";
-import { getWorksheetPinyin, PAGE_HEIGHT_MM, PAGE_WIDTH_MM, paginateWritingWords, WORKSHEET_ROW } from "./writingWorksheet.js";
+import { getWorksheetPinyin, PAGE_HEIGHT_MM, PAGE_WIDTH_MM, paginateWritingWords, WORKSHEET_HEADER_FIELDS, WORKSHEET_ROW } from "./writingWorksheet.js";
 
 const pt = (mm) => mm * 72 / 25.4;
 const color = (hex) => rgb(...[1, 3, 5].map((offset) => parseInt(hex.slice(offset, offset + 2), 16) / 255));
@@ -99,7 +99,10 @@ export async function createWritingWorksheetPdf(words, strokesByCharacter, { tit
   paginateWritingWords(words).forEach((rows, pageIndex) => {
     const page = doc.addPage([pt(PAGE_WIDTH_MM), pt(PAGE_HEIGHT_MM)]);
     label(page, title || "汉字书写练习", 14, 20, 6, /\p{Script=Han}/u.test(title || "汉字书写练习") ? brushFont : pinyinFont, color("#24212a"), 135);
-    label(page, "Name: ____________________       Date: __________", 14, 27, 3.1, pinyinFont, color("#777777"));
+    WORKSHEET_HEADER_FIELDS.forEach(({ label: field, x, lineStart, lineEnd }) => {
+      label(page, `${field}:`, x, 27, 3.1, pinyinFont, color("#777777"));
+      rule(page, lineStart, 27.6, lineEnd, 27.6, color("#999999"), 0.18);
+    });
     rule(page, 14, 31, 196, 31, color("#e5e5e5"), 0.24);
     label(page, String(pageIndex + 1), 195, 288, 3, latinFont, color("#777777"));
 
