@@ -79,18 +79,16 @@ a {
 }
 
 @keyframes bounceIn {
-  0% { transform: scale(0.9); opacity: 0; }
-  50% { transform: scale(1.05); }
-  70% { transform: scale(0.97); }
-  100% { transform: scale(1); opacity: 1; }
+  0% { scale: 0.94; opacity: 0; }
+  60% { scale: 1.015; }
+  100% { scale: 1; opacity: 1; }
 }
 
 @keyframes bounceClick {
-  0% { transform: scale(1); }
-  30% { transform: scale(0.92); }
-  60% { transform: scale(1.06); }
-  80% { transform: scale(0.98); }
-  100% { transform: scale(1); }
+  0% { scale: 1; }
+  35% { scale: 0.96; }
+  70% { scale: 1.025; }
+  100% { scale: 1; }
 }
 
 @keyframes fadeInUp {
@@ -98,16 +96,49 @@ a {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.bounce-in {
-  animation: bounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+.bounce-card {
+  display: block;
+  min-width: 0;
+  cursor: pointer;
+  box-shadow: var(--card-shadow);
+  animation: bounceIn 0.45s ease-out var(--bounce-delay) both;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.bounce-click {
-  animation: bounceClick 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+.bounce-card:focus-visible {
+  outline: 3px solid var(--gold-primary);
+  outline-offset: 4px;
+}
+
+@media (hover: hover) {
+  .bounce-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(196, 30, 58, 0.2);
+  }
+}
+
+.bounce-card--click {
+  animation: bounceClick 0.32s ease-out both;
 }
 
 .fade-in-up {
   animation: fadeInUp 0.5s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .bounce-card, .bounce-card--click, .fade-in-up {
+    animation: none;
+  }
+
+  .bounce-card {
+    transition: none;
+  }
+
+  .bounce-card:hover {
+    transform: none;
+  }
 }
 
 html[lang="vi"] {
