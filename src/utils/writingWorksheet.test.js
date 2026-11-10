@@ -22,17 +22,21 @@ test("a sentence gets a full reading and a contextual reading for every characte
   assert.deepEqual(parseWritingWords("电话号码").entries, ["电话号码"]);
 });
 
-test("repeats the sentence heading on continuation pages while keeping seven as the page limit", () => {
+test("shows the sentence heading only once and uses seven rows on continuation pages", () => {
   const { entries } = parseWritingWords("我喜欢学习汉语。");
   const pages = paginateWritingWords(entries);
   assert.deepEqual(pages.map((page) => page.map(({ char }) => char).join("")), ["我喜欢学习汉", "语"]);
   assert.equal(layoutWorksheetRows(pages[0])[0].sentenceY, WORKSHEET_ROW.top);
   assert.equal(layoutWorksheetRows(pages[0])[0].y, WORKSHEET_ROW.top + WORKSHEET_ROW.sentenceHeaderHeight);
   assert.equal(layoutWorksheetRows(pages[0])[1].sentenceY, null);
-  assert.equal(layoutWorksheetRows(pages[1])[0].sentenceY, WORKSHEET_ROW.top);
+  assert.equal(layoutWorksheetRows(pages[1])[0].sentenceY, null);
+  assert.equal(layoutWorksheetRows(pages[1])[0].y, WORKSHEET_ROW.top);
   const mixed = paginateWritingWords([...entries, "好"]);
   assert.equal(mixed[1][1].char, "好");
   assert.equal(layoutWorksheetRows(mixed[1])[1].sentenceY, null);
+  const longSentence = paginateWritingWords(parseWritingWords("我喜欢学习汉语我喜欢学习汉语。").entries);
+  assert.deepEqual(longSentence.map((page) => page.length), [6, 7, 1]);
+  assert.ok(longSentence.slice(1).every((page) => layoutWorksheetRows(page)[0].sentenceY === null));
 });
 
 test("fits at most seven characters on each A4 page, including multi-character words", () => {

@@ -29,14 +29,12 @@ export function paginateWritingWords(words) {
     const word = typeof entry === "string" ? entry : entry.text;
     [...word].forEach((char, charIndex) => {
       const sentence = typeof entry !== "string" && entry.sentence;
-      let header = sentence && (charIndex === 0 || page.length === 0);
-      let required = WORKSHEET_ROW.pitch + (header ? WORKSHEET_ROW.sentenceHeaderHeight : 0);
+      const header = sentence && charIndex === 0;
+      const required = WORKSHEET_ROW.pitch + (header ? WORKSHEET_ROW.sentenceHeaderHeight : 0);
       if (page.length && (page.length >= MAX_CHARACTERS_PER_PAGE || usedHeight + required > pageHeight)) {
         pages.push(page);
         page = [];
         usedHeight = 0;
-        header = sentence;
-        required = WORKSHEET_ROW.pitch + (header ? WORKSHEET_ROW.sentenceHeaderHeight : 0);
       }
       const row = { word, wordIndex, char, charIndex };
       if (sentence) {
@@ -54,8 +52,8 @@ export function paginateWritingWords(words) {
 
 export function layoutWorksheetRows(rows) {
   let offset = 0;
-  return rows.map((row, index) => {
-    const showSentence = Boolean(row.sentence && (index === 0 || rows[index - 1].wordIndex !== row.wordIndex));
+  return rows.map((row) => {
+    const showSentence = Boolean(row.sentence && row.charIndex === 0);
     const sentenceY = showSentence ? WORKSHEET_ROW.top + offset : null;
     if (showSentence) offset += WORKSHEET_ROW.sentenceHeaderHeight;
     const y = WORKSHEET_ROW.top + offset;
