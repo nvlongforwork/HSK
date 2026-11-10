@@ -2,7 +2,6 @@ import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import fontkit from "@pdf-lib/fontkit";
 import svgpath from "svgpath";
 import { getWorksheetPinyin, PAGE_HEIGHT_MM, PAGE_WIDTH_MM, paginateWritingWords, WORKSHEET_HEADER_FIELDS, WORKSHEET_ROW } from "./writingWorksheet.js";
-import { getStrokeParts, strokeAnnotations } from "./writingStrokeGuide.js";
 
 const pt = (mm) => mm * 72 / 25.4;
 const color = (hex) => rgb(...[1, 3, 5].map((offset) => parseInt(hex.slice(offset, offset + 2), 16) / 255));
@@ -51,51 +50,38 @@ function strokeGuide(page, strokes, x, y, size, step) {
   }
 }
 
-function strokeDiagram(page, data, x, y, size, latinFont) {
-  const { strokes, medians } = getStrokeParts(data);
-  if (medians.length !== strokes.length) return;
+function gridModel(page, strokes, x, y, size, ink) {
+  const glyphSize = size * 0.97;
+  const glyphX = x + (size - glyphSize) / 2;
+  const glyphY = y + 0.7;
   strokes.forEach((stroke) => page.drawSvgPath(strokePath(stroke), {
-    x: pt(x), y: pageY(y), scale: pt(size) / 1024, color: TRACE,
+    x: pt(glyphX), y: pageY(glyphY), scale: pt(glyphSize) / 1024, color: ink,
   }));
-  for (const { number, points, arrow, labelX, labelY } of strokeAnnotations(medians, x, y, size)) {
-    for (let i = 1; i < points.length; i++) {
-      rule(page, points[i - 1].x, points[i - 1].y, points[i].x, points[i].y, INK, 0.22);
-    }
-    rule(page, arrow[0].x, arrow[0].y, arrow[1].x, arrow[1].y, INK, 0.22);
-    rule(page, arrow[0].x, arrow[0].y, arrow[2].x, arrow[2].y, INK, 0.22);
-    page.drawRectangle({ x: pt(labelX), y: pageY(labelY + 1.9), width: pt(2.2), height: pt(1.9), color: rgb(1, 1, 1), borderColor: GRID, borderWidth: pt(0.12) });
-    const text = String(number);
-    const fontSize = pt(1.45);
-    page.drawText(text, {
-      x: pt(labelX + 1.1) - latinFont.widthOfTextAtSize(text, fontSize) / 2,
-      y: pageY(labelY + 1.5), size: fontSize, font: latinFont, color: INK,
-    });
-  }
 }
 
-function characterRow(page, row, y, data, brushFont, latinFont) {
+function characterRow(page, row, y, strokes, brushFont, latinFont) {
   const { char } = row;
-  const { strokes, medians } = getStrokeParts(data);
-  if (strokes.length) {
-    if (medians.length === strokes.length) {
-      strokeDiagram(page, data, WORKSHEET_ROW.diagramX, y + WORKSHEET_ROW.diagramTop, WORKSHEET_ROW.diagramSize, latinFont);
-    }
-    const stepSize = Math.min(WORKSHEET_ROW.strokesMaxSize, 145 / strokes.length - 0.7);
-    strokes.forEach((_, i) => strokeGuide(page, strokes, WORKSHEET_ROW.strokesX + i * (stepSize + 0.7), y + WORKSHEET_ROW.strokesTop, stepSize, i));
+  if (strokes?.length) {
+    const stepSize = Math.min(WORKSHEET_ROW.strokesMaxSize, 174 / strokes.length - 0.7);
+    strokes.forEach((_, i) => strokeGuide(page, strokes, 14 + i * (stepSize + 0.7), y + WORKSHEET_ROW.strokesTop, stepSize, i));
   } else {
-    label(page, "Stroke guide unavailable", WORKSHEET_ROW.strokesX, y + 13, 3.2, latinFont, color("#979797"));
+    label(page, "Stroke guide unavailable", 14, y + 13, 3.2, latinFont, color("#979797"));
   }
   const gridY = y + WORKSHEET_ROW.gridTop;
-  for (let i = 0; i < 9; i++) {
-    const x = WORKSHEET_ROW.gridX + i * WORKSHEET_ROW.gridSize;
+  for (let i = 0; i < 11; i++) {
+    const x = 14 + i * WORKSHEET_ROW.gridSize;
     grid(page, x, gridY, WORKSHEET_ROW.gridSize);
-    if (i < 4) {
-      const fontSize = pt(12.3);
-      const glyphWidth = brushFont.widthOfTextAtSize(char, fontSize);
-      page.drawText(char, {
-        x: pt(x + WORKSHEET_ROW.gridSize / 2) - glyphWidth / 2, y: pageY(gridY + 12.7),
-        size: fontSize, font: brushFont, color: i === 0 ? INK : TRACE,
-      });
+    if (i < 5) {
+      if (strokes?.length) {
+        gridModel(page, strokes, x, gridY, WORKSHEET_ROW.gridSize, i === 0 ? INK : TRACE);
+      } else {
+        const fontSize = pt(12.3);
+        const glyphWidth = brushFont.widthOfTextAtSize(char, fontSize);
+        page.drawText(char, {
+          x: pt(x + 8.25) - glyphWidth / 2, y: pageY(gridY + 12.7),
+          size: fontSize, font: brushFont, color: i === 0 ? INK : TRACE,
+        });
+      }
     }
   }
 }
@@ -137,11 +123,11 @@ export async function createWritingWorksheetPdf(words, strokesByCharacter, { tit
       const { word, wordIndex, char, charIndex } = row;
       const y = WORKSHEET_ROW.top + rowIndex * WORKSHEET_ROW.pitch;
       const firstOnPage = rowIndex === 0 || charIndex === 0;
-      label(page, firstOnPage ? `${wordIndex + 1}.` : "-", 49, y + WORKSHEET_ROW.headerBaseline, 4.2, latinFont, color("#666666"));
-      label(page, firstOnPage ? word : char, 58, y + WORKSHEET_ROW.headerBaseline, WORKSHEET_ROW.headerFont, brushFont, color("#252329"), 60);
+      label(page, firstOnPage ? `${wordIndex + 1}.` : "-", 14, y + WORKSHEET_ROW.headerBaseline, 4.2, latinFont, color("#666666"));
+      label(page, firstOnPage ? word : char, 23, y + WORKSHEET_ROW.headerBaseline, WORKSHEET_ROW.headerFont, brushFont, color("#252329"), 90);
       if (firstOnPage) {
         const reading = getWorksheetPinyin(word);
-        label(page, reading, 123, y + WORKSHEET_ROW.headerBaseline, WORKSHEET_ROW.pinyinFont, needsFallback(reading) ? fallbackFont : pinyinFont, color("#74747c"), 72);
+        label(page, reading, 117, y + WORKSHEET_ROW.headerBaseline, WORKSHEET_ROW.pinyinFont, needsFallback(reading) ? fallbackFont : pinyinFont, color("#74747c"), 78);
       }
       characterRow(page, row, y, strokesByCharacter[char], brushFont, latinFont);
     });

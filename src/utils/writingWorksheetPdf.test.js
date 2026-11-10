@@ -16,7 +16,7 @@ test("exports seven soft vector character models per A4 page without raster imag
   const fontBytes = readFileSync(new URL("../../node_modules/@expo-google-fonts/ma-shan-zheng/400Regular/MaShanZheng_400Regular.ttf", import.meta.url));
   const pinyinFontBytes = readFileSync(new URL("../assets/fonts/Cohaerentia-Regular.ttf", import.meta.url));
   const pdf = await createWritingWorksheetPdf(["你".repeat(8)], {
-    你: { strokes: ["M 100 800 Q 400 600 700 800 L 750 700 Z"], medians: [[[100, 800], [400, 600], [750, 700]]] },
+    你: ["M 100 800 Q 400 600 700 800 L 750 700 Z"],
   }, { fontBytes, pinyinFontBytes });
   const content = Buffer.from(pdf).toString("latin1");
   assert.match(content, /^%PDF-1\./);

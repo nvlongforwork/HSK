@@ -20,12 +20,9 @@ test("fits at most seven characters on each A4 page, including multi-character w
   assert.deepEqual(pages[1][0], { word: "谢谢", wordIndex: 4, char: "谢", charIndex: 0 });
 });
 
-test("fits the numbered diagram beside the writing grid without crowding the heading", () => {
+test("keeps heading, stroke guide and writing grid in separate vertical bands", () => {
   assert.ok(WORKSHEET_ROW.headerBaseline + WORKSHEET_ROW.headerFont * 0.25 < WORKSHEET_ROW.strokesTop);
   assert.ok(WORKSHEET_ROW.strokesTop + WORKSHEET_ROW.strokesMaxSize < WORKSHEET_ROW.gridTop);
-  assert.ok(WORKSHEET_ROW.diagramTop + WORKSHEET_ROW.diagramSize < WORKSHEET_ROW.pitch);
-  assert.ok(WORKSHEET_ROW.diagramX + WORKSHEET_ROW.diagramSize < WORKSHEET_ROW.gridX);
-  assert.ok(WORKSHEET_ROW.gridX + 9 * WORKSHEET_ROW.gridSize <= 196);
   assert.ok(WORKSHEET_ROW.gridTop + WORKSHEET_ROW.gridSize < WORKSHEET_ROW.pitch);
   assert.ok(WORKSHEET_ROW.top + 6 * WORKSHEET_ROW.pitch + WORKSHEET_ROW.gridTop + WORKSHEET_ROW.gridSize < 288);
 });
