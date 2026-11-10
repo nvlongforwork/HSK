@@ -12,7 +12,7 @@ export const WORKSHEET_HEADER_FIELDS = Object.freeze([
 ]);
 export const WORKSHEET_ROW = Object.freeze({
   top: 38, pitch: 35, headerBaseline: 5, headerFont: 5.5, pinyinFont: 3.8,
-  strokesTop: 8, strokesMaxSize: 6.5, gridTop: 16.5, gridSize: 16.5,
+  sentenceHeaderHeight: 9, strokesTop: 8, strokesMaxSize: 6.5, gridTop: 16.5, gridSize: 16.5,
 });
 
 export function getWorksheetPinyin(word) {
@@ -20,21 +20,70 @@ export function getWorksheetPinyin(word) {
 }
 
 export function paginateWritingWords(words) {
-  const rows = words.flatMap((word, wordIndex) => [...word].map((char, charIndex) => ({
-    word, wordIndex, char, charIndex,
-  })));
   const pages = [];
-  for (let i = 0; i < rows.length; i += MAX_CHARACTERS_PER_PAGE) {
-    pages.push(rows.slice(i, i + MAX_CHARACTERS_PER_PAGE));
-  }
+  let page = [];
+  let usedHeight = 0;
+  const pageHeight = MAX_CHARACTERS_PER_PAGE * WORKSHEET_ROW.pitch;
+
+  words.forEach((entry, wordIndex) => {
+    const word = typeof entry === "string" ? entry : entry.text;
+    [...word].forEach((char, charIndex) => {
+      const sentence = typeof entry !== "string" && entry.sentence;
+      let header = sentence && (charIndex === 0 || page.length === 0);
+      let required = WORKSHEET_ROW.pitch + (header ? WORKSHEET_ROW.sentenceHeaderHeight : 0);
+      if (page.length && (page.length >= MAX_CHARACTERS_PER_PAGE || usedHeight + required > pageHeight)) {
+        pages.push(page);
+        page = [];
+        usedHeight = 0;
+        header = sentence;
+        required = WORKSHEET_ROW.pitch + (header ? WORKSHEET_ROW.sentenceHeaderHeight : 0);
+      }
+      const row = { word, wordIndex, char, charIndex };
+      if (sentence) {
+        row.sentence = entry.display;
+        row.sentencePinyin = entry.pinyin;
+        row.reading = entry.readings[charIndex];
+      }
+      page.push(row);
+      usedHeight += required;
+    });
+  });
+  if (page.length) pages.push(page);
   return pages;
 }
 
+export function layoutWorksheetRows(rows) {
+  let offset = 0;
+  return rows.map((row, index) => {
+    const showSentence = Boolean(row.sentence && (index === 0 || rows[index - 1].wordIndex !== row.wordIndex));
+    const sentenceY = showSentence ? WORKSHEET_ROW.top + offset : null;
+    if (showSentence) offset += WORKSHEET_ROW.sentenceHeaderHeight;
+    const y = WORKSHEET_ROW.top + offset;
+    offset += WORKSHEET_ROW.pitch;
+    return { ...row, y, sentenceY };
+  });
+}
+
 export function parseWritingWords(input) {
-  const words = input.split(/[\n,，、;；]+/).map((part) => [...part.matchAll(/\p{Script=Han}/gu)].map(([char]) => char).join(""))
-    .filter(Boolean);
+  const entries = input.split(/\r?\n/).flatMap((line) => {
+    const hanzi = [...line.matchAll(/\p{Script=Han}/gu)].map(([char]) => char).join("");
+    const hasWordSeparators = /[,，、;；]/u.test(line);
+    const isSentence = hanzi.length > 1 && (/[。！？!?]/u.test(line)
+      || (!hasWordSeparators && hanzi.length >= 5)
+      || (!hasWordSeparators && hanzi.length >= 3 && /^[我你他她它]/u.test(hanzi))
+      || (!hasWordSeparators && hanzi.length >= 3 && /[吗呢吧]$/u.test(hanzi)));
+    if (isSentence && hanzi) {
+      const display = line.replace(/[^\p{Script=Han}\s，。！？!?；;、]/gu, "").trim().replace(/\s+/g, " ");
+      const syllables = pinyin(display, { type: "array", toneType: "symbol" });
+      const readings = [...display].flatMap((char, index) => /\p{Script=Han}/u.test(char) ? [syllables[index]] : []);
+      return [{ text: hanzi, display, sentence: true, pinyin: readings.join(" "), readings }];
+    }
+    return line.split(/[,，、;；]+/).map((part) => [...part.matchAll(/\p{Script=Han}/gu)].map(([char]) => char).join(""))
+      .filter(Boolean);
+  });
+  const words = entries.map((entry) => typeof entry === "string" ? entry : entry.text);
   const characters = words.reduce((total, word) => total + [...word].length, 0);
-  return { words, characters, valid: characters > 0 && characters <= MAX_CHARACTERS };
+  return { words, entries, characters, valid: characters > 0 && characters <= MAX_CHARACTERS };
 }
 
 const strokeCache = new Map();
@@ -166,20 +215,31 @@ function makePage(dpi, pageNumber, title) {
 export function renderWorksheetPages(words, strokesByCharacter, { dpi = 110, title = "" } = {}) {
   return paginateWritingWords(words).map((rows, pageIndex) => {
     const { canvas, ctx } = makePage(dpi, pageIndex + 1, title);
-    rows.forEach(({ word, wordIndex, char, charIndex }, rowIndex) => {
-      const y = WORKSHEET_ROW.top + rowIndex * WORKSHEET_ROW.pitch;
+    layoutWorksheetRows(rows).forEach(({ word, wordIndex, char, charIndex, sentence, sentencePinyin, reading, y, sentenceY }, rowIndex) => {
+      if (sentenceY !== null) {
+        ctx.textAlign = "left";
+        ctx.fillStyle = "#666";
+        ctx.font = "4.2px Arial, sans-serif";
+        ctx.fillText(`${wordIndex + 1}.`, 14, sentenceY + WORKSHEET_ROW.headerBaseline);
+        ctx.fillStyle = "#252329";
+        ctx.font = `${WORKSHEET_ROW.headerFont}px "Worksheet Brush", "KaiTi", serif`;
+        ctx.fillText(sentence, 23, sentenceY + WORKSHEET_ROW.headerBaseline, 90);
+        ctx.fillStyle = "#74747c";
+        ctx.font = `${WORKSHEET_ROW.pinyinFont}px "Worksheet Pinyin", "Noto Sans", sans-serif`;
+        ctx.fillText(sentencePinyin, 117, sentenceY + WORKSHEET_ROW.headerBaseline, 78);
+      }
       const firstOnPage = rowIndex === 0 || charIndex === 0;
       ctx.textAlign = "left";
       ctx.fillStyle = "#666";
       ctx.font = "4.2px Arial, sans-serif";
-      ctx.fillText(firstOnPage ? `${wordIndex + 1}.` : "–", 14, y + WORKSHEET_ROW.headerBaseline);
+      ctx.fillText(sentence ? "–" : firstOnPage ? `${wordIndex + 1}.` : "–", 14, y + WORKSHEET_ROW.headerBaseline);
       ctx.fillStyle = "#252329";
       ctx.font = `${WORKSHEET_ROW.headerFont}px "Worksheet Brush", "KaiTi", serif`;
-      ctx.fillText(firstOnPage ? word : char, 23, y + WORKSHEET_ROW.headerBaseline, 90);
-      if (firstOnPage) {
+      ctx.fillText(sentence ? char : firstOnPage ? word : char, 23, y + WORKSHEET_ROW.headerBaseline, 90);
+      if (sentence || firstOnPage) {
         ctx.fillStyle = "#74747c";
         ctx.font = `${WORKSHEET_ROW.pinyinFont}px "Worksheet Pinyin", "Noto Sans", sans-serif`;
-        ctx.fillText(getWorksheetPinyin(word), 117, y + WORKSHEET_ROW.headerBaseline, 78);
+        ctx.fillText(sentence ? reading : getWorksheetPinyin(word), 117, y + WORKSHEET_ROW.headerBaseline, 78);
       }
       drawCharacterRow(ctx, char, y, strokesByCharacter[char]);
     });

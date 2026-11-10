@@ -1,7 +1,7 @@
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import fontkit from "@pdf-lib/fontkit";
 import svgpath from "svgpath";
-import { getWorksheetPinyin, PAGE_HEIGHT_MM, PAGE_WIDTH_MM, paginateWritingWords, WORKSHEET_HEADER_FIELDS, WORKSHEET_ROW } from "./writingWorksheet.js";
+import { getWorksheetPinyin, layoutWorksheetRows, PAGE_HEIGHT_MM, PAGE_WIDTH_MM, paginateWritingWords, WORKSHEET_HEADER_FIELDS, WORKSHEET_ROW } from "./writingWorksheet.js";
 
 const pt = (mm) => mm * 72 / 25.4;
 const color = (hex) => rgb(...[1, 3, 5].map((offset) => parseInt(hex.slice(offset, offset + 2), 16) / 255));
@@ -105,11 +105,13 @@ export async function createWritingWorksheetPdf(words, strokesByCharacter, { tit
   const latinFont = await doc.embedFont(StandardFonts.Helvetica);
   const fontFile = fontkit.create(new Uint8Array(latinBytes));
   const needsFallback = (value) => [...value].some((char) => !fontFile.hasGlyphForCodePoint(char.codePointAt(0)));
-  const fallbackFont = paginateWritingWords(words).some((rows) => rows.some(({ word }) => needsFallback(getWorksheetPinyin(word))))
+  const pages = paginateWritingWords(words);
+  const fallbackFont = pages.some((rows) => rows.some(({ word, sentencePinyin, reading }) =>
+    needsFallback(sentencePinyin || getWorksheetPinyin(word)) || (reading && needsFallback(reading))))
     ? await doc.embedFont(fallbackPinyinFontBytes || await fetchFont(fallbackPinyinFontUrl))
     : null;
 
-  paginateWritingWords(words).forEach((rows, pageIndex) => {
+  pages.forEach((rows, pageIndex) => {
     const page = doc.addPage([pt(PAGE_WIDTH_MM), pt(PAGE_HEIGHT_MM)]);
     label(page, title || "汉字书写练习", 14, 20, 6, /\p{Script=Han}/u.test(title || "汉字书写练习") ? brushFont : pinyinFont, color("#24212a"), 135);
     WORKSHEET_HEADER_FIELDS.forEach(({ label: field, x, lineStart, lineEnd }) => {
@@ -119,15 +121,21 @@ export async function createWritingWorksheetPdf(words, strokesByCharacter, { tit
     rule(page, 14, 31, 196, 31, color("#e5e5e5"), 0.24);
     label(page, String(pageIndex + 1), 195, 288, 3, latinFont, color("#777777"));
 
-    rows.forEach((row, rowIndex) => {
-      const { word, wordIndex, char, charIndex } = row;
-      const y = WORKSHEET_ROW.top + rowIndex * WORKSHEET_ROW.pitch;
+    layoutWorksheetRows(rows).forEach((row, rowIndex) => {
+      const { word, wordIndex, char, charIndex, sentence, sentencePinyin, reading, y, sentenceY } = row;
+      if (sentenceY !== null) {
+        label(page, `${wordIndex + 1}.`, 14, sentenceY + WORKSHEET_ROW.headerBaseline, 4.2, latinFont, color("#666666"));
+        label(page, sentence, 23, sentenceY + WORKSHEET_ROW.headerBaseline, WORKSHEET_ROW.headerFont, brushFont, color("#252329"), 90);
+        label(page, sentencePinyin, 117, sentenceY + WORKSHEET_ROW.headerBaseline, WORKSHEET_ROW.pinyinFont,
+          needsFallback(sentencePinyin) ? fallbackFont : pinyinFont, color("#74747c"), 78);
+      }
       const firstOnPage = rowIndex === 0 || charIndex === 0;
-      label(page, firstOnPage ? `${wordIndex + 1}.` : "-", 14, y + WORKSHEET_ROW.headerBaseline, 4.2, latinFont, color("#666666"));
-      label(page, firstOnPage ? word : char, 23, y + WORKSHEET_ROW.headerBaseline, WORKSHEET_ROW.headerFont, brushFont, color("#252329"), 90);
-      if (firstOnPage) {
-        const reading = getWorksheetPinyin(word);
-        label(page, reading, 117, y + WORKSHEET_ROW.headerBaseline, WORKSHEET_ROW.pinyinFont, needsFallback(reading) ? fallbackFont : pinyinFont, color("#74747c"), 78);
+      label(page, sentence ? "-" : firstOnPage ? `${wordIndex + 1}.` : "-", 14, y + WORKSHEET_ROW.headerBaseline, 4.2, latinFont, color("#666666"));
+      label(page, sentence ? char : firstOnPage ? word : char, 23, y + WORKSHEET_ROW.headerBaseline, WORKSHEET_ROW.headerFont, brushFont, color("#252329"), 90);
+      if (sentence || firstOnPage) {
+        const rowReading = sentence ? reading : getWorksheetPinyin(word);
+        label(page, rowReading, 117, y + WORKSHEET_ROW.headerBaseline, WORKSHEET_ROW.pinyinFont,
+          needsFallback(rowReading) ? fallbackFont : pinyinFont, color("#74747c"), 78);
       }
       characterRow(page, row, y, strokesByCharacter[char], brushFont, latinFont);
     });

@@ -1,13 +1,38 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { getWorksheetPinyin, MAX_CHARACTERS, MAX_CHARACTERS_PER_PAGE, paginateWritingWords, parseWritingWords, WORKSHEET_ROW } from "./writingWorksheet.js";
+import { getWorksheetPinyin, layoutWorksheetRows, MAX_CHARACTERS, MAX_CHARACTERS_PER_PAGE, paginateWritingWords, parseWritingWords, WORKSHEET_ROW } from "./writingWorksheet.js";
 
 test("extracts Chinese words from lines and common separators", () => {
   assert.deepEqual(parseWritingWords("我们，想\n学习; hello 你好"), {
-    words: ["我们", "想", "学习", "你好"], characters: 7, valid: true,
+    words: ["我们", "想", "学习", "你好"], entries: ["我们", "想", "学习", "你好"], characters: 7, valid: true,
   });
   assert.equal(parseWritingWords("ABC 123").valid, false);
   assert.equal(parseWritingWords("我".repeat(MAX_CHARACTERS + 1)).valid, false);
+});
+
+test("a sentence gets a full reading and a contextual reading for every character", () => {
+  const parsed = parseWritingWords("银行行李。\n学");
+  assert.deepEqual(parsed.words, ["银行行李", "学"]);
+  assert.equal(parsed.entries[0].display, "银行行李。");
+  assert.deepEqual(parsed.entries[0].readings, ["yín", "háng", "xíng", "li"]);
+  assert.equal(parsed.entries[0].pinyin, "yín háng xíng li");
+  assert.equal(parsed.entries[1], "学");
+  assert.deepEqual(parseWritingWords("我。").entries, ["我"]);
+  assert.equal(parseWritingWords("我爱你").entries[0].sentence, true);
+  assert.deepEqual(parseWritingWords("电话号码").entries, ["电话号码"]);
+});
+
+test("repeats the sentence heading on continuation pages while keeping seven as the page limit", () => {
+  const { entries } = parseWritingWords("我喜欢学习汉语。");
+  const pages = paginateWritingWords(entries);
+  assert.deepEqual(pages.map((page) => page.map(({ char }) => char).join("")), ["我喜欢学习汉", "语"]);
+  assert.equal(layoutWorksheetRows(pages[0])[0].sentenceY, WORKSHEET_ROW.top);
+  assert.equal(layoutWorksheetRows(pages[0])[0].y, WORKSHEET_ROW.top + WORKSHEET_ROW.sentenceHeaderHeight);
+  assert.equal(layoutWorksheetRows(pages[0])[1].sentenceY, null);
+  assert.equal(layoutWorksheetRows(pages[1])[0].sentenceY, WORKSHEET_ROW.top);
+  const mixed = paginateWritingWords([...entries, "好"]);
+  assert.equal(mixed[1][1].char, "好");
+  assert.equal(layoutWorksheetRows(mixed[1])[1].sentenceY, null);
 });
 
 test("fits at most seven characters on each A4 page, including multi-character words", () => {
