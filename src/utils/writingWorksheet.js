@@ -62,11 +62,11 @@ export function layoutWorksheetRows(rows) {
   });
 }
 
-export function parseWritingWords(input) {
+export function parseWritingWords(input, { sentenceMode = false } = {}) {
   const entries = input.split(/\r?\n/).flatMap((line) => {
     const hanzi = [...line.matchAll(/\p{Script=Han}/gu)].map(([char]) => char).join("");
     const hasWordSeparators = /[,，、;；]/u.test(line);
-    const isSentence = hanzi.length > 1 && (/[。！？!?]/u.test(line)
+    const isSentence = hanzi.length > 1 && (sentenceMode || /[。！？!?]/u.test(line)
       || (!hasWordSeparators && hanzi.length >= 5)
       || (!hasWordSeparators && hanzi.length >= 3 && /^[我你他她它]/u.test(hanzi))
       || (!hasWordSeparators && hanzi.length >= 3 && /[吗呢吧]$/u.test(hanzi)));

@@ -20,6 +20,11 @@ test("a sentence gets a full reading and a contextual reading for every characte
   assert.deepEqual(parseWritingWords("我。").entries, ["我"]);
   assert.equal(parseWritingWords("我爱你").entries[0].sentence, true);
   assert.deepEqual(parseWritingWords("电话号码").entries, ["电话号码"]);
+  assert.deepEqual(parseWritingWords("天气很好").entries, ["天气很好"]);
+  const explicitSentence = parseWritingWords("天气很好\n好", { sentenceMode: true });
+  assert.equal(explicitSentence.entries[0].sentence, true);
+  assert.deepEqual(explicitSentence.entries[0].readings, ["tiān", "qì", "hěn", "hǎo"]);
+  assert.equal(explicitSentence.entries[1], "好");
 });
 
 test("shows the sentence heading only once and uses seven rows on continuation pages", () => {

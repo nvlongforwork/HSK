@@ -10,9 +10,9 @@ import "./writing-worksheet.css";
 const labels = {
   en: {
     title: "Create a writing worksheet", subtitle: "Make printable Chinese character practice pages in minutes.",
-    input: "Characters, words or sentences to practise", hint: `Enter words on separate lines or separate them with commas. Enter a sentence on its own line; add punctuation to short sentences. A sentence and its pinyin appear above the character rows. Up to ${MAX_CHARACTERS_PER_PAGE} individual characters fit on each A4 page.`,
+    input: "Characters, words or sentences to practise", hint: `Enter words on separate lines or separate them with commas. For a short sentence without punctuation, select “Treat each line as a sentence”. A sentence and its pinyin appear above the character rows. Up to ${MAX_CHARACTERS_PER_PAGE} individual characters fit on each A4 page.`,
     paperTitle: "Title on the worksheet (optional)", paperPlaceholder: "Chinese writing practice",
-    example: "Try words", exampleSentence: "Try a sentence", create: "Download A4 PDF", creating: "Creating PDF…",
+    example: "Try words", exampleSentence: "Try a sentence", sentenceMode: "Treat each line as a sentence", create: "Download A4 PDF", creating: "Creating PDF…",
     preview: "A4 preview", previewHint: "The first square is a model, the next four are tracing guides, and the remaining six are for independent practice.",
     empty: "Enter Chinese characters to see the worksheet.", invalid: `Enter 1–${MAX_CHARACTERS} Chinese characters.`,
     characters: "characters", pages: "pages", back: "Back to home", notice: "The stroke guide needs an internet connection. Tracing grids remain available if stroke data cannot be loaded.",
@@ -20,9 +20,9 @@ const labels = {
   },
   vi: {
     title: "Tạo writing worksheet", subtitle: "Tạo trang luyện viết chữ Hán để in cho học sinh.",
-    input: "Chữ, từ hoặc câu cần tập viết", hint: `Nhập mỗi từ trên một dòng hoặc ngăn cách bằng dấu phẩy. Nhập cả câu trên một dòng; thêm dấu câu nếu câu ngắn. Câu và pinyin sẽ hiện trước các hàng tập viết từng chữ. Chữ lẻ tối đa ${MAX_CHARACTERS_PER_PAGE} chữ trên mỗi trang A4.`,
+    input: "Chữ, từ hoặc câu cần tập viết", hint: `Nhập mỗi từ trên một dòng hoặc ngăn cách bằng dấu phẩy. Với câu ngắn không có dấu câu, chọn “Xem mỗi dòng là một câu”. Câu và pinyin sẽ hiện trước các hàng tập viết từng chữ. Chữ lẻ tối đa ${MAX_CHARACTERS_PER_PAGE} chữ trên mỗi trang A4.`,
     paperTitle: "Tiêu đề trên phiếu (không bắt buộc)", paperPlaceholder: "Luyện viết chữ Hán",
-    example: "Thử từ vựng", exampleSentence: "Thử một câu", create: "Tải PDF khổ A4", creating: "Đang tạo PDF…",
+    example: "Thử từ vựng", exampleSentence: "Thử một câu", sentenceMode: "Xem mỗi dòng là một câu", create: "Tải PDF khổ A4", creating: "Đang tạo PDF…",
     preview: "Xem trước khổ A4", previewHint: "Ô đầu là chữ mẫu, bốn ô tiếp theo có chữ mờ để tô nét, sáu ô còn lại dành cho học sinh tự viết.",
     empty: "Nhập chữ Hán để xem phiếu tập viết.", invalid: `Hãy nhập từ 1 đến ${MAX_CHARACTERS} chữ Hán.`,
     characters: "chữ", pages: "trang", back: "Về trang chủ", notice: "Thứ tự nét cần kết nối Internet. Nếu không tải được dữ liệu nét, các ô tập viết vẫn được tạo bình thường.",
@@ -34,12 +34,13 @@ export default function WritingWorksheet() {
   const { language } = useLanguage();
   const copy = labels[language];
   const [input, setInput] = useState("");
+  const [sentenceMode, setSentenceMode] = useState(false);
   const [title, setTitle] = useState("");
   const [preview, setPreview] = useState([]);
   const [preparing, setPreparing] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [error, setError] = useState("");
-  const parsed = useMemo(() => parseWritingWords(input), [input]);
+  const parsed = useMemo(() => parseWritingWords(input, { sentenceMode }), [input, sentenceMode]);
 
   useEffect(() => {
     if (!parsed.valid) return;
@@ -110,8 +111,12 @@ export default function WritingWorksheet() {
           <p id="worksheet-input-hint">{copy.hint}</p>
           <textarea id="worksheet-words" aria-describedby="worksheet-input-hint" rows="8" value={input}
             placeholder={"我们\n想\n学习"} onChange={(event) => { setInput(event.target.value); setError(""); }} />
-          <button className="worksheet-example" type="button" onClick={() => setInput("我们\n想\n学习")}>{copy.example} ↗</button>
-          <button className="worksheet-example" type="button" onClick={() => setInput("我喜欢学习汉语。")}>{copy.exampleSentence} ↗</button>
+          <button className="worksheet-example" type="button" onClick={() => { setInput("我们\n想\n学习"); setSentenceMode(false); }}>{copy.example} ↗</button>
+          <button className="worksheet-example" type="button" onClick={() => { setInput("我喜欢学习汉语。"); setSentenceMode(true); }}>{copy.exampleSentence} ↗</button>
+          <label className="worksheet-sentence-option">
+            <input type="checkbox" checked={sentenceMode} onChange={(event) => setSentenceMode(event.target.checked)} />
+            {copy.sentenceMode}
+          </label>
           <label htmlFor="worksheet-title">{copy.paperTitle}</label>
           <input id="worksheet-title" type="text" maxLength="40" value={title} placeholder={copy.paperPlaceholder}
             onChange={(event) => setTitle(event.target.value)} />

@@ -11,9 +11,12 @@
 .worksheet-controls label { font-size: 18px; font-weight: 700; margin: 0 0 7px; color: var(--ink-dark); }
 .worksheet-controls label:not(:first-child) { margin-top: 22px; }
 .worksheet-controls > p { color: var(--ink-light); font-size: 14px; line-height: 1.5; }
-.worksheet-controls textarea, .worksheet-controls input { width: 100%; background: #fffdfa; border: 1px solid #d9d0c8; border-radius: 10px; padding: 12px 14px; font: 18px/1.6 var(--font-serif); color: #252329; outline: none; }
+.worksheet-controls textarea, .worksheet-controls input[type="text"] { width: 100%; background: #fffdfa; border: 1px solid #d9d0c8; border-radius: 10px; padding: 12px 14px; font: 18px/1.6 var(--font-serif); color: #252329; outline: none; }
 .worksheet-controls textarea { resize: vertical; min-height: 180px; margin-top: 13px; }
-.worksheet-controls textarea:focus, .worksheet-controls input:focus { border-color: var(--red-primary); box-shadow: 0 0 0 3px #c41e3a20; }
+.worksheet-controls textarea:focus, .worksheet-controls input[type="text"]:focus { border-color: var(--red-primary); box-shadow: 0 0 0 3px #c41e3a20; }
+.worksheet-controls .worksheet-sentence-option { display: flex; align-items: center; gap: 9px; margin: 12px 0 0; font: 500 14px Arial, sans-serif; cursor: pointer; }
+.worksheet-sentence-option input { width: 17px; height: 17px; margin: 0; accent-color: var(--red-primary); }
+.worksheet-sentence-option input:focus-visible { outline: 3px solid var(--gold-primary); outline-offset: 3px; }
 .worksheet-example { align-self: flex-start; background: transparent; color: var(--red-primary); border: 0; font: 600 14px Arial, sans-serif; cursor: pointer; padding: 8px 0; }
 .worksheet-example:hover { text-decoration: underline; }
 .worksheet-count { text-align: right; color: var(--ink-light); font-size: 13px; padding: 8px 0 16px; }
