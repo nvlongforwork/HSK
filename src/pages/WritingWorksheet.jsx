@@ -15,7 +15,7 @@ const labels = {
     example: "Try words", exampleSentence: "Try a sentence", sentenceMode: "Treat each line as a sentence", create: "Download A4 PDF", creating: "Creating PDF…",
     preview: "A4 preview", previewHint: "The first square is a model, the next four are tracing guides, and the remaining six are for independent practice.",
     empty: "Enter Chinese characters to see the worksheet.", invalid: `Enter 1–${MAX_CHARACTERS} Chinese characters.`,
-    characters: "characters", pages: "pages", back: "Back to home", notice: "The stroke guide needs an internet connection. Tracing grids remain available if stroke data cannot be loaded.",
+    characters: "characters", pages: "pages", back: "Back to home", notice: "Stroke guides are available for supported characters. Tracing grids remain available for other characters.",
     error: "Could not create the PDF. Please try again.",
   },
   vi: {
@@ -25,7 +25,7 @@ const labels = {
     example: "Thử từ vựng", exampleSentence: "Thử một câu", sentenceMode: "Xem mỗi dòng là một câu", create: "Tải PDF khổ A4", creating: "Đang tạo PDF…",
     preview: "Xem trước khổ A4", previewHint: "Ô đầu là chữ mẫu, bốn ô tiếp theo có chữ mờ để tô nét, sáu ô còn lại dành cho học sinh tự viết.",
     empty: "Nhập chữ Hán để xem phiếu tập viết.", invalid: `Hãy nhập từ 1 đến ${MAX_CHARACTERS} chữ Hán.`,
-    characters: "chữ", pages: "trang", back: "Về trang chủ", notice: "Thứ tự nét cần kết nối Internet. Nếu không tải được dữ liệu nét, các ô tập viết vẫn được tạo bình thường.",
+    characters: "chữ", pages: "trang", back: "Về trang chủ", notice: "Thứ tự nét có sẵn cho các chữ được hỗ trợ. Các chữ khác vẫn có ô tập viết.",
     error: "Chưa tạo được PDF. Vui lòng thử lại.",
   },
 };

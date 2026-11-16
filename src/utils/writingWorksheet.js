@@ -86,19 +86,31 @@ export function parseWritingWords(input, { sentenceMode = false } = {}) {
 
 const strokeCache = new Map();
 
+async function fetchStrokes(char) {
+  const filename = `${encodeURIComponent(char)}.json`;
+  const base = import.meta.env?.BASE_URL || "/";
+  for (const url of [`${base}strokes/${filename}`, `https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0.1/${filename}`]) {
+    try {
+      const response = await fetch(url, { signal: AbortSignal.timeout(6500) });
+      if (!response.ok) continue;
+      const data = await response.json();
+      if (Array.isArray(data.strokes) && data.strokes.length) return data.strokes;
+    } catch {
+      // Try the next source, including when the current one times out.
+    }
+  }
+  return null;
+}
+
 export async function loadStrokeData(characters) {
   const unique = [...new Set(characters)];
   const entries = await Promise.all(unique.map(async (char) => {
     if (!strokeCache.has(char)) {
-      strokeCache.set(char, fetch(`https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0.1/${encodeURIComponent(char)}.json`, { signal: AbortSignal.timeout(6500) })
-        .then((response) => {
-          if (!response.ok) throw new Error("Stroke data unavailable");
-          return response.json();
-        })
-        .then((data) => Array.isArray(data.strokes) ? data.strokes : null)
-        .catch(() => null));
+      strokeCache.set(char, fetchStrokes(char));
     }
-    return [char, await strokeCache.get(char)];
+    const strokes = await strokeCache.get(char);
+    if (!strokes) strokeCache.delete(char);
+    return [char, strokes];
   }));
   return Object.fromEntries(entries);
 }

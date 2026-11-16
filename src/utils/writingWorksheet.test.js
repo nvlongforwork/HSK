@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { getWorksheetPinyin, layoutWorksheetRows, MAX_CHARACTERS, MAX_CHARACTERS_PER_PAGE, paginateWritingWords, parseWritingWords, WORKSHEET_ROW } from "./writingWorksheet.js";
+import { getWorksheetPinyin, layoutWorksheetRows, loadStrokeData, MAX_CHARACTERS, MAX_CHARACTERS_PER_PAGE, paginateWritingWords, parseWritingWords, WORKSHEET_ROW } from "./writingWorksheet.js";
 
 test("extracts Chinese words from lines and common separators", () => {
   assert.deepEqual(parseWritingWords("我们，想\n学习; hello 你好"), {
@@ -67,4 +67,28 @@ test("keeps HSK 1 tone marks, neutral tones, initials and textbook polyphonic re
     谢谢: "xièxie", 不客气: "bú kèqi", 谁: "shéi", 喂: "wéi", 了: "le",
     认识: "rènshi", 衣服: "yīfu", 一点儿: "yìdiǎnr", 好: "hǎo", 你好: "nǐ hǎo",
   })) assert.equal(getWorksheetPinyin(word), expected, word);
+});
+
+test("loads local stroke data and retries after a failed request", async () => {
+  const originalFetch = globalThis.fetch;
+  const requests = [];
+  let localAvailable = false;
+  globalThis.fetch = async (url) => {
+    requests.push(url);
+    if (url.startsWith("/strokes/") && localAvailable) {
+      return { ok: true, json: async () => ({ strokes: ["M 0 0"] }) };
+    }
+    throw new Error("Network unavailable");
+  };
+  try {
+    assert.equal((await loadStrokeData(["𠮷"]))["𠮷"], null);
+    localAvailable = true;
+    assert.deepEqual((await loadStrokeData(["𠮷"]))["𠮷"], ["M 0 0"]);
+    assert.deepEqual((await loadStrokeData(["𠮷"]))["𠮷"], ["M 0 0"]);
+    assert.equal(requests.length, 3);
+    assert.ok(requests[0].startsWith("/strokes/"));
+    assert.ok(requests[1].startsWith("https://cdn.jsdelivr.net/"));
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
 });

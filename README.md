@@ -27,6 +27,11 @@ content, or persistent learner progress.
 
 ## Language and layout
 
+The Writing Worksheet serves Hanzi Writer stroke data from the app's own
+`/strokes/` assets, with the jsDelivr copy as a network fallback. The build
+copies the JSON files from `hanzi-writer-data` and its `ARPHICPL.TXT` license
+into `dist/strokes/`. A failed request can be retried on the next preview.
+
 The header offers English–Chinese (default) and Vietnamese–Chinese. Click the
 language buttons or press **Alt + L** to switch. The choice is saved locally in
 `hsk-language`; if browser storage is blocked, switching still works for the
